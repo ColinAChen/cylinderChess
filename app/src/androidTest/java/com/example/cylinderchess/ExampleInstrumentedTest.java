@@ -1,4 +1,4 @@
-package com.example.cylinderchessapp;
+package com.example.cylinderchess;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.cylinderchessapp", appContext.getPackageName());
+        assertEquals("com.example.cylinderchess", appContext.getPackageName());
     }
 }
