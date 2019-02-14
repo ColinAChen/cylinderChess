@@ -29,6 +29,18 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="50dp"/>
 
+    <Button
+        android:id="@+id/changePieces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="157dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="86dp"/>
+   <!--     android:onClick="changePieces"
+        android:text="Button"-->
 
 
 </RelativeLayout>
