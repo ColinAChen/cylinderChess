@@ -2,16 +2,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:padding="1dp"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
+    android:padding="0dp"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
     >
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-       android:background="@color/colorAccent"/>
+        android:gravity="center"/>
+     <!--  android:background="@color/colorAccent" -->
 
 </LinearLayout>
