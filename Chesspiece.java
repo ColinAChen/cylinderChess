@@ -7,16 +7,19 @@ public class Chesspiece
 	private int col;
 	// true is black, false is white
 	private boolean color;
+	// parent chessboard
+	private Chessboard board;
 	
 	// maybe switch type to int?
 	private String type;
 
-	public Chesspiece(int r, int c, boolean color, String type)
+	public Chesspiece(int r, int c, boolean color, String type, Chessboard b)
 	{
 		row = r;
 		col = c;
 		this.color = color;
 		this.type = type;
+		board = b;
 	}
 	
 	public int getRow()
@@ -40,6 +43,11 @@ public class Chesspiece
 		return type;
 	}
 
+	public Chessboard getBoard()
+	{
+		return board;
+	}
+
 	// moves piece to position (r, c)
 	public void move(int r, int c)
 	{
@@ -47,9 +55,9 @@ public class Chesspiece
 		col = c;
 	}
 
-	// returns true if the piece can move to the given square, assuming an empty board
+	// returns true if the piece can move to the given square, ignoring checks
 	// to be defined in each subclass
-	public boolean isValidMove(int r, int c) 
+	public boolean getPossibleMove(int r, int c) 
 	{
 		// so that it compiles
 		return true;
