@@ -1,6 +1,10 @@
 package com.example.cylinderchess;
 
-public class Pawn extends Piece{
+public class Rook extends Piece{
+	public Rook(boolean color, int x, int y){
+		super.name = "r";
+
+	}
 	public boolean isLegitMove(int newx, int newy){
 		//check that piece exists
 		if (board[super.x][super.y] == null){
