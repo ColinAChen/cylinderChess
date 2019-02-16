@@ -1,5 +1,7 @@
 package com.example.cylinderchess;
 
+import java.util.ArrayList;
+
 public class Pawn extends Piece{
 	String name;
 	boolean color;

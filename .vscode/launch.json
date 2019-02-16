@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - rooktest",
+            "request": "launch",
+            "mainClass": "rooktest",
+            "projectName": "app"
+        }
+    ]
+}
