@@ -1,3 +1,5 @@
+package com.example.cylinderchess;
+
 public class Piece{
 	String name;
 	boolean color;
