@@ -1,19 +1,13 @@
 package com.example.cylinderchess;
 
 public class Piece{
-	String name;
-	boolean color;
-	int x;
-	int y;
-	boolean isAttacked;
+	protected String name;
+	protected boolean color;
+	protected int x;
+	protected int y;
+	protected boolean isAttacked;
 
-	public Piece(String name, boolean color, int x,int y, boolean isAttacked){
-		this.name = name;
-		this.color = color;
-		this.x = x;
-		this.y = y;
-		this.isAttacked = isAttacked;
-	}
+	public Piece(){}
 	public void move(int xMove, int yMove){
 		x+=xMove;
 		y+=yMove;

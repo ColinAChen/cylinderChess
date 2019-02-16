@@ -1,4 +1,7 @@
-import java.util.ArrayList; // import the ArrayList class
+package com.example.cylinderchess;
+
+import java.util.ArrayList;
+
 public class Pawn extends Piece{
 	String name;
 	boolean color;
