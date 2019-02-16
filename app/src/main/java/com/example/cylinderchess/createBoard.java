@@ -1,3 +1,5 @@
+package com.example.cylinderchess;
+
 public class createBoard{
 	public static void main(String[] args){
 		Piece[][] board = initializeBoard();
