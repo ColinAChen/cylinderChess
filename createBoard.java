@@ -13,7 +13,11 @@ public class createBoard{
 		move(board, 0,0,1,1);
 		move(board,1,0,2,0);
 		move(board,1,1,3,1);
-
+		Piece[] oneD = oneFromTwo(board);
+		for (int i = 0; i < oneD.length; i++){
+			System.out.println(oneD[i]);
+		}
+		
 		
 	}
 	public static void printBoard(Piece[][] board){
@@ -123,4 +127,14 @@ public class createBoard{
 		//board[7] = {new piece("r", 7, 0), new piece("n", 7, 1), new piece("b", 7,2), new piece("k", 7, 3), new piece("q", 7, 4), new piece("b", 7, 5), new piece("n", 7, 6), new piece("r", 7, 7)};
 		return board;
 	}	
+	public static Piece[] oneFromTwo(Piece[][] twoD){
+		Piece[] oneD = new Piece[64];
+		for (int i = 0; i < twoD.length; i++){
+			for (int j = 0; j < twoD[i].length; j++){
+				oneD[(8*i) + j] = twoD[i][j];
+			}
+		}
+		return oneD;
+	}
+
 }
