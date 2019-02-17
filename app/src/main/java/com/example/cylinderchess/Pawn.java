@@ -1,17 +1,9 @@
 import java.util.ArrayList; // import the ArrayList class
 public class Pawn extends Piece{
-	String name;
-	boolean color;
-	int x;
-	int y;
-	boolean isAttacked;
+	
 	ArrayList<int[]> possibleMoves;
 	public Pawn(String name, boolean color, int x,int y, boolean isAttacked){
-		this.name = name;
-		this.color = color;
-		this.x = x;
-		this.y = y;
-		this.isAttacked = isAttacked;
+		super("p",color,x,y,isAttacked);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//System.out.printf("oldx: %d, oldy: %d, newx: %d, newy: %d%n", x,y,newx,newy);
@@ -27,7 +19,9 @@ public class Pawn extends Piece{
 		if (board[newx][newy] != null || (board[newx][newy].color).equals(super.color)){
 			return false;
 		}*/
-
+		if (newx < 0 || newx > 7 || newx == x || newy == y){
+			return false;
+		}
 
 		//invalid move if moving more than one square left or right
 		//Can only capture if the opposite piece is in an adjacent column
@@ -116,23 +110,15 @@ public class Pawn extends Piece{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++){
-				//System.out.printf("%d, %d%n", i, j);
 				if (this.isLegitMove(i,j)){
-					//System.out.printf("(%d, %d) to (%d, %d) is a valid move!%n", x,y,i,j);
-					//pair[0] = i;
-					//pair[1] = j;
 					int[] pair = {i,j};
 					possibleMoves.add(pair);
-					//pair[0] = 0;
-					//pair[1] = 0;
 
 				}
 			}
 		}
 		return possibleMoves;
 	}
-
-
 }
 
 

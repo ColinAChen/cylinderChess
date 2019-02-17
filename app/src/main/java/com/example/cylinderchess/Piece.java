@@ -1,19 +1,19 @@
 import java.util.ArrayList; // import the ArrayList class
 public class Piece{
-	protected String name;
-	protected boolean color;
-	protected int x;
-	protected int y;
-	protected boolean isAttacked;
-	public Piece(){};
-	/*
+	String name;
+	boolean color;
+	int x;
+	int y;
+	boolean isAttacked;
+	//public Piece(){};
+	
 	public Piece(String name, boolean color, int x,int y, boolean isAttacked){
 		this.name = name;
 		this.color = color;
 		this.x = x;
 		this.y = y;
 		this.isAttacked = isAttacked;
-	}*/
+	}
 	public void move(int xMove, int yMove){
 		x+=xMove;
 		y+=yMove;

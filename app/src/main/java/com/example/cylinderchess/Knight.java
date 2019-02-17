@@ -1,21 +1,19 @@
 import java.util.ArrayList; // import the ArrayList class
-public class Rook extends Piece{
+public class Knight extends Piece{
 	
 	ArrayList<int[]> possibleMoves;
-	public Rook(String name, boolean color, int x,int y, boolean isAttacked){
-		super("r",color,x,y,isAttacked);
+	public Knight(String name, boolean color, int x,int y, boolean isAttacked){
+		super("n",color,x,y,isAttacked);
 	}
 	public boolean isLegitMove(int newx, int newy){
-		//ensure not trying to move off the board or to the same square
+		//ensure not trying to move off the board
 		if (newx < 0 || newx > 7 || newx == x || newy == y){
 			return false;
 		}
-		//moving vertically
-		if (newy-y == 0){
+		if (Math.abs(newx-x) == 1 && Math.abs(newy - y) == 2){
 			return true;
 		}
-		//moving horizontally
-		else if(newx-x == 0){
+		else if(Math.abs(newx-x) == 2 && Math.abs(newy - y) == 1){
 			return true;
 		}
 		return false;
