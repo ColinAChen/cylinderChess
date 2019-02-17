@@ -1,12 +1,15 @@
 package com.example.cylinderchess;
-
 import java.util.ArrayList; // import the ArrayList class
-public class Piece{
+
+
+abstract class Piece{
 	String name;
 	boolean color;
 	int x;
 	int y;
 	boolean isAttacked;
+	abstract ArrayList<int[]> getPossibleMoves();
+
 	//public Piece(){};
 	
 	public Piece(String name, boolean color, int x,int y, boolean isAttacked){
@@ -37,7 +40,7 @@ public class Piece{
 	public boolean isAttacked(){
 		return isAttacked;
 	}
-	
+
 	public void rook(){
 		name = "r";
 	}

@@ -21,18 +21,21 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_board);
-        final ArrayList<Drawable> data = new ArrayList<>();
+        final ArrayList<Drawable> drawableData = new ArrayList<>();
+        final ArrayList<Piece> pieceData = new ArrayList<>();
 
-        Drawable[] temp = asDrawable(createBoard.oneFromTwo(createBoard.initializeBoard()));
+        Piece[] temppieces = createBoard.oneFromTwo(createBoard.initializeBoard());
+        pieceData.addAll(Arrays.asList(temppieces));
 
-        data.addAll(Arrays.asList(temp));
+        Drawable[] tempdrawables = asDrawable(createBoard.oneFromTwo(createBoard.initializeBoard()));
+        drawableData.addAll(Arrays.asList(tempdrawables));
 
         Log.d("custom message:","after loop");
         // set up the RecyclerView
         final RecyclerView recyclerView = findViewById(R.id.rvNumbers);
         int numberOfColumns = 8;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        adapter = new MyRecyclerViewAdapter(this, data);
+        adapter = new MyRecyclerViewAdapter(this, drawableData);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         final Button changePieces = findViewById(R.id.changePieces);
@@ -41,7 +44,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
             public void onClick(View v) {
                 for(int x=0; x<64; x++)
                 {
-                    data.set(x, getResources().getDrawable(R.drawable.white_pawn, null));
+                    drawableData.set(x, getResources().getDrawable(R.drawable.white_pawn, null));
                     adapter.notifyDataSetChanged();
                 }
             }
