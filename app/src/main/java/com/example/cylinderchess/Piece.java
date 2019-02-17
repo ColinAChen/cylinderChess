@@ -57,8 +57,5 @@ public class Piece{
 	public ArrayList<int[]> getPossibleMoves(){
 		return null;
 	}
-	
-	
-
 }
 
