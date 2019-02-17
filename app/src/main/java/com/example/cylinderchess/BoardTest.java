@@ -1,3 +1,5 @@
+package com.example.cylinderchess;
+
 public class BoardTest{
 	public static void main(String[] args){
 		Piece[][] boardArray = new Piece[8][8];
