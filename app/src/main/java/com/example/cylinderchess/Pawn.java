@@ -1,15 +1,12 @@
-package com.example.cylinderchess;
-
-import java.util.ArrayList;
-
+import java.util.ArrayList; // import the ArrayList class
 public class Pawn extends Piece{
 	String name;
 	boolean color;
 	int x;
 	int y;
 	boolean isAttacked;
-	ArrayList<Integer[]> possibleMoves;
-		public Pawn(String name, boolean color, int x,int y, boolean isAttacked){
+	ArrayList<int[]> possibleMoves;
+	public Pawn(String name, boolean color, int x,int y, boolean isAttacked){
 		this.name = name;
 		this.color = color;
 		this.x = x;
@@ -17,6 +14,7 @@ public class Pawn extends Piece{
 		this.isAttacked = isAttacked;
 	}
 	public boolean isLegitMove(int newx, int newy){
+		//System.out.printf("oldx: %d, oldy: %d, newx: %d, newy: %d%n", x,y,newx,newy);
 		//check that piece exists
 		/*
 		if (board[super.x][super.y] == null){
@@ -29,22 +27,34 @@ public class Pawn extends Piece{
 		if (board[newx][newy] != null || (board[newx][newy].color).equals(super.color)){
 			return false;
 		}*/
+
+
 		//invalid move if moving more than one square left or right
-		if (Math.abs(newy - super.y) > 1){
+		//Can only capture if the opposite piece is in an adjacent column
+		if (Math.abs(newy - y) > 1){
+			//System.out.println(Math.abs(newy - y));
+			//System.out.println("Can't move pawn farther than one square left or right");
 			return false;
 		}
+		//System.out.println(Math.abs(newy - y));
 		//DESTINATION WILL EITHER BE EMPTY OR OF OTHER SQUARE
 		//movement for straight
-		if (super.y == newy){
+		if (y == newy){
+			//System.out.println("moving straight");
 			//movement for black
 			//unmoved black pawn
-			if (super.color && super.x == 6){
+			if (color){
+				//System.out.println("black");
 				//can move one or two squares
-				if (newx == 5 || newx == 4){
+				if (x == 6 && (newx == 5 || newx == 4)){
+					//System.out.println("unmoved, moving two");
+
 					return true;
 				}
 				//move one square up
-				else if(super.x - newx == 1){
+				else if(x - newx == 1){
+					//System.out.println("moving one");
+
 					return true;
 				}
 				//promote if pawn reaches top row
@@ -58,12 +68,15 @@ public class Pawn extends Piece{
 			}
 			// movement for white pawn
 			else{
+				//System.out.println("white");
 				// unmoved white pawn
-				if (super.x == 1 && newx == 3){
+				if (x == 1 && newx == 3){
+					//System.out.println("unmoved, moving two");
 					return true;
 				}
 				// move one square
-				else if(newx-super.x == 1){
+				else if(newx-x == 1){
+					//System.out.println("moving one");
 					return true;
 				}
 				//promote if pawn reaches top row{
@@ -76,24 +89,48 @@ public class Pawn extends Piece{
 				}				
 			}
 		}
+		//movement for capturing
+		else{
+			//capturing for black
+			if (color){
+				if (x-newx ==1 ){
+					return true;
+				}
+				else return false;
+			}
+			//capturing for white
+			else{
+				if (newx-x == 1){
+					return true;
+				}
+				else return false;
+			}
+		}
 		return false;
 	}
-	/*
-	public ArrayList<Integer[]> getPossibleMoves(){
-		int[] pair = new int[2];
-		ArrayList<Integer[]> possibleMoves = new ArrayList<Integer[]>();
+	
+	//return all possible moves for this piece given its current position
+	//does NOT take into account current board position
+	public ArrayList<int[]> getPossibleMoves(){
+		//int[] pair = new int[2];
+		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++){
+				//System.out.printf("%d, %d%n", i, j);
 				if (this.isLegitMove(i,j)){
-					pair[0] = i;
-					pair[1] = j;
+					//System.out.printf("(%d, %d) to (%d, %d) is a valid move!%n", x,y,i,j);
+					//pair[0] = i;
+					//pair[1] = j;
+					int[] pair = {i,j};
 					possibleMoves.add(pair);
+					//pair[0] = 0;
+					//pair[1] = 0;
 
 				}
 			}
 		}
 		return possibleMoves;
-	}*/
+	}
 
 
 }
