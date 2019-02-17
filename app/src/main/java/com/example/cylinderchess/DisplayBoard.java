@@ -86,7 +86,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
             {
                 String color = pieces[x].getColor();
                 String name = pieces[x].getName();
-                if (color.equals("b"))
+                if (!pieces[x].color)
                 {
                     switch(name){
                         case "p": arr[x] = getResources().getDrawable(R.drawable.black_pawn, null);
