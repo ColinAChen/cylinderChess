@@ -53,8 +53,51 @@ public class Board{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
+		//define legal moves for a pawn
+		if ("p".equals(pieceToMove.name)){
+			for (int[] possiblePair:possibleMoves){
+				//if the potential square is diagonal
+				//check for capturing
+				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
+					//only add if destination is of the opposite color
+					legalMoves.add(possiblePair);
+				}
+				//pawn is moving straight
+				else{
+					if (board[possiblePair[0]][possiblePair[1]] == null){
+						//System.out.println("No piece found!");
+						legalMoves.add(possiblePair);
+					}
+					else if (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						//System.out.println("Piece is of other color!");
+						legalMoves.add(possiblePair);
+					}
+				}	
+			}
+			return legalMoves;
+		}
+		// For knight
+		// Only need to check that destination is empty or of other color
+		else if("n".equals(pieceToMove.name)){
+			for (int[] possiblePair:possibleMoves){
+				//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
+				if (board[possiblePair[0]][possiblePair[1]] == null){
+					//System.out.println("No piece found!");
+					legalMoves.add(possiblePair);
+				}
+				else if (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+					//System.out.println("Piece is of other color!");
+					legalMoves.add(possiblePair);
+				}
+			}
+		}
+		//else if("k".equals(pieceToMove.name)){
 
-		for (int[] possiblePair:possibleMoves){
+		//}
+		//rook, bishop, queen
+		else{
+			//Piece[] temprowcoldiag = new Piece[8];
+			for (int[] possiblePair:possibleMoves){
 			//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
 			if (board[possiblePair[0]][possiblePair[1]] == null){
 				//System.out.println("No piece found!");
@@ -65,9 +108,13 @@ public class Board{
 				legalMoves.add(possiblePair);
 			}
 		}
+		
 		//System.out.println("Found " + legalMoves.size() + " legal moves!"); 
+		}
+		
 		return legalMoves;
 	}
+
 	public void move(int row, int col, int newrow,int newcol){
 		Piece pieceToMove = board[row][col];
 		if(pieceToMove.color == whiteToMove){
