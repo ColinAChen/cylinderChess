@@ -1,8 +1,11 @@
+package com.example.cylinderchess;
+
 import java.util.ArrayList; // import the ArrayList class
 public class Board{
 	Piece[][] board;
 	Piece[] oneDimensional;
 	boolean whiteToMove = true;
+
 	public Board(Piece[][] board, Piece[] oneD){
 		this.board = board;
 		this.oneDimensional = oneD;
@@ -43,6 +46,7 @@ public class Board{
 				board[7][i] = new Queen("", true, 0, i, false);
 			}
 		}
+		oneDimensional = this.oneFromTwo();
 	}	
 	public ArrayList<int[]> getLegalMoves(Piece pieceToMove){
 		//get the pieces possible moves
@@ -107,7 +111,8 @@ public class Board{
 		}
 		return null;
 	}
-	public boolean whiteKingInCheck(){
+
+	public boolean whiteKingInCheck(Piece[][] board){
 		Piece king = findWhiteKing();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
 		for(int i = 0; i < board.length; i++){
@@ -143,13 +148,13 @@ public class Board{
 		}
 		return false;
 	}
+
 	public boolean whiteWin(){
 		ArrayList<int[]> kingMoves = new ArrayList<int[]>();
 		kingMoves = this.getLegalMoves(findBlackKing());
 		if (blackKingInCheck() && (kingMoves.size() == 0)){
 			return true;
 		}
-		return false;
 	}
 	public boolean blackWin(){
 		ArrayList<int[]> kingMoves = new ArrayList<int[]>();
