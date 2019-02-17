@@ -58,7 +58,7 @@ public class Board{
 			for (int[] possiblePair:possibleMoves){
 				//if the potential square is diagonal
 				//check for capturing
-				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
+				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
 					//only add if destination is of the opposite color
 					legalMoves.add(possiblePair);
 				}
