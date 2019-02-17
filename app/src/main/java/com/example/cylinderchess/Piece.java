@@ -8,7 +8,6 @@ abstract class Piece{
 	int x;
 	int y;
 	boolean isAttacked;
-	abstract ArrayList<int[]> getPossibleMoves();
 
 	//public Piece(){};
 	

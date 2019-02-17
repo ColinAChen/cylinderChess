@@ -15,19 +15,17 @@ import java.util.Arrays;
 public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
     MyRecyclerViewAdapter adapter;
-    public ArrayList<Boolean> highlights = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_board);
+
+        Board board = new Board(new Piece[8][8], new Piece[64]);
+        board.initializeBoard();
+
         final ArrayList<Drawable> drawableData = new ArrayList<>();
-        final ArrayList<Piece> pieceData = new ArrayList<>();
-
-        Piece[] temppieces = createBoard.oneFromTwo(createBoard.initializeBoard());
-        pieceData.addAll(Arrays.asList(temppieces));
-
-        Drawable[] tempdrawables = asDrawable(createBoard.oneFromTwo(createBoard.initializeBoard()));
+        Drawable[] tempdrawables = asDrawable(board.oneDimensional);
         drawableData.addAll(Arrays.asList(tempdrawables));
 
         Log.d("custom message:","after loop");

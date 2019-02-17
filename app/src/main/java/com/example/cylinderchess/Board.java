@@ -5,6 +5,7 @@ public class Board{
 	Piece[][] board;
 	Piece[] oneDimensional;
 	boolean turn;
+
 	public Board(Piece[][] board, Piece[] oneD){
 		this.board = board;
 		this.oneDimensional = oneD;
@@ -45,6 +46,7 @@ public class Board{
 				board[7][i] = new Queen("", true, 0, i, false);
 			}
 		}
+		oneDimensional = this.oneFromTwo();
 	}	
 	public ArrayList<int[]> getLegalMoves(Piece pieceToMove){
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
@@ -82,6 +84,7 @@ public class Board{
 				}
 			}
 		}
+		return null;
 	}
 	public Piece findBlackKing(){
 		for(int i = 0; i < board.length; i++){
@@ -91,7 +94,9 @@ public class Board{
 				}
 			}
 		}
+		return null;
 	}
+	/*
 	public boolean whiteKingInCheck(Piece[][] board){
 		Piece king = findWhiteKing();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
@@ -109,6 +114,7 @@ public class Board{
 		}
 		return false;
 	}
+	*/
 	public boolean blackKingInCheck(Piece[][] board){
 		return false;
 	}
