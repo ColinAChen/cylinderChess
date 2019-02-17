@@ -54,7 +54,8 @@ public class Board{
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
 		//define legal moves for a pawn
-		if ("p".equals(pieceToMove.name)){
+		if (board[possiblePair[0]][possiblePair[1]]!=null){
+			if ("p".equals(pieceToMove.name)){
 			for (int[] possiblePair:possibleMoves){
 				//if the potential square is diagonal
 				//check for capturing
@@ -111,6 +112,8 @@ public class Board{
 		
 		//System.out.println("Found " + legalMoves.size() + " legal moves!"); 
 		}
+		}
+		
 		
 		return legalMoves;
 	}
