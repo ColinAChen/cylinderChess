@@ -19,9 +19,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, ArrayList<Drawable> data) {
+    MyRecyclerViewAdapter(Context context, ArrayList<Drawable> data, ArrayList<Drawable> highlights) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.highlights = highlights;
     }
 
     // inflates the cell layout from xml when needed

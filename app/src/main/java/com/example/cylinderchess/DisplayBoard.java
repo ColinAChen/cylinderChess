@@ -15,27 +15,33 @@ import java.util.Arrays;
 public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
     MyRecyclerViewAdapter adapter;
+    Board board = new Board(new Piece[8][8], new Piece[64]);
+    final ArrayList<Drawable> highlights = new ArrayList<>(64);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_board);
 
-        Board board = new Board(new Piece[8][8], new Piece[64]);
         board.initializeBoard();
 
         final ArrayList<Drawable> drawableData = new ArrayList<>();
         Drawable[] tempdrawables = asDrawable(board.oneDimensional);
         drawableData.addAll(Arrays.asList(tempdrawables));
 
-        Log.d("custom message:","after loop");
+        for(int x=0;x<64;x++)
+            highlights.add(getResources().getDrawable(R.drawable.blank, null));
+
+        Log.d("custom message:","1");
         // set up the RecyclerView
         final RecyclerView recyclerView = findViewById(R.id.rvNumbers);
         int numberOfColumns = 8;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        adapter = new MyRecyclerViewAdapter(this, drawableData);
+        Log.d("custom message:","2");
+        adapter = new MyRecyclerViewAdapter(this, drawableData, highlights);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+        Log.d("custom message:","3");
         final Button changePieces = findViewById(R.id.changePieces);
         changePieces.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +57,12 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onItemClick(View view, int position) {
-
-        Log.i("TAG", "You clicked number " + adapter.getItem(position) + ", which is at cell position " + position);
+        ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
+        for(int x=0; x<moves.size(); x++)
+        {
+            highlights.set(8*moves.get(x)[0]+moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public ArrayList setUp(ArrayList<Drawable> data)
