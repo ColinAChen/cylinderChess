@@ -17,6 +17,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     MyRecyclerViewAdapter adapter;
     Board board = new Board(new Piece[8][8], new Piece[64]);
     final ArrayList<Drawable> highlights = new ArrayList<>(64);
+    int prevclickpos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +59,23 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     @Override
     public void onItemClick(View view, int position) {
         ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
-        int tracker = 0;
-        for(int x=0; x<64; x++)
+        if(position == prevclickpos)
         {
-            if(x == 8*moves.get(tracker)[0]+moves.get(tracker)[1])
-            {
-                getResources().getDrawable(R.drawable.highlight, null);
-                adapter.notifyDataSetChanged();
-            }
+            
         }
+
+
+        for(int x=0;x<64;x++)
+        {
+            highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
+        }
+
+        for(int x=0;x<moves.size();x++)
+        {
+            highlights.set(8*moves.get(x)[0]+moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
+        }
+        prevclickpos = position;
+        adapter.notifyDataSetChanged();
     }
 
     public ArrayList setUp(ArrayList<Drawable> data)

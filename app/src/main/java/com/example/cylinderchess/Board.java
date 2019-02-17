@@ -23,27 +23,27 @@ public class Board{
 			if (i == 0 || i == 7){
 				//System.out.println("Creating rooks in row " + i);
 				board[0][i] = new Rook("", false, 0, i, false);
-				board[7][i] = new Rook("", true, 0, i, false);
+				board[7][i] = new Rook("", true, 7, i, false);
 			}
 			if (i == 1 || i == 6){
 				//System.out.println("Creating knights");
 				board[0][i] = new Knight("", false, 0, i, false);
-				board[7][i] = new Knight("", true, 0, i, false);
+				board[7][i] = new Knight("", true, 7, i, false);
 			}
 			if (i == 2 || i == 5){
 				//System.out.println("Creating bishops");
 				board[0][i] = new Bishop("", false, 0, i, false);
-				board[7][i] = new Bishop("", true, 0, i, false);
+				board[7][i] = new Bishop("", true, 7, i, false);
 			}
 			if (i == 3){
 				//System.out.println("Creating kings");
 				board[0][i] = new King("", false, 0, i, false);
-				board[7][i] = new King("", true, 0, i, false);
+				board[7][i] = new King("", true, 7, i, false);
 			}
 			if (i == 4){
 				//System.out.println("Creating queens");
 				board[0][i] = new Queen("", false, 0, i, false);
-				board[7][i] = new Queen("", true, 0, i, false);
+				board[7][i] = new Queen("", true, 7, i, false);
 			}
 		}
 		oneDimensional = this.oneFromTwo();
@@ -51,7 +51,7 @@ public class Board{
 	public ArrayList<int[]> getLegalMoves(Piece pieceToMove){
 		//get the pieces possible moves
 		if (pieceToMove==null){
-			return;
+			return new ArrayList<int[]>();
 		}
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
