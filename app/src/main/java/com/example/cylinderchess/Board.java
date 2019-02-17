@@ -50,6 +50,9 @@ public class Board{
 	}	
 	public ArrayList<int[]> getLegalMoves(Piece pieceToMove){
 		//get the pieces possible moves
+		if (pieceToMove==null){
+			return;
+		}
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();

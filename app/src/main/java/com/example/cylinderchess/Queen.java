@@ -9,7 +9,7 @@ public class Queen extends Piece{
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
-		if (newx < 0 || newx > 7 || newx == x || newy == y){
+		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
 			return false;
 		}
 		if (Math.abs(newx-x) == Math.abs(newy-y)){

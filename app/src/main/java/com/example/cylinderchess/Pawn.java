@@ -21,7 +21,8 @@ public class Pawn extends Piece{
 		if (board[newx][newy] != null || (board[newx][newy].color).equals(super.color)){
 			return false;
 		}*/
-		if (newx < 0 || newx > 7 || newx == x || newy == y){
+		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
+			//System.out.println("cannot move outside of board or to same square");
 			return false;
 		}
 
@@ -42,7 +43,7 @@ public class Pawn extends Piece{
 			if (color){
 				//System.out.println("black");
 				//can move one or two squares
-				if (x == 6 && (newx == 5 || newx == 4)){
+				if (x == 6 &&  newx == 4){
 					//System.out.println("unmoved, moving two");
 
 					return true;
@@ -55,7 +56,7 @@ public class Pawn extends Piece{
 				}
 				//promote if pawn reaches top row
 				else if(newx == 0){
-					this.queen();
+					//this.queen();
 				}
 				//otherwise is in invalid move up
 				else{
@@ -77,7 +78,7 @@ public class Pawn extends Piece{
 				}
 				//promote if pawn reaches top row{
 				else if(newx == 7){
-					this.queen();
+					//this.queen();
 				}
 				//otherwise is invalid move
 				else{
@@ -112,7 +113,9 @@ public class Pawn extends Piece{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++){
+				//System.out.println(i +" "+  j);
 				if (this.isLegitMove(i,j)){
+					//System.out.printf("Adding possible move to %d %d%n",i,j);
 					int[] pair = {i,j};
 					possibleMoves.add(pair);
 

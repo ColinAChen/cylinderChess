@@ -9,7 +9,7 @@ public class Rook extends Piece{
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board or to the same square
-		if (newx < 0 || newx > 7 || newx == x || newy == y){
+		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
 			return false;
 		}
 		//moving vertically

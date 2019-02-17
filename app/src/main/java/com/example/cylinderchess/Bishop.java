@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+//package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Bishop extends Piece{
@@ -9,7 +9,7 @@ public class Bishop extends Piece{
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
-		if (newx < 0 || newx > 7){
+		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
 			return false;
 		}
 		if (Math.abs(newx-x) == Math.abs(newy-y)){
