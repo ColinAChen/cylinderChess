@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Drawable> mData;
+    private ArrayList<Drawable> highlights;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
@@ -35,6 +36,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.myImageView.setImageDrawable(mData.get(position));
+        holder.myBackgroundView.setImageDrawable(highlights.get(position));
     }
 
     // total number of cells
@@ -47,10 +49,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView myImageView;
+        ImageView myBackgroundView;
 
         ViewHolder(View itemView) {
             super(itemView);
             myImageView = itemView.findViewById(R.id.info_image);
+            myBackgroundView = itemView.findViewById(R.id.background);
             itemView.setOnClickListener(this);
         }
 
