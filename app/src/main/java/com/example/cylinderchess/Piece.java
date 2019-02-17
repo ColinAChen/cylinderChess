@@ -1,3 +1,5 @@
+package com.example.cylinderchess;
+
 import java.util.ArrayList; // import the ArrayList class
 public class Piece{
 	String name;
@@ -23,10 +25,10 @@ public class Piece{
 	}
 	public String getColor(){
 		if (color){
-			return "b";
+			return "white";
 		}
 		else{
-			return "w";
+			return "black";
 		}
 	}
 	public String getName(){
