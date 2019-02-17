@@ -59,7 +59,8 @@ abstract class Piece{
 	public void pawn(){
 		name = "p";
 	}
-	
-
+	public ArrayList<int[]> getPossibleMoves(){
+		return null;
+	}
 }
 
