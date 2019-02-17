@@ -58,10 +58,14 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     @Override
     public void onItemClick(View view, int position) {
         ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
-        for(int x=0; x<moves.size(); x++)
+        int tracker = 0;
+        for(int x=0; x<64; x++)
         {
-            highlights.set(8*moves.get(x)[0]+moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
-            adapter.notifyDataSetChanged();
+            if(x == 8*moves.get(tracker)[0]+moves.get(tracker)[1])
+            {
+                getResources().getDrawable(R.drawable.highlight, null);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
