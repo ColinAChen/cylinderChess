@@ -5,7 +5,9 @@ public class BoardTest{
 		Board board = new Board(boardArray, oneD);
 		board.initializeBoard();
 		board.printBoard();
-		board.move(6,0,6,2);
+		board.move(6,0,4,0);
+		board.printBoard();
+		board.move(6,1,4,1);
 		board.printBoard();
 	}
 }
