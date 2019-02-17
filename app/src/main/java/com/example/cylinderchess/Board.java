@@ -159,7 +159,7 @@ public class Board{
 		return null;
 	}
 
-	public boolean whiteKingInCheck(Piece[][] board){
+	public boolean whiteKingInCheck(){
 		Piece king = findWhiteKing();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
 		for(int i = 0; i < board.length; i++){
@@ -202,6 +202,7 @@ public class Board{
 		if (blackKingInCheck() && (kingMoves.size() == 0)){
 			return true;
 		}
+		return false;
 	}
 	public boolean blackWin(){
 		ArrayList<int[]> kingMoves = new ArrayList<int[]>();
