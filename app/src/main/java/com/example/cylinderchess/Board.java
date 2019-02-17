@@ -118,26 +118,28 @@ public class Board{
 		return legalMoves;
 	}
 
-	public void move(int row, int col, int newrow,int newcol){
+	public boolean move(int row, int col, int newrow,int newcol){
 		Piece pieceToMove = board[row][col];
 		if(pieceToMove.color == whiteToMove){
 			int[] newPos = {newrow,newcol};
 			//System.out.printf("Moving %s at row %d, col %d%n", pieceToMove.name, row,col);
 			ArrayList<int[]> legalMoves = getLegalMoves(pieceToMove);
 			//if(legalMoves.contains(newPos)){
-			for(int[]legalPos:legalMoves){
-				if(legalPos[0] == newrow && legalPos[1] == newcol){
+			for(int[]legalPos:legalMoves) {
+				if (legalPos[0] == newrow && legalPos[1] == newcol) {
 					//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
-					pieceToMove.move(newrow,newcol);
+					pieceToMove.move(newrow, newcol);
 					//System.out.println(pieceToMove.x + pieceToMove.y);
 					board[newrow][newcol] = pieceToMove;
 					board[row][col] = null;
 				}
 			}
-		whiteToMove = !whiteToMove;
+			whiteToMove = !whiteToMove;
+			return true;
 		}
 		else{
 			System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
+			return false;
 		}
 		
 	}
