@@ -1,3 +1,5 @@
+package com.example.cylinderchess;
+
 import java.util.ArrayList; // import the ArrayList class
 public class King extends Piece{
 	
