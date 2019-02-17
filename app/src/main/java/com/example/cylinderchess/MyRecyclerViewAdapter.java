@@ -56,6 +56,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         @Override
         public void onClick(View view) {
+            ArrayList<Boolean> possmoves =
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }

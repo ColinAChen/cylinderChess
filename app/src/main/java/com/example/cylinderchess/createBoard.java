@@ -92,10 +92,10 @@ public class createBoard{
 		//bottom rows are black, black = true
 		Piece[][]board = new Piece[8][8];
 		for (int i = 0; i < 8; i++){
-			board[0][i] = new Piece("", false, 0, i, false);
-			board[1][i] = new Piece("p", false, 1, i, false);
-			board[6][i] = new Piece("p",true, 6, i, false);
-			board[7][i] = new Piece("", true, 7, i, false);
+			board[0][i] = null;
+			board[1][i] = null;
+			board[6][i] = null;
+			board[7][i] = null;
 			if (i == 0 || i == 7){
 				//System.out.println("Creating rooks in row " + i);
 				board[0][i].rook();
