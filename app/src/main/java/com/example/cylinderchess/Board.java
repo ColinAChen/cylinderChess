@@ -128,7 +128,7 @@ public class Board{
 			for(int[]legalPos:legalMoves) {
 				if (legalPos[0] == newrow && legalPos[1] == newcol) {
 					//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
-					pieceToMove.move(newrow, newcol);
+					pieceToMove.move(newrow-row, newcol-col);
 					//System.out.println(pieceToMove.x + pieceToMove.y);
 					board[newrow][newcol] = pieceToMove;
 					board[row][col] = null;
