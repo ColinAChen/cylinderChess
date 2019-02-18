@@ -61,7 +61,7 @@ public class Board{
 	public ArrayList<int[]> getLegalMoves(Piece pieceToMove){
 		//get the pieces possible moves
 		if (pieceToMove==null){
-			return;
+			return new ArrayList<int[]>();
 		}
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
@@ -207,8 +207,9 @@ public class Board{
 		return legalMoves;
 	}
 
-	public void move(int row, int col, int newrow,int newcol){
+	public boolean move(int row, int col, int newrow,int newcol){
 		Piece pieceToMove = board[row][col];
+
 		if (pieceToMove != null){
 			if(pieceToMove.color == whiteToMove){
 				int[] newPos = {newrow,newcol};
@@ -224,11 +225,12 @@ public class Board{
 						board[row][col] = null;
 					}
 				}
-				whiteToMove = !whiteToMove;
-				}
-			else{
-				System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
-			}
+			whiteToMove = !whiteToMove;
+			return true;
+		}
+		else{
+			System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
+			return false;
 		}
 		
 		

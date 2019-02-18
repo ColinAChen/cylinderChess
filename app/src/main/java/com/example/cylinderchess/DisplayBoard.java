@@ -17,6 +17,10 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     MyRecyclerViewAdapter adapter;
     Board board = new Board(new Piece[8][8], new Piece[64]);
     final ArrayList<Drawable> highlights = new ArrayList<>(64);
+    ArrayList<int[]> prevHighlight = new ArrayList<>();
+    int prevSquare[] = {-1,-1};
+    final ArrayList<Drawable> drawableData = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,6 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
 
         board.initializeBoard();
 
-        final ArrayList<Drawable> drawableData = new ArrayList<>();
         Drawable[] tempdrawables = asDrawable(board.oneDimensional);
         drawableData.addAll(Arrays.asList(tempdrawables));
 
@@ -58,11 +61,43 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     @Override
     public void onItemClick(View view, int position) {
         ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
-        for(int x=0; x<moves.size(); x++)
+        if(moves.size()!=0) {Log.i("success!", "first legal move:" + moves.get(0)[0]+ "," + moves.get(0)[1]);}
+
+        for(int x = 0; x< prevHighlight.size(); x++)
+        {
+            if(position == 8* prevHighlight.get(x)[0]+ prevHighlight.get(x)[1])
+            {
+                Log.i("success!", "moving piece");
+                if(board.move(prevSquare[0], prevSquare[1], position/8, position%8))
+                {
+                    drawableData.set(position, drawableData.get(8 * prevSquare[0] + prevSquare[1]));
+                    drawableData.set(8 * prevSquare[0] + prevSquare[1], getResources().getDrawable(R.drawable.blank, null));
+                }
+                for (int y = 0; y < 64; y++)
+                {
+                        highlights.set(y, getResources().getDrawable(R.drawable.blank, null));
+                }
+                prevSquare[0] = -1;
+                prevSquare[1] = -1;
+                prevHighlight.clear();
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
+
+        for(int x=0;x<64;x++)
+        {
+            highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
+        }
+
+        for(int x=0;x<moves.size();x++)
         {
             highlights.set(8*moves.get(x)[0]+moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
-            adapter.notifyDataSetChanged();
         }
+        prevSquare[0] = position/8;
+        prevSquare[1] = position%8;
+        prevHighlight = moves;
+        adapter.notifyDataSetChanged();
     }
 
     public ArrayList setUp(ArrayList<Drawable> data)
