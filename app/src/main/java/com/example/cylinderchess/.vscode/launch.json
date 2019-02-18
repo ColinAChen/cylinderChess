@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - BoardTest",
+            "request": "launch",
+            "mainClass": "com.example.cylinderchess.BoardTest"
+        }
+    ]
+}

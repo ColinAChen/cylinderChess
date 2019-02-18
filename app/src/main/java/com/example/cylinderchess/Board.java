@@ -135,6 +135,7 @@ public class Board{
 				}
 			}
 			whiteToMove = !whiteToMove;
+			oneDimensional = this.oneFromTwo();
 			return true;
 		}
 		else{
