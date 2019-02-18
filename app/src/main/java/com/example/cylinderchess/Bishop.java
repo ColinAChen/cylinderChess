@@ -1,4 +1,4 @@
-//package com.example.cylinderchess;
+package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Bishop extends Piece{
