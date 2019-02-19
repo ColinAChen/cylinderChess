@@ -72,16 +72,10 @@ public class Board{
 		//define legal moves for a pawn
 		if ("p".equals(pieceToMove.name)){
 			for (int[] possiblePair:possibleMoves){
-				//if the potential square is diagonal
-				//check for capturing
-				//System.out.println(possiblePair[0] + " " + possiblePair[1]);
-				//System.out.println(pieceToMove.x + " " + pieceToMove.y);
 				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
 					//only add if destination is of the opposite color
-					//System.out.println("Not the same column");
 					legalMoves.add(possiblePair);
 				}
-
 				//pawn is moving straight
 				else if(possiblePair[1] == pieceToMove.y){
 					//if the pawn is trying to jump two squares, check that both squares in front of it are empty
@@ -93,7 +87,6 @@ public class Board{
 						else if(board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
 							legalMoves.add(possiblePair);
 						}
-					
 					}
 					else if (board[possiblePair[0]][possiblePair[1]] == null){
 						//System.out.println("No piece found!");
@@ -107,16 +100,19 @@ public class Board{
 		// Only need to check that destination is empty or of other color
 		else if("n".equals(pieceToMove.name)){
 			for (int[] possiblePair:possibleMoves){
-				//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
+				System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
 				if (board[possiblePair[0]][possiblePair[1]] == null){
-					//System.out.println("No piece found!");
+					System.out.println("No piece found!");
 					legalMoves.add(possiblePair);
+					System.out.println(legalMoves.size());
 				}
 				else if (board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-					//System.out.println("Piece is of other color!");
+					System.out.println("Piece is of other color!");
 					legalMoves.add(possiblePair);
+					System.out.println(legalMoves.size());
 				}
 			}
+			return legalMoves;
 		}
 		//else if("k".equals(pieceToMove.name)){
 		//}
@@ -287,7 +283,7 @@ public class Board{
 			}
 			return legalMoves;
 		}	
-		return null;
+		//return null;
 	}
 	
 
