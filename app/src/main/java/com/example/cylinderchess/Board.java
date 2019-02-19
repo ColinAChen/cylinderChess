@@ -323,23 +323,21 @@ public class Board{
 				for(int[]legalPos:legalMoves){
 					if(legalPos[0] == newrow && legalPos[1] == newcol){
 						//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
-						pieceToMove.move(newrow,newcol);
+						pieceToMove.move(newrow-row,newcol-col);
 						//System.out.println(pieceToMove.x + pieceToMove.y);
 						board[newrow][newcol] = pieceToMove;
 						board[row][col] = null;
 					}
 				}
+				whiteToMove = !whiteToMove;
+				this.oneFromTwo();
+				return true;
 			}
-
-			whiteToMove = !whiteToMove;
-			this.oneFromTwo();
-			return true;
 		}
 		else{
 			System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
-			return false;
 		}
-
+		return false;
 	}
 	public Piece findWhiteKing(){
 		for(int i = 0; i < board.length; i++){
