@@ -64,7 +64,7 @@ public class Board{
 		if (pieceToMove==null){
 			return new ArrayList<int[]>();
 		}
-		System.out.printf("Finding moves for %s %s%n", pieceToMove.getColor(), pieceToMove.name);
+		System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getColor(), pieceToMove.name, pieceToMove.x, pieceToMove.y);
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
@@ -195,13 +195,12 @@ public class Board{
 			}
 			for (int[] possiblePair:possibleMoves){
 				//same column
+
 				System.out.printf("checking row %d col %d%n", possiblePair[0], possiblePair[1]);
 				if (possiblePair[1] == pieceToMove.y){
-					System.out.println("Same column");
-					//up column
 					if (possiblePair[0] < pieceToMove.x && (pieceToMove.x - possiblePair[0]) < shortestDistances[0]){
-						//System.out.println("Checking col");
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						System.out.println("Checking col");
+						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							System.out.println("Capture upcol");
 							legalMoves.add(possiblePair);
 						}
@@ -210,11 +209,13 @@ public class Board{
 							legalMoves.add(possiblePair);
 						}
 						//if (shortestDistances[0])
+						System.out.println("not in same col");
 					}
 					//System.out.printf("Cannot move on row %d col %d%n", possiblePair[0], possiblePair[1]);
 					//down column
 					else if(pieceToMove.x < possiblePair[0] && (possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
-						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						//System.out.println("checking row");
+						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[0] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
@@ -226,7 +227,7 @@ public class Board{
 				else if(possiblePair[0] == pieceToMove.x){
 					//left row
 					if (possiblePair[1] < pieceToMove.y && (pieceToMove.y - possiblePair[1]) <= shortestDistances[2]){
-						if ((pieceToMove.y - possiblePair[1]) == shortestDistances[2] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((pieceToMove.y - possiblePair[1]) == shortestDistances[2] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((pieceToMove.y - possiblePair[1]) < shortestDistances[2]){
@@ -235,7 +236,7 @@ public class Board{
 					}
 					//right row
 					else if(pieceToMove.y < possiblePair[1] && (possiblePair[1] - pieceToMove.y) <= shortestDistances[3]){
-						if ((possiblePair[1] - pieceToMove.y) == shortestDistances[3] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((possiblePair[1] - pieceToMove.y) == shortestDistances[3] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((possiblePair[1] - pieceToMove.y) < shortestDistances[3]){
@@ -247,7 +248,7 @@ public class Board{
 				else if((Math.abs(possiblePair[0] - pieceToMove.x)) == (Math.abs(possiblePair[1] - pieceToMove.y))){
 					//up left
 					if (possiblePair[0] < pieceToMove.x && possiblePair[1] < pieceToMove.y){
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[4] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[4] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[4]){
@@ -256,7 +257,7 @@ public class Board{
 					}
 					//up right
 					else if(possiblePair[0] < pieceToMove.x && possiblePair[1] > pieceToMove.y){
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[5] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[5] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[5]){
@@ -265,7 +266,7 @@ public class Board{
 					}
 					//down left
 					else if(possiblePair[0] > pieceToMove.x && possiblePair[1] < pieceToMove.y){
-						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[6] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[6] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[6]){
@@ -274,7 +275,7 @@ public class Board{
 					}
 					//down right
 					else if(possiblePair[0] > pieceToMove.x && possiblePair[1] > pieceToMove.y){
-						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[7] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[7] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[7]){
@@ -321,7 +322,7 @@ public class Board{
 				for(int[]legalPos:legalMoves){
 					if(legalPos[0] == newrow && legalPos[1] == newcol){
 						//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
-						pieceToMove.move(newrow-row,newcol-col);
+						pieceToMove.move(newrow,newcol);
 						//System.out.println(pieceToMove.x + pieceToMove.y);
 						board[newrow][newcol] = pieceToMove;
 						board[row][col] = null;
