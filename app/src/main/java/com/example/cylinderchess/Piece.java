@@ -20,8 +20,8 @@ abstract class Piece{
 		this.isAttacked = isAttacked;
 	}
 	public void move(int xMove, int yMove){
-		x+=xMove;
-		y+=yMove;
+		x=xMove;
+		y=yMove;
 	}
 	public void changeColor(){
 		color = !color;
