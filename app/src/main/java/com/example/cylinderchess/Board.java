@@ -112,7 +112,7 @@ public class Board{
 					//System.out.println("No piece found!");
 					legalMoves.add(possiblePair);
 				}
-				else if (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+				else if (board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 					//System.out.println("Piece is of other color!");
 					legalMoves.add(possiblePair);
 				}
