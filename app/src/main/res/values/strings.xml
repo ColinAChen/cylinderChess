@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">cylinderChess</string>
-    <string name="reset">Reset Board</string>
+    <string name="reset">New Game</string>
     <string name="titleName">Cylinder Chess</string>
 </resources>
