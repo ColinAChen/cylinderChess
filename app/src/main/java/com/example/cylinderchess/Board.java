@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+//package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Board{
@@ -84,7 +84,7 @@ public class Board{
 						if (pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[2][possiblePair[1]] == null){
 							legalMoves.add(possiblePair);
 						}
-						else if(board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
+						else if(!pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
 							legalMoves.add(possiblePair);
 						}
 					}
@@ -195,20 +195,23 @@ public class Board{
 			}
 			for (int[] possiblePair:possibleMoves){
 				//same column
+				System.out.printf("checking row %d col %d%n", possiblePair[0], possiblePair[1]);
 				if (possiblePair[1] == pieceToMove.y){
+					System.out.println("Same column");
 					//up column
 					if (possiblePair[0] < pieceToMove.x && (pieceToMove.x - possiblePair[0]) < shortestDistances[0]){
 						//System.out.println("Checking col");
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							//System.out.println("Capture upcol");
+							System.out.println("Capture upcol");
 							legalMoves.add(possiblePair);
 						}
 						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[0]){
-							//System.out.println("less than");
+							System.out.println("less than");
 							legalMoves.add(possiblePair);
 						}
 						//if (shortestDistances[0])
 					}
+					//System.out.printf("Cannot move on row %d col %d%n", possiblePair[0], possiblePair[1]);
 					//down column
 					else if(pieceToMove.x < possiblePair[0] && (possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
