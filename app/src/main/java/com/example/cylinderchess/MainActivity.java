@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void goToInstructions(View view) {
-        Intent intent = new Intent(this, Ins.class);
+        Intent intent = new Intent(this, Instructions.class);
         startActivity(intent);
     }
 }
