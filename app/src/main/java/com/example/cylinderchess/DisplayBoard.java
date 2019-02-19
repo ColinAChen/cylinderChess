@@ -1,5 +1,6 @@
 package com.example.cylinderchess;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,11 +50,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         changePieces.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int x=0; x<64; x++)
-                {
-                    drawableData.set(x, getResources().getDrawable(R.drawable.white_pawn, null));
-                    adapter.notifyDataSetChanged();
-                }
+                recreate();
             }
         });
     }
