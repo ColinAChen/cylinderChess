@@ -163,25 +163,25 @@ public class Board{
 					//System.out.println(Math.abs(possiblePairTemp[1] - pieceToMove.y)));
 					else if((Math.abs(possiblePairTemp[0] - pieceToMove.x)) == (Math.abs(possiblePairTemp[1] - pieceToMove.y))){
 						//up left
-						if (possiblePairTemp[0] < pieceToMove.x && possiblePairTemp[1] < pieceToMove.y){
+						if (possiblePairTemp[0] < pieceToMove.x && possiblePairTemp[1] < pieceToMove.y && pieceToMove.x - possiblePairTemp[0] < shortestDistances[4]){
 							System.out.println("upleft");
 							shortestDistances[4] = pieceToMove.x - possiblePairTemp[0];
 							//blockPieces[4] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//up right
-						else if(possiblePairTemp[0] < pieceToMove.x && possiblePairTemp[1] > pieceToMove.y){
+						else if(possiblePairTemp[0] < pieceToMove.x && possiblePairTemp[1] > pieceToMove.y && pieceToMove.x - possiblePairTemp[0] < shortestDistances[5]){
 							System.out.println("upright");
 							shortestDistances[5] = pieceToMove.x - possiblePairTemp[0];
 							//blockPieces[5] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//down left
-						else if(possiblePairTemp[0] > pieceToMove.x && possiblePairTemp[1] < pieceToMove.y){
+						else if(possiblePairTemp[0] > pieceToMove.x && possiblePairTemp[1] < pieceToMove.y && possiblePairTemp[0] - pieceToMove.x < shortestDistances[6] ){
 							System.out.println("downleft");
 							shortestDistances[6] = possiblePairTemp[0] - pieceToMove.x;
 							//blockPieces[6] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//down right
-						else if(possiblePairTemp[0] > pieceToMove.x && possiblePairTemp[1] > pieceToMove.y){
+						else if(possiblePairTemp[0] > pieceToMove.x && possiblePairTemp[1] > pieceToMove.y && possiblePairTemp[0] - pieceToMove.x < shortestDistances[7]){
 							System.out.println("downright");
 							shortestDistances[7] = possiblePairTemp[0] - pieceToMove.x;
 							//blockPieces[7] = board[possiblePair[0]][possiblePair[1]];
@@ -198,7 +198,7 @@ public class Board{
 
 				System.out.printf("checking row %d col %d%n", possiblePair[0], possiblePair[1]);
 				if (possiblePair[1] == pieceToMove.y){
-					if (possiblePair[0] < pieceToMove.x && (pieceToMove.x - possiblePair[0]) < shortestDistances[0]){
+					if (possiblePair[0] < pieceToMove.x && (pieceToMove.x - possiblePair[0]) <= shortestDistances[0]){
 						System.out.println("Checking col");
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							System.out.println("Capture upcol");
@@ -213,9 +213,10 @@ public class Board{
 					}
 					//System.out.printf("Cannot move on row %d col %d%n", possiblePair[0], possiblePair[1]);
 					//down column
-					else if(pieceToMove.x < possiblePair[0] && (possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
+					else if(pieceToMove.x < possiblePair[0] && (possiblePair[0] - pieceToMove.x) <= shortestDistances[1]){
 						//System.out.println("checking row");
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[0] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							System.out.println("Capture downcol");
 							legalMoves.add(possiblePair);
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
@@ -247,7 +248,7 @@ public class Board{
 				// same diagonal
 				else if((Math.abs(possiblePair[0] - pieceToMove.x)) == (Math.abs(possiblePair[1] - pieceToMove.y))){
 					//up left
-					if (possiblePair[0] < pieceToMove.x && possiblePair[1] < pieceToMove.y){
+					if (possiblePair[0] <= pieceToMove.x && possiblePair[1] <= pieceToMove.y){
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[4] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
@@ -256,7 +257,7 @@ public class Board{
 						}
 					}
 					//up right
-					else if(possiblePair[0] < pieceToMove.x && possiblePair[1] > pieceToMove.y){
+					else if(possiblePair[0] <= pieceToMove.x && possiblePair[1] >= pieceToMove.y){
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[5] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
@@ -265,7 +266,7 @@ public class Board{
 						}
 					}
 					//down left
-					else if(possiblePair[0] > pieceToMove.x && possiblePair[1] < pieceToMove.y){
+					else if(possiblePair[0] >= pieceToMove.x && possiblePair[1] <= pieceToMove.y){
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[6] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
@@ -274,7 +275,7 @@ public class Board{
 						}
 					}
 					//down right
-					else if(possiblePair[0] > pieceToMove.x && possiblePair[1] > pieceToMove.y){
+					else if(possiblePair[0] >= pieceToMove.x && possiblePair[1] >= pieceToMove.y){
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[7] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
