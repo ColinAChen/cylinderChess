@@ -39,7 +39,7 @@
         android:layout_marginStart="157dp"
         android:layout_marginEnd="166dp"
         android:layout_marginBottom="86dp"
-        android:text="Update Board"/>
+        android:text="@string/reset"/>
 
 
 </RelativeLayout>
