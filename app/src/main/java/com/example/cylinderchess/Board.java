@@ -124,7 +124,7 @@ public class Board{
 			//Piece[] blockPieces = new Piece[9];
 			int[] shortestDistances = {9,9,9,9,9,9,9,9};
 			for (int[] possiblePairTemp:possibleMoves){
-				System.out.printf("Potential square row %d col %d, pieceToMove square row %d col %d%n",possiblePairTemp[0], possiblePairTemp[1], pieceToMove.x, pieceToMove.y );
+				//System.out.printf("Potential square row %d col %d, pieceToMove square row %d col %d%n",possiblePairTemp[0], possiblePairTemp[1], pieceToMove.x, pieceToMove.y );
 				if (board[possiblePairTemp[0]][possiblePairTemp[1]] != null){
 					System.out.printf("%s %s exists at row %d col %d%n",board[possiblePairTemp[0]][possiblePairTemp[1]].getColor(),board[possiblePairTemp[0]][possiblePairTemp[1]].name,possiblePairTemp[0], possiblePairTemp[1]);
 					//same column
@@ -271,10 +271,10 @@ public class Board{
 					}
 					//down right
 					else if(possiblePair[0] > pieceToMove.x && possiblePair[1] > pieceToMove.y){
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[7] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[7] && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							legalMoves.add(possiblePair);
 						}
-						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[7]){
+						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[7]){
 							legalMoves.add(possiblePair);
 						}
 					}
