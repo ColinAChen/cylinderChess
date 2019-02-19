@@ -81,10 +81,10 @@ public class Board{
 					//if the pawn is trying to jump two squares, check that both squares in front of it are empty
 					if (Math.abs(possiblePair[0] - pieceToMove.x) > 1){
 						//System.out.println("Trying to jump two square");
-						if (pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[2][possiblePair[1]] == null){
+						if (pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
 							legalMoves.add(possiblePair);
 						}
-						else if(!pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
+						else if(!pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[2][possiblePair[1]] == null){
 							legalMoves.add(possiblePair);
 						}
 					}
