@@ -61,15 +61,18 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     @Override
     public void onItemClick(View view, int position) {
         ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
-        if(moves.size()!=0) {Log.i("success!", "first legal move:" + moves.get(0)[0]+ "," + moves.get(0)[1]);}
+        if(moves.size()!=0) {
+            Log.i("success!", "first legal move:" + moves.get(0)[0] + "," + moves.get(0)[1]);
+            Log.i("success!", "selected piece:" + board.oneDimensional[position]);
+        }
 
         for(int x = 0; x< prevHighlight.size(); x++)
         {
             if(position == 8* prevHighlight.get(x)[0]+ prevHighlight.get(x)[1])
             {
-                Log.i("success!", "moving piece");
                 if(board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
+                    Log.i("success!", "moving piece" +prevSquare[0] +" , "+ prevSquare[1]+ " to "+  position/8+" , "+ position%8);
                     drawableData.set(position, drawableData.get(8 * prevSquare[0] + prevSquare[1]));
                     drawableData.set(8 * prevSquare[0] + prevSquare[1], getResources().getDrawable(R.drawable.blank, null));
                 }

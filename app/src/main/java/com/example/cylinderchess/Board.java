@@ -314,7 +314,6 @@ public class Board{
 	}
 	public boolean move(int row, int col, int newrow,int newcol){
 		Piece pieceToMove = board[row][col];
-
 		if (pieceToMove != null){
 			if(pieceToMove.color == whiteToMove){
 				int[] newPos = {newrow,newcol};
@@ -330,16 +329,17 @@ public class Board{
 						board[row][col] = null;
 					}
 				}
-				whiteToMove = !whiteToMove;
-				return true;
 			}
-			else{
-				System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
-				
-			}
-		
+
+			whiteToMove = !whiteToMove;
+			this.oneFromTwo();
+			return true;
 		}
-		return false;	
+		else{
+			System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
+			return false;
+		}
+
 	}
 	public Piece findWhiteKing(){
 		for(int i = 0; i < board.length; i++){
