@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+//package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Board{
@@ -63,7 +63,9 @@ public class Board{
 			for (int[] possiblePair:possibleMoves){
 				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
 					//only add if destination is of the opposite color
-					legalMoves.add(possiblePair);
+					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						legalMoves.add(possiblePair);
+					}
 				}
 				//pawn is moving straight
 				else if(possiblePair[1] == pieceToMove.y){
@@ -71,15 +73,21 @@ public class Board{
 					if (Math.abs(possiblePair[0] - pieceToMove.x) > 1){
 						//System.out.println("Trying to jump two square");
 						if (pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if(!pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[2][possiblePair[1]] == null){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 					else if (board[possiblePair[0]][possiblePair[1]] == null){
 						//System.out.println("No piece found!");
-						legalMoves.add(possiblePair);
+						if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+							legalMoves.add(possiblePair);
+						}
 					}
 				}	
 			}
@@ -92,12 +100,16 @@ public class Board{
 				//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
 				if (board[possiblePair[0]][possiblePair[1]] == null){
 					//System.out.println("No piece found!");
-					legalMoves.add(possiblePair);
+					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 					//System.out.println(legalMoves.size());
 				}
 				else if (board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 					//System.out.println("Piece is of other color!");
-					legalMoves.add(possiblePair);
+					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 					//System.out.println(legalMoves.size());
 				}
 			}
@@ -191,11 +203,15 @@ public class Board{
 						System.out.println("Checking col");
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							System.out.println("Capture upcol");
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[0]){
 							System.out.println("less than");
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						//if (shortestDistances[0])
 						System.out.println("not in same col");
@@ -206,10 +222,14 @@ public class Board{
 						//System.out.println("checking row");
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[0] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							System.out.println("Capture downcol");
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 				}
@@ -218,19 +238,27 @@ public class Board{
 					//left row
 					if (possiblePair[1] < pieceToMove.y && (pieceToMove.y - possiblePair[1]) <= shortestDistances[2]){
 						if ((pieceToMove.y - possiblePair[1]) == shortestDistances[2] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((pieceToMove.y - possiblePair[1]) < shortestDistances[2]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 					//right row
 					else if(pieceToMove.y < possiblePair[1] && (possiblePair[1] - pieceToMove.y) <= shortestDistances[3]){
 						if ((possiblePair[1] - pieceToMove.y) == shortestDistances[3] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((possiblePair[1] - pieceToMove.y) < shortestDistances[3]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 				}
@@ -239,28 +267,40 @@ public class Board{
 					//up left
 					if (possiblePair[0] <= pieceToMove.x && possiblePair[1] <= pieceToMove.y){
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[4] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[4]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 					//up right
 					else if(possiblePair[0] <= pieceToMove.x && possiblePair[1] >= pieceToMove.y){
 						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[5] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[5]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 					//down left
 					else if(possiblePair[0] >= pieceToMove.x && possiblePair[1] <= pieceToMove.y){
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[6] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[6]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 					}
 					//down right
@@ -269,7 +309,10 @@ public class Board{
 							legalMoves.add(possiblePair);
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[7]){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
+							
 						}
 					}
 				}
@@ -278,12 +321,33 @@ public class Board{
 		}	
 		//return null;
 	}
+
 	//check if a move is legal, then check if current turn's king is in check
 	//true if valid move, false if not
 	public boolean checkForCheck(int row, int col, int newrow, int newcol){
-		Piece[][] tempBoard = board.clone();
+		Piece[][] tempBoard = board;
+		/*
+		Piece[][] tempBoard = new Piece[8][8];
+		for (int i = 0; i < board.length;i++){
+			for (int j = 0; j < board[0].length; j++){
+				tempBoard[i][j] = board[i][j];
+			}
+		}*/
+		//Piece[][] tempBoard = board.clone();
+		System.out.println(tempBoard.length);
+		System.out.println(tempBoard[0].length);
+		System.out.println(tempBoard[0][0].name);
 		//move the piece
-		tempBoard[row][col].move(newrow,newcol);
+		Piece pieceToMove = tempBoard[row][col];
+		if (tempBoard[row][col] != null){
+			tempBoard[row][col].move(newrow,newcol);
+			//Piece pieceToMove = tempBoard[row][col];
+		}
+		else{
+			System.out.printf("No piece found on row %d col %d%n", row, col);
+			return true;
+		}
+		//tempBoard[row][col].move(newrow,newcol);
 		tempBoard[newrow][newcol] = tempBoard[row][col];
 		tempBoard[row][col] = null;
 
@@ -291,15 +355,25 @@ public class Board{
 		if (whiteToMove){
 			Piece whiteKing = findWhiteKing(tempBoard);
 			if (kingInCheck(tempBoard, whiteKing)){
+				tempBoard[newrow][newcol].move(row,col);
+				tempBoard[row][col] = tempBoard[newrow][newcol];
+				tempBoard[newrow][newcol] = null;
 				return false;
 			}
 		}
 		else{
 			Piece blackKing = findBlackKing(tempBoard);
 			if (kingInCheck(tempBoard, blackKing)){
+				tempBoard[newrow][newcol].move(row,col);
+				tempBoard[row][col] = tempBoard[newrow][newcol];
+				tempBoard[newrow][newcol] = null;
 				return false;
 			}
 		}
+		tempBoard[newrow][newcol].move(row,col);
+		tempBoard[row][col] = tempBoard[newrow][newcol];
+		tempBoard[newrow][newcol] = null;
+		System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getColor(), pieceToMove.name,newrow,newcol);
 		return true;
 	}
 	//true if king is in check, false if not in check
@@ -317,12 +391,12 @@ public class Board{
 		//check for pawns
 		//if white king, only need to check top left and top right
 		if (king.color){
-			if (board[king.x + 1][king.y - 1] != null){
+			if (king.x < 7 && king.y > 0 && board[king.x + 1][king.y - 1] != null){
 				if (!board[king.x + 1][king.y - 1].color && "p".equals(board[king.x + 1][king.y - 1].name)){
 					return true;
 				}
 			}
-			else if (board[king.x + 1][king.y + 1] != null){
+			else if (king.x < 7 && king.y < 7 && board[king.x + 1][king.y + 1] != null){
 				if (!board[king.x + 1][king.y + 1].color && "p".equals(board[king.x + 1][king.y + 1].name)){
 					return true;
 				}
@@ -331,12 +405,12 @@ public class Board{
 		//check for black king
 		//only need to check bottom left and right
 		else if(!king.color){
-			if (board[king.x - 1][king.y - 1] != null){
+			if (king.x > 0 && king.y > 0 &&board[king.x - 1][king.y - 1] != null){
 				if (!board[king.x - 1][king.y - 1].color && "p".equals(board[king.x - 1][king.y - 1].name)){
 					return true;
 				}
 			}
-			else if (board[king.x - 1][king.y + 1] != null){
+			else if (king.x > 0 && king.y < 7 &&board[king.x - 1][king.y + 1] != null){
 				if (!board[king.x - 1][king.y + 1].color && "p".equals(board[king.x - 1][king.y + 1].name)){
 					return true;
 				}
