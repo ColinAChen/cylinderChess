@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+//package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Board{
@@ -326,6 +326,7 @@ public class Board{
 	//true if valid move, false if not
 	public boolean checkForCheck(int row, int col, int newrow, int newcol){
 		//move the piece
+		Piece capturePiece = null;
 		Piece pieceToMove = board[row][col];
 		if (board[row][col] != null){
 			board[row][col].move(newrow,newcol);
@@ -334,6 +335,9 @@ public class Board{
 		else{
 			System.out.printf("No piece found on row %d col %d%n", row, col);
 			return true;
+		}
+		if (board[newrow][newcol] != null){
+			capturePiece = board[newrow][newcol];
 		}
 		//board[row][col].move(newrow,newcol);
 		board[newrow][newcol] = board[row][col];
@@ -345,7 +349,7 @@ public class Board{
 			if (kingInCheck(whiteKing)){
 				board[newrow][newcol].move(row,col);
 				board[row][col] = board[newrow][newcol];
-				board[newrow][newcol] = null;
+				board[newrow][newcol] = capturePiece;
 				return false;
 			}
 		}
@@ -354,13 +358,13 @@ public class Board{
 			if (kingInCheck(blackKing)){
 				board[newrow][newcol].move(row,col);
 				board[row][col] = board[newrow][newcol];
-				board[newrow][newcol] = null;
+				board[newrow][newcol] = capturePiece;
 				return false;
 			}
 		}
 		board[newrow][newcol].move(row,col);
 		board[row][col] = board[newrow][newcol];
-		board[newrow][newcol] = null;
+		board[newrow][newcol] = capturePiece;
 		System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getColor(), pieceToMove.name,newrow,newcol);
 		return true;
 	}
