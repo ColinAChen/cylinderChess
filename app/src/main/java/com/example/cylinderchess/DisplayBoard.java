@@ -66,18 +66,18 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         {
             moves = new ArrayList<>();
         }
-        if(moves!=null && moves.size()!=0) {
+        if (moves != null && moves.size() != 0) {
             Log.i("success!", "first legal move:" + moves.get(0)[0] + "," + moves.get(0)[1]);
             Log.i("success!", "selected piece:" + board.oneDimensional[position]);
         }
 
-        for(int x = 0; x< prevHighlight.size(); x++)
+        for (int x = 0; x< prevHighlight.size(); x++)
         {
-            if(position == 8* prevHighlight.get(x)[0]+ prevHighlight.get(x)[1])
+            if (position == 8 * prevHighlight.get(x)[0] + prevHighlight.get(x)[1])
             {
-                if(board.move(prevSquare[0], prevSquare[1], position/8, position%8))
+                if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
-                    Log.i("success!", "moving piece" +prevSquare[0] +" , "+ prevSquare[1]+ " to "+  position/8+" , "+ position%8);
+                    Log.i("success!", "moving piece" + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
                     drawableData.set(position, drawableData.get(8 * prevSquare[0] + prevSquare[1]));
                     drawableData.set(8 * prevSquare[0] + prevSquare[1], getResources().getDrawable(R.drawable.blank, null));
                 }
@@ -98,12 +98,20 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
             highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
         }
 
-        for(int x=0;x<moves.size();x++)
+        for(int x=0;x<moves.size(); x++)
         {
             highlights.set(8*moves.get(x)[0]+moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
         }
-        prevSquare[0] = position/8;
-        prevSquare[1] = position%8;
+        if(position == 8*prevSquare[0]+prevSquare[1])
+        {
+            prevSquare[0] = -1;
+            prevSquare[1] = -1;
+        }
+        else
+        {
+            prevSquare[0] = position/8;
+            prevSquare[1] = position%8;
+        }
         prevHighlight = moves;
         adapter.notifyDataSetChanged();
     }
