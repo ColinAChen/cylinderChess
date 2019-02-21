@@ -417,45 +417,60 @@ public class Board{
 		}
 		//Check for rooks and queens
 		//check up a column
-		for (int i = king.x; i >= 0; i--){
+		for (int i = king.x - 1; i >= 0; i--){
 			if (board[i][king.y] != null && board[i][king.y].color != king.color){
 				if ("q".equals(board[i][king.y].name) || "r".equals(board[i][king.y].name)){
 					System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
 					return true;
 				}
+				break;
+			}
+			else if(board[i][king.y] != null){
 				break;
 			}
 		}
 		//check down a column
-		for (int i = king.x; i < 8; i++){
+		for (int i = king.x + 1; i < 8; i++){
+			System.out.println(i + " " + king.y);
 			if (board[i][king.y] != null && board[i][king.y].color != king.color){
 				if ("q".equals(board[i][king.y].name) || "r".equals(board[i][king.y].name)){
+
 					System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
 				
 					return true;
 				}
+				System.out.println(board[i][king.y].getColor());
+				//break;
+			}
+			else if(board[i][king.y] != null){
 				break;
 			}
 		}
 		//check to the left of the row
-		for (int j = king.y; j >=0;j--){
+		for (int j = king.y - 1; j >=0;j--){
 			if (board[king.x][j] != null && board[king.x][j].color != king.color){
 				if ("q".equals(board[king.x][j].name) || "r".equals(board[king.x][j].name)){
 					System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
 						
 					return true;
 				}
+				//break;
+			}
+			else if(board[king.x][j] != null){
 				break;
 			}
 		}
 		//check to the right of the row
-		for (int j = king.y; j < 8;j++){
+		for (int j = king.y + 1; j < 8;j++){
 			if (board[king.x][j] != null && board[king.x][j].color != king.color){
 				if ("q".equals(board[king.x][j].name) || "r".equals(board[king.x][j].name)){
 					System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
 
 					return true;
 				}
+				//break;
+			}
+			else if(board[king.x][j] != null){
 				break;
 			}
 		}
@@ -470,7 +485,9 @@ public class Board{
 					
 					return true;
 				}
-				break;
+				else if(board[kingRow][kingCol] != null){
+					break;
+				}
 			}
 			kingRow--;
 			kingCol--;
@@ -486,7 +503,9 @@ public class Board{
 				
 					return true;
 				}
-				break;
+				else if(board[kingRow][kingCol] != null){
+					break;
+				}
 			}
 			kingRow--;
 			kingCol++;
@@ -502,7 +521,9 @@ public class Board{
 				
 					return true;
 				}
-				break;
+				else if(board[kingRow][kingCol] != null){
+					break;
+				}
 			}
 			kingRow++;
 			kingCol--;
@@ -517,7 +538,9 @@ public class Board{
 					
 					return true;
 				}
-				break;
+				else if(board[kingRow][kingCol] != null){
+					break;
+				}
 			}
 			kingRow++;
 			kingCol++;
