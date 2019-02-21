@@ -6,8 +6,7 @@ public class Board{
 	Piece[] oneDimensional;
 	boolean whiteToMove = true;
 	public Board(Piece[][] board, Piece[] oneD){
-		this.board = board;
-		this.oneDimensional = oneD;
+		this.board = board;		this.oneDimensional = oneD;
 	}
 	public void initializeBoard(){
 		//Initializes a board

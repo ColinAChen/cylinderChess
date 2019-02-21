@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +46,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         final RecyclerView recyclerView = findViewById(R.id.rvNumbers);
         int numberOfColumns = 8;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+
         Log.d("custom message:","2");
         adapter = new MyRecyclerViewAdapter(this, drawableData, highlights);
         adapter.setClickListener(this);
@@ -123,6 +129,33 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
             data.set(x, getResources().getDrawable(R.drawable.black_pawn, null));
         }
         return data;
+    }
+
+    public void showPopup(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.promotion_popup, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //popupWindow.dismiss();
+                return true;
+            }
+        });
     }
 
     public Drawable[] asDrawable(Piece[] pieces)
