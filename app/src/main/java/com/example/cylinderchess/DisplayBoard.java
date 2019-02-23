@@ -2,6 +2,7 @@ package com.example.cylinderchess;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -26,6 +28,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
     ArrayList<int[]> prevHighlight = new ArrayList<>();
     int prevSquare[] = {-1,-1};
     final ArrayList<Drawable> drawableData = new ArrayList<>();
+    boolean boardNormal = true;
 
 
     @Override
@@ -34,6 +37,9 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         setContentView(R.layout.activity_display_board);
 
         board.initializeBoard();
+
+        ImageView view = findViewById(R.id.board);
+        view.setImageResource(R.drawable.chessboard_wood);
 
         Drawable[] tempdrawables = asDrawable(board.oneDimensional);
         drawableData.addAll(Arrays.asList(tempdrawables));
@@ -225,14 +231,29 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
 
     public void shiftLeft(View view)
     {
+        invertBoard();
         board.shiftLeft();
         redrawBoard();
     }
 
     public void shiftRight(View view)
     {
+        invertBoard();
         board.shiftRight();
         redrawBoard();
+    }
+
+    public void invertBoard()
+    {
+        ImageView view = findViewById(R.id.board);
+        if(boardNormal) {
+            view.setImageResource(R.drawable.chessboard_wood_inverted);
+        }
+        else
+        {
+            view.setImageResource(R.drawable.chessboard_wood);
+        }
+        boardNormal = !boardNormal;
     }
 
 /*    public void changePieces(View view)
