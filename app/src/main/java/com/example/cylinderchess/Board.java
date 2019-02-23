@@ -596,7 +596,37 @@ public class Board{
 		}
 		return false;
 	}
+	//rook moves to 7 to 5
+	//king moves to 4 to 6
+	public void kingSideCastle(Piece king){
+		//tempRook = board[king.x][7];
+		//move king
+		king.move(king.x,6);
+		//move rook
+		board[king.x][7].move(king.x,5);
+		board[king.x][6] = king; 
+		board[king.x][5] = board[king.x][7];
+		board[king.x][4] = null;
+		board[king.x][7] = null;
+		
 
+
+
+	}
+	//king moves 4 to 2
+	//rook moves 0 to 3
+	public void queenSideCastle(Piece king){
+		//tempRook = board[king.x][0];
+		//tempRook.move(king.x,3);
+		king.move(king.x,2);
+		board[king.x][0].move(king.x,)
+		board[king.x][2] = king;
+		board[king.x][3] = board[king.x][0];
+		board[king.x][4] = null;
+		board[king.x][0] = null;
+
+
+	}
 	public Piece findWhiteKing(){
 		for(int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
@@ -767,6 +797,7 @@ public class Board{
 		for (int i = 0; i < board.length; i++){
 			Piece tempPiece = board[i][0];
 			for (int j = 1; j < board[i].length; j++){
+				board[i][j].move(i,j-1);
 				board[i][j-1] = board[i][j];
 			}
 			board[i][7] = tempPiece;
@@ -776,6 +807,7 @@ public class Board{
 		for (int i = 0; i <board.length ; i++){
 			Piece tempPiece =  board[i][board[i].length-1];
 			for (int j = board.length-2; j >= 0; j--){
+				board[i][j].move(i,j+1);
 				board[i][j+1] = board[i][j];
 			}
 			board[i][0] = tempPiece;
