@@ -724,4 +724,22 @@ public class Board{
 	public void place(Piece pieceToPlace, int row, int col){
 		board[row][col] = pieceToPlace;
 	}
+	public void shiftLeft(){
+		for (int i = 0; i < board.length; i++){
+			Piece tempPiece = [i][0];
+			for (int j = 1; j < board[0].length; j++){
+				board[i][j-1] = board[i][j];
+			}
+			board[i][8] = tempPiece;
+		}
+	}
+	public void shiftRight(){
+		for (int i = 0; i <board.length ; i++){
+			Piece tempPiece = [i][board.length[0]-1];
+			for (int j = board.length-2; j >= 0; j--){
+				board[i][j+1] = board[i][j];
+			}
+			board[i][0] = tempPiece;
+		}
+	}
 }
