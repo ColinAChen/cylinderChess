@@ -654,23 +654,62 @@ public class Board{
 		}
 		return false;
 	}
+	/*
+	A color wins IF
+	The other color's king has no legal moves
+	The other color has no move to capture the piece attacking the king that does not place them in check
+	CALL DURING THE POTENTIALLY LOSING COLOR'S TURN
+	*/
 
 	public boolean whiteWin(){
 		ArrayList<int[]> kingMoves = new ArrayList<int[]>();
+		//ArrayList<int[]> blackMoves = new ArrayList<int[]>();
 		kingMoves = this.getLegalMoves(findBlackKing());
-		if (blackKingInCheck() && (kingMoves.size() == 0)){
-			return true;
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board[0].length; j++){
+				if (board[i][j] != null && !board[i][j].color){
+					for (int[] pair : this.getLegalMoves(board[i][j])){
+						if (this.checkForCheck(i,j,pair[0],pair[1])){
+							return false;
+						}
+					}
+				}
+			}
 		}
-		return false;
+		/*
+		if (blackKingInCheck() && (kingMoves.size() == 0)){
+
+			return true;
+		}*/
+		return true;
 	}
+
 	public boolean blackWin(){
 		ArrayList<int[]> kingMoves = new ArrayList<int[]>();
+		//ArrayList<int[]> whiteMoves = new ArrayList<int[]>();
 		kingMoves = this.getLegalMoves(findWhiteKing());
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board[0].length; j++){
+				if (board[i][j] != null && board[i][j].color){
+					for (int[] pair : this.getLegalMoves(board[i][j])){
+						if (this.checkForCheck(i,j,pair[0],pair[1])){
+							return false;
+						}
+					}
+				}
+			}
+
+		}
+		/*
 		if (whiteKingInCheck() && (kingMoves.size() == 0)){
 			return true;
-		}
-		return false;
+		}*/
+		return true;
 	}
+	//Stalemate (Draw)
+	/*
+	stalemate if a color has no legal moves AND a color is NOT in check
+	*/
 	public boolean stalemate(){
 		this.oneFromTwo();
 		int numWhiteMoves = 0;
@@ -726,16 +765,16 @@ public class Board{
 	}
 	public void shiftLeft(){
 		for (int i = 0; i < board.length; i++){
-			Piece tempPiece = [i][0];
-			for (int j = 1; j < board[0].length; j++){
+			Piece tempPiece = board[i][0];
+			for (int j = 1; j < board[i].length; j++){
 				board[i][j-1] = board[i][j];
 			}
-			board[i][8] = tempPiece;
+			board[i][7] = tempPiece;
 		}
 	}
 	public void shiftRight(){
 		for (int i = 0; i <board.length ; i++){
-			Piece tempPiece = [i][board.length[0]-1];
+			Piece tempPiece =  board[i][board[i].length-1];
 			for (int j = board.length-2; j >= 0; j--){
 				board[i][j+1] = board[i][j];
 			}
