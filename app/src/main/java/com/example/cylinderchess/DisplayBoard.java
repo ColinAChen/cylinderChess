@@ -212,6 +212,25 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         return arr;
     }
 
+    public void redrawBoard()
+    {
+        Drawable[] tempdrawables = asDrawable(board.oneDimensional);
+        drawableData.addAll(Arrays.asList(tempdrawables));
+        adapter.notifyDataSetChanged();
+    }
+
+    public void shiftLeft(View view)
+    {
+        //board.shiftLeft();
+        redrawBoard();
+    }
+
+    public void shiftRight(View view)
+    {
+        //board.shiftRight();
+        redrawBoard();
+    }
+
 /*    public void changePieces(View view)
     {
         for(int x=0; x<64; x++)
