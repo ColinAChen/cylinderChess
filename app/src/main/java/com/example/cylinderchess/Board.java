@@ -802,6 +802,18 @@ public class Board{
 			}
 			board[i][7] = tempPiece;
 		}
+
+		for(int i = 0; i<board.length; i++)
+		{
+			for(int j = 0; j<board[i].length; j++)
+			{
+				if(board[i][j] != null)
+				{
+					board[i][j].x = i;
+					board[i][j].y = j;
+				}
+			}
+		}
 	}
 	public void shiftRight(){
 		for (int i = 0; i <board.length ; i++){
@@ -811,6 +823,18 @@ public class Board{
 				board[i][j+1] = board[i][j];
 			}
 			board[i][0] = tempPiece;
+		}
+
+		for(int i = 0; i<board.length; i++)
+		{
+			for(int j = 0; j<board[i].length; j++)
+			{
+				if(board[i][j] != null)
+				{
+					board[i][j].x = i;
+					board[i][j].y = j;
+				}
+			}
 		}
 	}
 }
