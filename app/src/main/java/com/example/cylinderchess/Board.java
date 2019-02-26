@@ -1,4 +1,4 @@
-//package com.example.cylinderchess;
+package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Board{
@@ -827,8 +827,10 @@ public class Board{
 		for (int i = 0; i < board.length; i++){
 			Piece tempPiece = board[i][0];
 			for (int j = 1; j < board[i].length; j++){
-				board[i][j].move(i,j-1);
-				board[i][j-1] = board[i][j];
+				if(board[i][j] != null) {
+					board[i][j].move(i, j - 1);
+				}
+					board[i][j - 1] = board[i][j];
 			}
 			board[i][7] = tempPiece;
 		}
@@ -849,8 +851,10 @@ public class Board{
 		for (int i = 0; i <board.length ; i++){
 			Piece tempPiece =  board[i][board[i].length-1];
 			for (int j = board.length-2; j >= 0; j--){
-				board[i][j].move(i,j+1);
-				board[i][j+1] = board[i][j];
+				if(board[i][j] != null) {
+					board[i][j].move(i, j + 1);
+				}
+					board[i][j + 1] = board[i][j];
 			}
 			board[i][0] = tempPiece;
 		}
