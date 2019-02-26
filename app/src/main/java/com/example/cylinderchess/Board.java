@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+//package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class Board{
@@ -318,9 +318,24 @@ public class Board{
 						}
 					}
 					//Check for castling
+					/*
 					if ("k".equals(pieceToMove.name)){
+							if(!pieceToMove.hasMoved && !kingInCheck(pieceToMove)){
+								//check queenside (left)
+								//Check that the corner rook hasn't moved
+								if (board[king.x][0] != null && "r".equals(board[king.x][0].name)  && !board[king.x][0].hasMoved){
+									//check that the squares in between the rook and king are empty
+									(board[king.x][1] == null && board[king.x][2] == null && board[king.x][3] == null){
+											if (checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-1) && checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-2)){
+												int[]castleMove = {pieceToMove.x,pieceToMove.y-2};
+												legalMoves.add(castlePair);
+											}
+									}
+								}
+								//check kingside (right)
 
-					}
+							}
+					}*/
 				}
 			}
 			return legalMoves;
@@ -377,6 +392,9 @@ public class Board{
 	//true if king is in check, false if not in check
 	public boolean kingInCheck(Piece king){
 		//check for knights
+		if (king==null){
+			return false;
+		}
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
 				if ((Math.abs(king.x - i) == 2 && Math.abs(king.y - j) == 1) || (Math.abs(king.x - i) == 1 && Math.abs(king.y - j) == 2)){
@@ -591,6 +609,9 @@ public class Board{
 						//System.out.println(pieceToMove.x + pieceToMove.y);
 						board[newrow][newcol] = pieceToMove;
 						board[row][col] = null;
+						if ("k".equals(pieceToMove.name) || "r".equals(pieceToMove.name)){
+							//pieceToMove.moved();
+						}
 					}
 				}
 				whiteToMove = !whiteToMove;
@@ -627,7 +648,7 @@ public class Board{
 		//tempRook = board[king.x][0];
 		//tempRook.move(king.x,3);
 		king.move(king.x,2);
-		board[king.x][0].move(king.x,)
+		board[king.x][0].move(king.x,3);
 		board[king.x][2] = king;
 		board[king.x][3] = board[king.x][0];
 		board[king.x][4] = null;
