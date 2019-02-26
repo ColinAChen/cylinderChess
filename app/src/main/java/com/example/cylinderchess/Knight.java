@@ -4,8 +4,8 @@ import java.util.ArrayList; // import the ArrayList class
 public class Knight extends Piece{
 	
 	ArrayList<int[]> possibleMoves;
-	public Knight(String name, boolean color, int x,int y, boolean isAttacked){
-		super("n",color,x,y,isAttacked);
+	public Knight(String name, boolean color, int x,int y){
+		super("n",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
