@@ -4,8 +4,8 @@ import java.util.ArrayList; // import the ArrayList class
 public class Pawn extends Piece{
 	
 	ArrayList<int[]> possibleMoves;
-	public Pawn(String name, boolean color, int x,int y, boolean isAttacked){
-		super("p",color,x,y,isAttacked);
+	public Pawn(String name, boolean color, int x,int y){
+		super("p",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//System.out.printf("oldx: %d, oldy: %d, newx: %d, newy: %d%n", x,y,newx,newy);

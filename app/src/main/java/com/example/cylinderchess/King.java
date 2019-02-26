@@ -2,10 +2,10 @@ package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 public class King extends Piece{
-	
+	boolean hasMoved = false;
 	ArrayList<int[]> possibleMoves;
-	public King(String name, boolean color, int x,int y, boolean isAttacked){
-		super("k",color,x,y,isAttacked);
+	public King(String name, boolean color, int x,int y){
+		super("k",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
@@ -17,7 +17,9 @@ public class King extends Piece{
 		}
 		return false;
 	}
-	
+	public void moved(){
+		hasMoved = true;
+	}
 	//return all possible moves for this piece given its current position
 	//does NOT take into account current board position
 	public ArrayList<int[]> getPossibleMoves(){

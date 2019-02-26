@@ -4,8 +4,8 @@ import java.util.ArrayList; // import the ArrayList class
 public class Queen extends Piece{
 	
 	ArrayList<int[]> possibleMoves;
-	public Queen(String name, boolean color, int x,int y, boolean isAttacked){
-		super("q",color,x,y,isAttacked);
+	public Queen(String name, boolean color, int x,int y){
+		super("q",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board

@@ -4,8 +4,8 @@ import java.util.ArrayList; // import the ArrayList class
 public class Bishop extends Piece{
 	
 	ArrayList<int[]> possibleMoves;
-	public Bishop(String name, boolean color, int x,int y, boolean isAttacked){
-		super("b",color,x,y,isAttacked);
+	public Bishop(String name, boolean color, int x,int y){
+		super("b",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
