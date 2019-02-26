@@ -308,7 +308,9 @@ public class Board{
 					//down right
 					else if(possiblePair[0] >= pieceToMove.x && possiblePair[1] >= pieceToMove.y){
 						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[7] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							legalMoves.add(possiblePair);
+							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+								legalMoves.add(possiblePair);
+							}
 						}
 						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[7]){
 							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
@@ -318,24 +320,38 @@ public class Board{
 						}
 					}
 					//Check for castling
-					/*
+					
 					if ("k".equals(pieceToMove.name)){
-							if(!pieceToMove.hasMoved && !kingInCheck(pieceToMove)){
-								//check queenside (left)
-								//Check that the corner rook hasn't moved
-								if (board[king.x][0] != null && "r".equals(board[king.x][0].name)  && !board[king.x][0].hasMoved){
-									//check that the squares in between the rook and king are empty
-									(board[king.x][1] == null && board[king.x][2] == null && board[king.x][3] == null){
-											if (checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-1) && checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-2)){
-												int[]castleMove = {pieceToMove.x,pieceToMove.y-2};
-												legalMoves.add(castlePair);
-											}
+						King kingToMove = (King) pieceToMove;
+						if(!kingToMove.hasMoved && !kingInCheck(pieceToMove)){
+							//check queenside (left)
+							//Check that the corner rook hasn't moved
+							if (board[pieceToMove.x][0] != null && "r".equals(board[pieceToMove.x][0].name)){
+								Rook rookToMove = (Rook)board[pieceToMove.x][0];
+								if (!rookToMove.hasMoved){
+									if (board[pieceToMove.x][1] == null && board[pieceToMove.x][2] == null && board[pieceToMove.x][3] == null){
+										if (checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-1) && checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-2)){
+											int[]castlePair = {pieceToMove.x,pieceToMove.y-2};
+											legalMoves.add(castlePair);
+										}
 									}
 								}
-								//check kingside (right)
-
 							}
-					}*/
+							//check kingside (right)
+							if (board[pieceToMove.x][7] != null && "r".equals(board[pieceToMove.x][7].name)){
+								//check that the squares in between the rook and king are empty
+								Rook rookToMove = (Rook)board[pieceToMove.x][7];
+								if (!rookToMove.hasMoved){
+									if (board[pieceToMove.x][5] == null && board[pieceToMove.x][6] == null){
+										if (checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y+1) && checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y+2)){
+											int[]castlePair = {pieceToMove.x,pieceToMove.y+2};
+											legalMoves.add(castlePair);
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 			return legalMoves;
@@ -346,10 +362,12 @@ public class Board{
 	//check if a move is legal, then check if current turn's king is in check
 	//true if valid move, false if not
 	public boolean checkForCheck(int row, int col, int newrow, int newcol){
+		System.out.println("Checking for check");
 		//move the piece
 		Piece capturePiece = null;
 		Piece pieceToMove = board[row][col];
 		if (board[row][col] != null){
+			//move to new square
 			board[row][col].move(newrow,newcol);
 			//Piece pieceToMove = board[row][col];
 		}
@@ -358,9 +376,10 @@ public class Board{
 			return true;
 		}
 		if (board[newrow][newcol] != null){
+			//if a piece is captured, store it so it can be restored after
 			capturePiece = board[newrow][newcol];
 		}
-		//board[row][col].move(newrow,newcol);
+		//move to new square on the board
 		board[newrow][newcol] = board[row][col];
 		board[row][col] = null;
 
@@ -368,6 +387,7 @@ public class Board{
 		if (whiteToMove){
 			Piece whiteKing = findWhiteKing();
 			if (kingInCheck(whiteKing)){
+				//move back
 				board[newrow][newcol].move(row,col);
 				board[row][col] = board[newrow][newcol];
 				board[newrow][newcol] = capturePiece;
@@ -377,6 +397,7 @@ public class Board{
 		else{
 			Piece blackKing = findBlackKing();
 			if (kingInCheck(blackKing)){
+				//move back
 				board[newrow][newcol].move(row,col);
 				board[row][col] = board[newrow][newcol];
 				board[newrow][newcol] = capturePiece;
@@ -605,12 +626,26 @@ public class Board{
 				for(int[]legalPos:legalMoves){
 					if(legalPos[0] == newrow && legalPos[1] == newcol){
 						//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
-						pieceToMove.move(newrow,newcol);
-						//System.out.println(pieceToMove.x + pieceToMove.y);
-						board[newrow][newcol] = pieceToMove;
-						board[row][col] = null;
-						if ("k".equals(pieceToMove.name) || "r".equals(pieceToMove.name)){
-							//pieceToMove.moved();
+						if ("k".equals(pieceToMove.name) && (newcol-col) > 1){
+							System.out.println("Kingside Castle");
+							kingSideCastle(pieceToMove);
+						}
+						else if ("k".equals(pieceToMove.name) && (col-newcol) > 1){
+							queenSideCastle(pieceToMove);
+						}
+						else{
+							pieceToMove.move(newrow,newcol);
+							//System.out.println(pieceToMove.x + pieceToMove.y);
+							board[newrow][newcol] = pieceToMove;
+							board[row][col] = null;
+						}
+						if ("k".equals(pieceToMove.name)){
+							King kingToMove = (King)pieceToMove;
+							kingToMove.moved();
+						} 
+						if ("r".equals(pieceToMove.name)){
+							Rook rookToMove = (Rook)pieceToMove;
+							rookToMove.moved();
 						}
 					}
 				}
@@ -627,16 +662,20 @@ public class Board{
 	//rook moves to 7 to 5
 	//king moves to 4 to 6
 	public void kingSideCastle(Piece king){
-		//tempRook = board[king.x][7];
-		//move king
-		king.move(king.x,6);
-		//move rook
-		board[king.x][7].move(king.x,5);
-		board[king.x][6] = king; 
-		board[king.x][5] = board[king.x][7];
-		board[king.x][4] = null;
-		board[king.x][7] = null;
-		castleDirection = "r";
+		if(king!= null && board[king.x][7] != null){
+			//move king
+			king.move(king.x,6);
+			//move rook
+			board[king.x][7].move(king.x,5);
+			//swap on board
+			System.out.println(king.x + " " + king.y);
+			board[king.x][6] = king; 
+			board[king.x][5] = board[king.x][7];
+			board[king.x][4] = null;
+			board[king.x][7] = null;
+			castleDirection = "r";
+		}
+		
 		
 
 
@@ -645,15 +684,16 @@ public class Board{
 	//king moves 4 to 2
 	//rook moves 0 to 3
 	public void queenSideCastle(Piece king){
-		//tempRook = board[king.x][0];
-		//tempRook.move(king.x,3);
-		king.move(king.x,2);
-		board[king.x][0].move(king.x,3);
-		board[king.x][2] = king;
-		board[king.x][3] = board[king.x][0];
-		board[king.x][4] = null;
-		board[king.x][0] = null;
-		castleDirection = "l";
+		if (king != null && board[king.x][0] != null){
+			king.move(king.x,2);
+			board[king.x][0].move(king.x,3);
+			board[king.x][2] = king;
+			board[king.x][3] = board[king.x][0];
+			board[king.x][4] = null;
+			board[king.x][0] = null;
+			castleDirection = "l";
+		}
+		
 
 
 	}
