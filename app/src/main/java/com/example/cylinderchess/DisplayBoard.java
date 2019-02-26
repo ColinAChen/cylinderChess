@@ -226,11 +226,28 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         {
             drawableData.set(x,tempdrawables[x]);
         }
+        if(prevSquare[0] != -1) {
+            ArrayList<int[]> moves = board.getLegalMoves(board.board[prevSquare[0]][prevSquare[1]]);
+            for (int x = 0; x < 64; x++) {
+                highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
+            }
+            for (int x = 0; x < moves.size(); x++) {
+                highlights.set(8 * moves.get(x)[0] + moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 
     public void shiftLeft(View view)
     {
+        if(prevSquare[0] != -1){
+            if(prevSquare[1] == 0) {
+                prevSquare[1] = 7;
+            }
+            else {
+                prevSquare[1] = (prevSquare[1] - 1);
+            }
+        }
         invertBoard();
         board.shiftLeft();
         redrawBoard();
@@ -238,6 +255,9 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
 
     public void shiftRight(View view)
     {
+        if(prevSquare[0] != -1){
+            prevSquare[1] = (prevSquare[1] + 1) % 8;
+        }
         invertBoard();
         board.shiftRight();
         redrawBoard();
