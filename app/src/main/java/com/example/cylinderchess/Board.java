@@ -5,6 +5,9 @@ public class Board{
 	Piece[][] board;
 	Piece[] oneDimensional;
 	boolean whiteToMove = true;
+	//left = queenside, right = kingside;
+	String castleDirection = null;
+
 	public Board(Piece[][] board, Piece[] oneD){
 		this.board = board;		this.oneDimensional = oneD;
 	}
@@ -15,33 +18,33 @@ public class Board{
 		//board = new Piece[8][8];
 		for (int i = 0; i < 8; i++){
 			//board[0][i] = new Piece("", false, 0, i, false);
-			board[1][i] = new Pawn("", false, 1, i, false);
-			board[6][i] = new Pawn("",true, 6, i, false);
+			board[1][i] = new Pawn("", false, 1, i);
+			board[6][i] = new Pawn("",true, 6, i);
 			//board[7][i] = new Piece("", true, 7, i, false);
 			if (i == 0 || i == 7){
 				//System.out.println("Creating rooks in row " + i);
-				board[0][i] = new Rook("", false, 0, i, false);
-				board[7][i] = new Rook("", true, 7, i, false);
+				board[0][i] = new Rook("", false, 0, i);
+				board[7][i] = new Rook("", true, 7, i);
 			}
 			if (i == 1 || i == 6){
 				//System.out.println("Creating knights");
-				board[0][i] = new Knight("", false, 0, i, false);
-				board[7][i] = new Knight("", true, 7, i, false);
+				board[0][i] = new Knight("", false, 0, i);
+				board[7][i] = new Knight("", true, 7, i);
 			}
 			if (i == 2 || i == 5){
 				//System.out.println("Creating bishops");
-				board[0][i] = new Bishop("", false, 0, i, false);
-				board[7][i] = new Bishop("", true, 7, i, false);
-			}
-			if (i == 3){
-				//System.out.println("Creating kings");
-				board[0][i] = new King("", false, 0, i, false);
-				board[7][i] = new King("", true, 7, i, false);
+				board[0][i] = new Bishop("", false, 0, i);
+				board[7][i] = new Bishop("", true, 7, i);
 			}
 			if (i == 4){
+				//System.out.println("Creating kings");
+				board[0][i] = new King("", false, 0, i);
+				board[7][i] = new King("", true, 7, i);
+			}
+			if (i == 3){
 				//System.out.println("Creating queens");
-				board[0][i] = new Queen("", false, 0, i, false);
-				board[7][i] = new Queen("", true, 7, i, false);
+				board[0][i] = new Queen("", false, 0, i);
+				board[7][i] = new Queen("", true, 7, i);
 			}
 		}
 		this.oneFromTwo();
@@ -313,6 +316,10 @@ public class Board{
 							}
 							
 						}
+					}
+					//Check for castling
+					if ("k".equals(pieceToMove.name)){
+
 					}
 				}
 			}
@@ -608,6 +615,7 @@ public class Board{
 		board[king.x][5] = board[king.x][7];
 		board[king.x][4] = null;
 		board[king.x][7] = null;
+		castleDirection = "r";
 		
 
 
@@ -624,6 +632,7 @@ public class Board{
 		board[king.x][3] = board[king.x][0];
 		board[king.x][4] = null;
 		board[king.x][0] = null;
+		castleDirection = "l";
 
 
 	}
