@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+//package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
 
@@ -34,9 +34,6 @@ abstract class Piece{
 	}
 	public String getName(){
 		return name;
-	}
-	public boolean isAttacked(){
-		return isAttacked;
 	}
 	public ArrayList<int[]> getPossibleMoves(){
 		return null;
