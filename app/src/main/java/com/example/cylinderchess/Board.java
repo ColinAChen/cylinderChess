@@ -627,7 +627,7 @@ public class Board{
 		//tempRook = board[king.x][0];
 		//tempRook.move(king.x,3);
 		king.move(king.x,2);
-		board[king.x][0].move(king.x,)
+		board[king.x][0].move(king.x,3);
 		board[king.x][2] = king;
 		board[king.x][3] = board[king.x][0];
 		board[king.x][4] = null;

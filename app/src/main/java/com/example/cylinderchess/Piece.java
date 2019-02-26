@@ -35,9 +35,6 @@ abstract class Piece{
 	public String getName(){
 		return name;
 	}
-	public boolean isAttacked(){
-		return isAttacked;
-	}
 	public ArrayList<int[]> getPossibleMoves(){
 		return null;
 	}
