@@ -1,7 +1,6 @@
-//package com.example.cylinderchess;
+package com.example.cylinderchess;
 
 import java.util.ArrayList; // import the ArrayList class
-
 
 abstract class Piece{
 	String name;

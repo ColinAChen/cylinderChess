@@ -69,20 +69,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onItemClick(View view, int position) {
-        ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
-        if(board.oneDimensional[position] != null && board.oneDimensional[position].color != board.whiteToMove)
-        {
-            moves = new ArrayList<>();
-        }
-        if(position == 8*prevSquare[0]+prevSquare[1])
-        {
-            moves = new ArrayList<>();
-        }
-        if (moves != null && moves.size() != 0) {
-            Log.i("success!", "first legal move:" + moves.get(0)[0] + "," + moves.get(0)[1]);
-            Log.i("success!", "selected piece:" + board.oneDimensional[position]);
-        }
-
+        //checks if position clicked on was one of the previous move's possible moves
         for (int x = 0; x< prevHighlight.size(); x++)
         {
             if (position == 8 * prevHighlight.get(x)[0] + prevHighlight.get(x)[1])
@@ -90,32 +77,22 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
                 if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
                     Log.i("success!", "moving piece" + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
-                    drawableData.set(position, drawableData.get(8 * prevSquare[0] + prevSquare[1]));
-                    drawableData.set(8 * prevSquare[0] + prevSquare[1], getResources().getDrawable(R.drawable.blank, null));
                 }
-                for (int y = 0; y < 64; y++)
-                {
-                        highlights.set(y, getResources().getDrawable(R.drawable.blank, null));
-                }
+                prevHighlight.clear();
                 prevSquare[0] = -1;
                 prevSquare[1] = -1;
-                prevHighlight.clear();
+                redrawBoard();
                 adapter.notifyDataSetChanged();
                 return;
             }
         }
-
-        for(int x=0;x<64;x++)
+        //gets selected position's legal moves
+        ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
+        //clears moves if clicking on blank piece, incorrect color, or previously clicked piece
+        if((board.oneDimensional[position] != null && board.oneDimensional[position].color != board.whiteToMove)
+                || position == 8*prevSquare[0]+prevSquare[1])
         {
-            highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
-        }
-
-        for(int x=0;x<moves.size(); x++)
-        {
-            highlights.set(8*moves.get(x)[0]+moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
-        }
-        if(position == 8*prevSquare[0]+prevSquare[1])
-        {
+            moves = new ArrayList<>();
             prevSquare[0] = -1;
             prevSquare[1] = -1;
         }
@@ -125,7 +102,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
             prevSquare[1] = position%8;
         }
         prevHighlight = moves;
-        adapter.notifyDataSetChanged();
+        redrawBoard();
     }
 
     public ArrayList setUp(ArrayList<Drawable> data)
@@ -226,11 +203,11 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         {
             drawableData.set(x,tempdrawables[x]);
         }
+        for (int x = 0; x < 64; x++) {
+            highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
+        }
         if(prevSquare[0] != -1) {
             ArrayList<int[]> moves = board.getLegalMoves(board.board[prevSquare[0]][prevSquare[1]]);
-            for (int x = 0; x < 64; x++) {
-                highlights.set(x, getResources().getDrawable(R.drawable.blank, null));
-            }
             for (int x = 0; x < moves.size(); x++) {
                 highlights.set(8 * moves.get(x)[0] + moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
             }
