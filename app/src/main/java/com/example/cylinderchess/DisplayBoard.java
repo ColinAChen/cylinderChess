@@ -105,15 +105,6 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         redrawBoard();
     }
 
-    public ArrayList setUp(ArrayList<Drawable> data)
-    {
-        for(int x=0; x<64; x++)
-        {
-            data.set(x, getResources().getDrawable(R.drawable.black_pawn, null));
-        }
-        return data;
-    }
-
     public void showPopup(View view) {
 
         // inflate the layout of the popup window
