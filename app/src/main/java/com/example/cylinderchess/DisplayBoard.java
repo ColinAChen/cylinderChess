@@ -1,28 +1,32 @@
 package com.example.cylinderchess;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
+public class DisplayBoard extends AppCompatActivity implements BoardAdapter.ItemClickListener {
 
-    MyRecyclerViewAdapter adapter;
+    BoardAdapter adapter;
     Board board = new Board(new Piece[8][8], new Piece[64]);
     final ArrayList<Drawable> highlights = new ArrayList<>(64);
     ArrayList<int[]> prevHighlight = new ArrayList<>();
@@ -47,14 +51,12 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         for(int x=0;x<64;x++)
             highlights.add(getResources().getDrawable(R.drawable.blank, null));
 
-        Log.d("custom message:","1");
         // set up the RecyclerView
         final RecyclerView recyclerView = findViewById(R.id.rvNumbers);
         int numberOfColumns = 8;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
-        Log.d("custom message:","2");
-        adapter = new MyRecyclerViewAdapter(this, drawableData, highlights);
+        adapter = new BoardAdapter(this, drawableData, highlights);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         Log.d("custom message:","3");
@@ -65,6 +67,7 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
                 recreate();
             }
         });
+
     }
 
     @Override
@@ -77,7 +80,13 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
                 if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
                     Log.i("success!", "moving piece" + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
+                    if(board.board[position/8][position%8].name == "p"
+                            && (position < 8 || position > 55))
+                    {
+                        promote(board.oneDimensional[position].color, position /8, position %8);
+                    }
                 }
+
                 prevHighlight.clear();
                 prevSquare[0] = -1;
                 prevSquare[1] = -1;
@@ -103,33 +112,6 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         }
         prevHighlight = moves;
         redrawBoard();
-    }
-
-    public void showPopup(View view) {
-
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.promotion_popup, null);
-
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //popupWindow.dismiss();
-                return true;
-            }
-        });
     }
 
     public Drawable[] asDrawable(Piece[] pieces)
@@ -244,12 +226,63 @@ public class DisplayBoard extends AppCompatActivity implements MyRecyclerViewAda
         boardNormal = !boardNormal;
     }
 
-/*    public void changePieces(View view)
-    {
-        for(int x=0; x<64; x++)
-        {
-            this.data.set(x, getResources().getDrawable(R.drawable.white_pawn, null));
+    public void promote(final boolean color, final int x, final int y){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.promotion_popup);
+
+        ImageView knightButton = (ImageView) dialog.findViewById(R.id.chooseKnight);
+        ImageView bishopButton = (ImageView) dialog.findViewById(R.id.chooseBishop);
+        ImageView rookButton = (ImageView) dialog.findViewById(R.id.chooseRook);
+        ImageView queenButton = (ImageView) dialog.findViewById(R.id.chooseQueen);
+
+        if(color) {
+            knightButton.setImageDrawable(getResources().getDrawable(R.drawable.white_knight, null));
+            bishopButton.setImageDrawable(getResources().getDrawable(R.drawable.white_bishop, null));
+            rookButton.setImageDrawable(getResources().getDrawable(R.drawable.white_rook, null));
+            queenButton.setImageDrawable(getResources().getDrawable(R.drawable.white_queen, null));
         }
+        else{
+            knightButton.setImageDrawable(getResources().getDrawable(R.drawable.black_knight, null));
+            bishopButton.setImageDrawable(getResources().getDrawable(R.drawable.black_bishop, null));
+            rookButton.setImageDrawable(getResources().getDrawable(R.drawable.black_rook, null));
+            queenButton.setImageDrawable(getResources().getDrawable(R.drawable.black_queen, null));
+        }
+
+        knightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                board.place(new Knight("", color, x, y), x, y);
+                redrawBoard();
+                dialog.dismiss();
+            }
+        });
+        bishopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                board.place(new Bishop("", color, x, y), x, y);
+                redrawBoard();
+                dialog.dismiss();
+            }
+        });
+        rookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                board.place(new Rook("", color, x, y), x, y);
+                redrawBoard();
+                dialog.dismiss();
+            }
+        });
+        queenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                board.place(new Queen("", color, x, y), x, y);
+                redrawBoard();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
-*/
 }

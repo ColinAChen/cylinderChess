@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
     private ArrayList<Drawable> mData;
     private ArrayList<Drawable> highlights;
@@ -19,7 +19,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, ArrayList<Drawable> data, ArrayList<Drawable> highlights) {
+    BoardAdapter(Context context, ArrayList<Drawable> data, ArrayList<Drawable> highlights) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.highlights = highlights;
