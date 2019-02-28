@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.chessApp.R;
+import com.example.chessApp.normal.DisplayBoardNormal;
+import com.example.chessApp.normal.InstructionsNormal;
+
 public class MainActivity extends AppCompatActivity
 {
 
@@ -15,12 +19,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void goToBoard(View view) {
-        Intent intent = new Intent(this, DisplayBoard.class);
+        Intent intent = new Intent(this, DisplayBoardNormal.class);
         startActivity(intent);
     }
 
     public void goToInstructions(View view) {
-        Intent intent = new Intent(this, Instructions.class);
+        Intent intent = new Intent(this, InstructionsNormal.class);
         startActivity(intent);
     }
 }

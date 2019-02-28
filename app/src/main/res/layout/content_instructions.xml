@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Instructions"
+    tools:context=".normal.InstructionsNormal"
     tools:showIn="@layout/activity_instructions">
     <GridLayout
         android:layout_width="match_parent"

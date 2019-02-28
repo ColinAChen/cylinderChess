@@ -1,25 +1,23 @@
-package com.example.chessApp;
+package com.example.chessApp.normal;
 
 import java.util.ArrayList; // import the ArrayList class
-public class King extends Piece{
-	boolean hasMoved = false;
+public class BishopNormal extends PieceNormal {
+	
 	ArrayList<int[]> possibleMoves;
-	public King(String name, boolean color, int x,int y){
-		super("k",color,x,y);
+	public BishopNormal(String name, boolean color, int x, int y){
+		super("b",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
 		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
 			return false;
 		}
-		if (Math.abs(newx-x) < 2 && Math.abs(newy-y) < 2){
+		if (Math.abs(newx-x) == Math.abs(newy-y)){
 			return true;
 		}
 		return false;
 	}
-	public void moved(){
-		hasMoved = true;
-	}
+	
 	//return all possible moves for this piece given its current position
 	//does NOT take into account current board position
 	public ArrayList<int[]> getPossibleMoves(){

@@ -1,4 +1,4 @@
-package com.example.chessApp;
+package com.example.chessApp.normal;
 
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
@@ -14,13 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.chessApp.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DisplayBoard extends AppCompatActivity implements BoardAdapter.ItemClickListener {
+public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapterNormal.ItemClickListener {
 
-    BoardAdapter adapter;
-    Board board = new Board(new Piece[8][8], new Piece[64]);
+    BoardAdapterNormal adapter;
+    BoardNormal board = new BoardNormal(new PieceNormal[8][8], new PieceNormal[64]);
     final ArrayList<Drawable> highlights = new ArrayList<>(64);
     ArrayList<int[]> prevHighlight = new ArrayList<>();
     int prevSquare[] = {-1,-1};
@@ -49,7 +51,7 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
         int numberOfColumns = 8;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
-        adapter = new BoardAdapter(this, drawableData, highlights);
+        adapter = new BoardAdapterNormal(this, drawableData, highlights);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         Log.d("custom message:","3");
@@ -121,7 +123,7 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
         redrawBoard();
     }
 
-    public Drawable[] asDrawable(Piece[] pieces)
+    public Drawable[] asDrawable(PieceNormal[] pieces)
     {
         Drawable[] arr = new Drawable[64];
         for(int x=0; x < pieces.length;x++){
@@ -260,7 +262,7 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
         knightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new Knight("", color, x, y), x, y);
+                board.place(new KnightNormal("", color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }
@@ -268,7 +270,7 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
         bishopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new Bishop("", color, x, y), x, y);
+                board.place(new BishopNormal("", color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }
@@ -276,7 +278,7 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
         rookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new Rook("", color, x, y), x, y);
+                board.place(new RookNormal("", color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }
@@ -284,7 +286,7 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
         queenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new Queen("", color, x, y), x, y);
+                board.place(new QueenNormal("", color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }

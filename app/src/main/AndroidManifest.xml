@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.chessApp.Instructions"
+            android:name="com.example.chessApp.normal.InstructionsNormal"
             android:label="@string/title_activity_instructions"
             android:parentActivityName="com.example.chessApp.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -19,7 +19,7 @@
                 android:value="com.example.chessApp.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.chessApp.DisplayBoard"
+            android:name="com.example.chessApp.normal.DisplayBoardNormal"
             android:parentActivityName="com.example.chessApp.MainActivity" />
         <activity android:name="com.example.chessApp.MainActivity">
             <intent-filter>

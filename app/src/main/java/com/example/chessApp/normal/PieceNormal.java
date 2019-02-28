@@ -1,16 +1,16 @@
-package com.example.chessApp;
+package com.example.chessApp.normal;
 
 import java.util.ArrayList; // import the ArrayList class
 
-abstract class Piece{
+abstract class PieceNormal {
 	String name;
 	boolean color;
 	int x;
 	int y;
 
-	//public Piece(){};
+	//public PieceNormal(){};
 	
-	public Piece(String name, boolean color, int x,int y){
+	public PieceNormal(String name, boolean color, int x, int y){
 		this.name = name;
 		this.color = color;
 		this.x = x;

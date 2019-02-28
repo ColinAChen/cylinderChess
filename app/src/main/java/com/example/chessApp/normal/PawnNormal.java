@@ -1,10 +1,10 @@
-package com.example.chessApp;
+package com.example.chessApp.normal;
 
 import java.util.ArrayList; // import the ArrayList class
-public class Pawn extends Piece{
+public class PawnNormal extends PieceNormal {
 	
 	ArrayList<int[]> possibleMoves;
-	public Pawn(String name, boolean color, int x,int y){
+	public PawnNormal(String name, boolean color, int x, int y){
 		super("p",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
