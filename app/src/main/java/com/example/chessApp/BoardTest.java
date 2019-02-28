@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+package com.example.chessApp;
 
 public class BoardTest{
 	public static void main(String[] args){

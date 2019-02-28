@@ -1,24 +1,17 @@
-package com.example.cylinderchess;
+package com.example.chessApp;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -67,7 +60,6 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
                 recreate();
             }
         });
-
     }
 
     @Override
@@ -84,6 +76,21 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
                             && (position < 8 || position > 55))
                     {
                         promote(board.oneDimensional[position].color, position /8, position %8);
+                    }
+                    if(board.whiteWin())
+                    {
+                        showTextPopup("Checkmate! White wins");
+                        Log.d("board:" , "Checkmate! White wins!");
+                    }
+                    else if(board.blackWin())
+                    {
+                        showTextPopup("Checkmate! Black wins");
+                        Log.d("board:" , "Checkmate! Black wins!");
+                    }
+                    else if(board.whiteKingInCheck() || board.blackKingInCheck())
+                    {
+                        showTextPopup("Check!");
+                        Log.d("board:" , "Check!");
                     }
                 }
 
@@ -285,4 +292,28 @@ public class DisplayBoard extends AppCompatActivity implements BoardAdapter.Item
 
         dialog.show();
     }
+
+    public void showTextPopup(String message) {
+        final Dialog dialog = new Dialog(this) {
+            @Override
+            public boolean onTouchEvent(MotionEvent event) {
+                // Tap anywhere to close dialog.
+                this.dismiss();
+                return true;
+            }
+        };
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.text_popup);
+
+
+        TextView text = dialog.findViewById(R.id.messagePopup);
+        text.setText(message);
+
+        dialog.show();
+
+
+    }
 }
+
+

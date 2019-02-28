@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+package com.example.chessApp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

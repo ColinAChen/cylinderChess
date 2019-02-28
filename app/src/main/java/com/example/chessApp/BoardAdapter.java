@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+package com.example.chessApp;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

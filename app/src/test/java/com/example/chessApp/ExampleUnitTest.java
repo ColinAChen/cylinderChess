@@ -1,4 +1,4 @@
-package com.example.cylinderchess;
+package com.example.chessApp;
 
 import org.junit.Test;
 

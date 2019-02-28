@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cylinderchess">
+    package="com.example.chessApp">
 
     <application
         android:allowBackup="true"
@@ -10,18 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Instructions"
+            android:name="com.example.chessApp.Instructions"
             android:label="@string/title_activity_instructions"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.chessApp.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cylinderchess.MainActivity" />
+                android:value="com.example.chessApp.MainActivity" />
         </activity>
         <activity
-            android:name=".DisplayBoard"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+            android:name="com.example.chessApp.DisplayBoard"
+            android:parentActivityName="com.example.chessApp.MainActivity" />
+        <activity android:name="com.example.chessApp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
