@@ -19,9 +19,9 @@ import com.example.chessApp.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapterNormal.ItemClickListener {
+public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapter.ItemClickListener {
 
-    BoardAdapterNormal adapter;
+    BoardAdapter adapter;
     BoardNormal board = new BoardNormal(new PieceNormal[8][8], new PieceNormal[64]);
     final ArrayList<Drawable> highlights = new ArrayList<>(64);
     ArrayList<int[]> prevHighlight = new ArrayList<>();
@@ -51,7 +51,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         int numberOfColumns = 8;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
-        adapter = new BoardAdapterNormal(this, drawableData, highlights);
+        adapter = new BoardAdapter(this, drawableData, highlights);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         Log.d("custom message:","3");

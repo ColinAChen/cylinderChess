@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">cylinderChess</string>
-    <string name="reset">New Game</string>
+    <string name="resetNormal">New Normal Chess Game</string>
+    <string name="resetCylinder">New Cylinder Chess Game</string>
     <string name="titleName">Cylinder Chess</string>
     <string name="instructions">How to Play</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>

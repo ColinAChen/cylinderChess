@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.chessApp.R;
+import com.example.chessApp.cylinder.DisplayBoardCylinder;
 import com.example.chessApp.normal.DisplayBoardNormal;
 import com.example.chessApp.normal.InstructionsNormal;
 
@@ -18,12 +19,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
     }
 
-    public void goToBoard(View view) {
+    public void goToBoardNormal(View view) {
         Intent intent = new Intent(this, DisplayBoardNormal.class);
         startActivity(intent);
     }
 
-    public void goToInstructions(View view) {
+    public void goToBoardCylinder(View view) {
+        Intent intent = new Intent(this, DisplayBoardCylinder.class);
+        startActivity(intent);
+    }
+
+    public void goToInstructionsNormal(View view) {
         Intent intent = new Intent(this, InstructionsNormal.class);
         startActivity(intent);
     }

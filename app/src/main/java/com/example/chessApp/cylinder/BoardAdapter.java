@@ -1,4 +1,4 @@
-package com.example.chessApp.normal;
+package com.example.chessApp.cylinder;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,7 +13,7 @@ import com.example.chessApp.R;
 
 import java.util.ArrayList;
 
-public class BoardAdapterNormal extends RecyclerView.Adapter<BoardAdapterNormal.ViewHolder> {
+public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
     private ArrayList<Drawable> mData;
     private ArrayList<Drawable> highlights;
@@ -21,7 +21,7 @@ public class BoardAdapterNormal extends RecyclerView.Adapter<BoardAdapterNormal.
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    BoardAdapterNormal(Context context, ArrayList<Drawable> data, ArrayList<Drawable> highlights) {
+    BoardAdapter(Context context, ArrayList<Drawable> data, ArrayList<Drawable> highlights) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.highlights = highlights;
