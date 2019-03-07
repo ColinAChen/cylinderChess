@@ -661,7 +661,16 @@ public class BoardNormal {
 							pieceToMove.move(newrow,newcol);
 							//System.out.println(pieceToMove.x + pieceToMove.y);
 							board[newrow][newcol] = pieceToMove;
+
 							board[row][col] = null;
+							//remove the pawn if capturing with enpassant
+							if("p".equals(board[row][newcol].name)){
+								PawnNormal capturePawn = (PawnNormal)board[row][newcol];
+								if (capturePawn.enPassant){
+									board[row][newcol] = null;
+								}
+							}
+
 						}
 						//if king or rook moves, cannot castle after
 						if ("k".equals(pieceToMove.name)){
