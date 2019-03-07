@@ -378,7 +378,7 @@ public class BoardNormal {
 				}
 			}
 			return legalMoves;
-		}	
+		}
 		//return null;
 	}
 
