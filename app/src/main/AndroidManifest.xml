@@ -21,6 +21,9 @@
         <activity
             android:name="com.example.chessApp.normal.DisplayBoardNormal"
             android:parentActivityName="com.example.chessApp.MainActivity" />
+        <activity
+            android:name="com.example.chessApp.cylinder.DisplayBoardCylinder"
+            android:parentActivityName="com.example.chessApp.MainActivity" />
         <activity android:name="com.example.chessApp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

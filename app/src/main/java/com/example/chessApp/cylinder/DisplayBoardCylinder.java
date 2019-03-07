@@ -15,13 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chessApp.R;
-import com.example.chessApp.cylinder.BishopCylinder;
-import com.example.chessApp.cylinder.BoardAdapter;
-import com.example.chessApp.cylinder.BoardCylinder;
-import com.example.chessApp.cylinder.KnightCylinder;
-import com.example.chessApp.cylinder.PieceCylinder;
-import com.example.chessApp.cylinder.QueenCylinder;
-import com.example.chessApp.cylinder.RookCylinder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +33,7 @@ public class DisplayBoardCylinder extends AppCompatActivity implements BoardAdap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_board);
+        setContentView(R.layout.activity_display_board_cylinder);
 
         board.initializeBoard();
 

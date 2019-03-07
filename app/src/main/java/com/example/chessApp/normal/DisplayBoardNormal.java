@@ -33,7 +33,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_board);
+        setContentView(R.layout.activity_display_board_normal);
 
         board.initializeBoard();
 
