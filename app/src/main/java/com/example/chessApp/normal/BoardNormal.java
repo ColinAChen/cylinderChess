@@ -7,7 +7,6 @@ public class BoardNormal {
 	PieceNormal[][] board;
 	PieceNormal[] oneDimensional;
 	boolean whiteToMove = true;
-	int lastDoublePawn = -1;
 	//left = queenside, right = kingside;
 	//String castleDirection = null;
 
@@ -68,20 +67,17 @@ public class BoardNormal {
 			for (int[] possiblePair:possibleMoves){
 				if (pieceToMove.y != possiblePair[1]) {
 					//check for normal capturing
-					if (board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+					if (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 						//only add if destination is of the opposite color
 						if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
 							legalMoves.add(possiblePair);
 						}
 					}
 					//check for enpassant
-					//System.out.println("Checking for Enpassant");
 					else if (board[possiblePair[0]][possiblePair[1]] == null){
 						//check for white pawn moving up
-						if(board[pieceToMove.x][possiblePair[1]] != null && "p".equals(board[pieceToMove.x][possiblePair[1]].name)){
-							//System.out.println("Pawn found!");
-							PawnNormal pawn = (PawnNormal)board[pieceToMove.x][possiblePair[1]];
-							if (pawn.enPassant){
+						if(board[pieceToMove.x][possiblePair[1]] != null && "p".equals(board[pieceToMove.x][possiblePair[1]].color)){
+							if ((Pawn)board[pieceToMove.x][possiblePair[1]].enPassant){
 								if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
 									legalMoves.add(possiblePair);
 								}
@@ -89,8 +85,8 @@ public class BoardNormal {
 						}
 					}	
 				}			
-			
-		
+			}
+		}
 				//pawn is moving straight
 				else if(possiblePair[1] == pieceToMove.y){
 					//if the pawn is trying to jump two squares, check that both squares in front of it are empty
@@ -673,20 +669,13 @@ public class BoardNormal {
 							rookToMove.moved();
 						}
 						//change back once the pawn moves again
-						if ("p".equals(pieceToMove.name)){
-							PawnNormal pawnTest = (PawnNormal)pieceToMove;
-							if (pawnTest.enPassant){
-								pawnTest.enPassant();
-							}
-							
+						if (pieceToMove.enPassant){
+							pieceToMove.enPassant();
 						}
 						//enpassant if move two squares
 						if ("p".equals(pieceToMove.name)){
-							PawnNormal pawnTest = (PawnNormal)pieceToMove;
 							if (Math.abs(newrow-row) > 1){
-								pawnTest.enPassant();
-								lastDoublePawn = pawnTest.y;
-								
+								pieceToMove.enPassant();
 							}
 						}
 
