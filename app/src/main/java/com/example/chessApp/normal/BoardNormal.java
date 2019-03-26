@@ -9,6 +9,7 @@ public class BoardNormal {
 	boolean whiteToMove = true;
 	//left = queenside, right = kingside;
 	String castleDirection = null;
+	ArrayList<String> moveNotation = new ArrayList<>();
 
 	public BoardNormal(PieceNormal[][] board, PieceNormal[] oneD){
 		this.board = board;		this.oneDimensional = oneD;
@@ -912,5 +913,46 @@ public class BoardNormal {
 				}
 			}
 		}
+	}
+	public String getNotation(int[] pos1, int[] pos2)
+	{
+		String notation = board[pos1[0]][pos1[1]].name.toUpperCase() + notationNumToAlpha(pos1[0]) + (pos1[1]+1);
+		if(pos1.length != 2 || pos2.length != 2)
+		{
+			return("");
+		}
+		if(board[pos2[0]][pos2[1]] != null)
+		{
+			notation += "x" + board[pos2[0]][pos2[1]].name.toUpperCase() + notationNumToAlpha(pos2[0]) + (pos2[1]+1);
+		}
+		else
+		{
+			notation += "-" + notationNumToAlpha(pos2[0]) + (pos2[1]+1);
+		}
+		return notation;
+	}
+	public String notationNumToAlpha(int a)
+	{
+		switch (a)
+		{
+			case 0:
+				return "a";
+			case 1:
+				return "b";
+			case 2:
+				return "c";
+			case 3:
+				return "d";
+			case 4:
+				return "e";
+			case 5:
+				return "f";
+			case 6:
+				return "g";
+			case 7:
+				return "h";
+
+		}
+
 	}
 }
