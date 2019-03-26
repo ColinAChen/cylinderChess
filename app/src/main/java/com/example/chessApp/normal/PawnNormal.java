@@ -2,7 +2,7 @@ package com.example.chessApp.normal;
 
 import java.util.ArrayList; // import the ArrayList class
 public class PawnNormal extends PieceNormal {
-	
+	boolean enPassant = false;
 	ArrayList<int[]> possibleMoves;
 	public PawnNormal(String name, boolean color, int x, int y){
 		super("p",color,x,y);
@@ -105,7 +105,9 @@ public class PawnNormal extends PieceNormal {
 		}
 		return false;
 	}
-	
+	public void enPassant(){
+		enPassant = !enPassant;
+	}
 	//return all possible moves for this piece given its current position
 	//does NOT take into account current board position
 	public ArrayList<int[]> getPossibleMoves(){
