@@ -379,7 +379,7 @@ public class BoardNormal {
 			}
 			return legalMoves;
 		}
-		return null;
+		//return null;
 	}
 
 	//check if a move is legal, then check if current turn's king is in check
