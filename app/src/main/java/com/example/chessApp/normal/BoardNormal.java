@@ -12,8 +12,7 @@ public class BoardNormal {
 	//String castleDirection = null;
 
 	public BoardNormal(PieceNormal[][] board, PieceNormal[] oneD){
-		this.board = board;
-		this.oneDimensional = oneD;
+		this.board = board;		this.oneDimensional = oneD;
 	}
 	public void initializeBoard(){
 		//Initializes a board
@@ -114,9 +113,9 @@ public class BoardNormal {
 							legalMoves.add(possiblePair);
 						}
 					}
-				}
-				return legalMoves;
+				}	
 			}
+			return legalMoves;
 		}
 		// For knight
 		// Only need to check that destination is empty or of other color
