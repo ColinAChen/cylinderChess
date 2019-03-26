@@ -8,7 +8,7 @@ public class BoardNormal {
 	PieceNormal[] oneDimensional;
 	boolean whiteToMove = true;
 	//left = queenside, right = kingside;
-	//String castleDirection = null;
+	String castleDirection = null;
 
 	public BoardNormal(PieceNormal[][] board, PieceNormal[] oneD){
 		this.board = board;		this.oneDimensional = oneD;
@@ -65,28 +65,12 @@ public class BoardNormal {
 		//define legal moves for a pawn
 		if ("p".equals(pieceToMove.name)){
 			for (int[] possiblePair:possibleMoves){
-				if (pieceToMove.y != possiblePair[1]) {
-					//check for normal capturing
-					if (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-						//only add if destination is of the opposite color
-						if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
-							legalMoves.add(possiblePair);
-						}
+				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
+					//only add if destination is of the opposite color
+					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						legalMoves.add(possiblePair);
 					}
-					//check for enpassant
-					else if (board[possiblePair[0]][possiblePair[1]] == null){
-						//check for white pawn moving up
-						if(board[pieceToMove.x][possiblePair[1]] != null && "p".equals(board[pieceToMove.x][possiblePair[1]].color)){
-							if ((Pawn)board[pieceToMove.x][possiblePair[1]].enPassant){
-								if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
-									legalMoves.add(possiblePair);
-								}
-							}
-						}
-					}	
-				}			
-			}
-		}
+				}
 				//pawn is moving straight
 				else if(possiblePair[1] == pieceToMove.y){
 					//if the pawn is trying to jump two squares, check that both squares in front of it are empty
@@ -644,7 +628,6 @@ public class BoardNormal {
 				for(int[]legalPos:legalMoves){
 					if(legalPos[0] == newrow && legalPos[1] == newcol){
 						//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
-						//Castling
 						if ("k".equals(pieceToMove.name) && (newcol-col) > 1){
 							System.out.println("Kingside Castle");
 							kingSideCastle(pieceToMove);
@@ -652,14 +635,12 @@ public class BoardNormal {
 						else if ("k".equals(pieceToMove.name) && (col-newcol) > 1){
 							queenSideCastle(pieceToMove);
 						}
-						//normal move
 						else{
 							pieceToMove.move(newrow,newcol);
 							//System.out.println(pieceToMove.x + pieceToMove.y);
 							board[newrow][newcol] = pieceToMove;
 							board[row][col] = null;
 						}
-						//if king or rook moves, cannot castle after
 						if ("k".equals(pieceToMove.name)){
 							KingNormal kingToMove = (KingNormal)pieceToMove;
 							kingToMove.moved();
@@ -668,17 +649,6 @@ public class BoardNormal {
 							RookNormal rookToMove = (RookNormal)pieceToMove;
 							rookToMove.moved();
 						}
-						//change back once the pawn moves again
-						if (pieceToMove.enPassant){
-							pieceToMove.enPassant();
-						}
-						//enpassant if move two squares
-						if ("p".equals(pieceToMove.name)){
-							if (Math.abs(newrow-row) > 1){
-								pieceToMove.enPassant();
-							}
-						}
-
 					}
 				}
 				whiteToMove = !whiteToMove;
@@ -705,7 +675,7 @@ public class BoardNormal {
 			board[king.x][5] = board[king.x][7];
 			board[king.x][4] = null;
 			board[king.x][7] = null;
-			//castleDirection = "r";
+			castleDirection = "r";
 		}
 		
 		
@@ -723,7 +693,7 @@ public class BoardNormal {
 			board[king.x][3] = board[king.x][0];
 			board[king.x][4] = null;
 			board[king.x][0] = null;
-			//castleDirection = "l";
+			castleDirection = "l";
 		}
 		
 
