@@ -466,7 +466,7 @@ public class BoardNormal {
 		else if(!king.color){
 			if (king.x > 0 && king.y > 0 &&board[king.x - 1][king.y - 1] != null){
 				if (!board[king.x - 1][king.y - 1].color && "p".equals(board[king.x - 1][king.y - 1].name)){
-				//	System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+					System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
 					
 					return true;
 				}
