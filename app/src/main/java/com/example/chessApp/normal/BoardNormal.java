@@ -57,7 +57,7 @@ public class BoardNormal {
 		if (pieceToMove==null){
 			return new ArrayList<int[]>();
 		}
-		System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getColor(), pieceToMove.name, pieceToMove.x, pieceToMove.y);
+		//System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getColor(), pieceToMove.name, pieceToMove.x, pieceToMove.y);
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
@@ -409,7 +409,7 @@ public class BoardNormal {
 		board[newrow][newcol].move(row,col);
 		board[row][col] = board[newrow][newcol];
 		board[newrow][newcol] = capturePiece;
-		System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getColor(), pieceToMove.name,newrow,newcol);
+	//	System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getColor(), pieceToMove.name,newrow,newcol);
 		return true;
 	}
 	//true if king is in check, false if not in check
@@ -433,14 +433,14 @@ public class BoardNormal {
 		if (king.color){
 			if (king.x < 7 && king.y > 0 && board[king.x + 1][king.y - 1] != null){
 				if (!board[king.x + 1][king.y - 1].color && "p".equals(board[king.x + 1][king.y - 1].name)){
-					System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+				//	System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
 					return true;
 				}
 
 			}
 			else if (king.x < 7 && king.y < 7 && board[king.x + 1][king.y + 1] != null){
 				if (!board[king.x + 1][king.y + 1].color && "p".equals(board[king.x + 1][king.y + 1].name)){
-					System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );					
+				//	System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
 					return true;
 				}
 			}
@@ -450,14 +450,14 @@ public class BoardNormal {
 		else if(!king.color){
 			if (king.x > 0 && king.y > 0 &&board[king.x - 1][king.y - 1] != null){
 				if (!board[king.x - 1][king.y - 1].color && "p".equals(board[king.x - 1][king.y - 1].name)){
-					System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+				//	System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
 					
 					return true;
 				}
 			}
 			else if (king.x > 0 && king.y < 7 &&board[king.x - 1][king.y + 1] != null){
 				if (!board[king.x - 1][king.y + 1].color && "p".equals(board[king.x - 1][king.y + 1].name)){
-					System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+				//	System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
 
 					return true;
 				}
@@ -468,7 +468,7 @@ public class BoardNormal {
 		for (int i = king.x - 1; i >= 0; i--){
 			if (board[i][king.y] != null && board[i][king.y].color != king.color){
 				if ("q".equals(board[i][king.y].name) || "r".equals(board[i][king.y].name)){
-					System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
+					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
 					return true;
 				}
 				break;
@@ -479,15 +479,15 @@ public class BoardNormal {
 		}
 		//check down a column
 		for (int i = king.x + 1; i < 8; i++){
-			System.out.println(i + " " + king.y);
+			//System.out.println(i + " " + king.y);
 			if (board[i][king.y] != null && board[i][king.y].color != king.color){
 				if ("q".equals(board[i][king.y].name) || "r".equals(board[i][king.y].name)){
 
-					System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
+					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
 				
 					return true;
 				}
-				System.out.println(board[i][king.y].getColor());
+				//System.out.println(board[i][king.y].getColor());
 				//break;
 			}
 			else if(board[i][king.y] != null){
@@ -498,7 +498,7 @@ public class BoardNormal {
 		for (int j = king.y - 1; j >=0;j--){
 			if (board[king.x][j] != null && board[king.x][j].color != king.color){
 				if ("q".equals(board[king.x][j].name) || "r".equals(board[king.x][j].name)){
-					System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
+					//System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
 						
 					return true;
 				}
@@ -512,7 +512,7 @@ public class BoardNormal {
 		for (int j = king.y + 1; j < 8;j++){
 			if (board[king.x][j] != null && board[king.x][j].color != king.color){
 				if ("q".equals(board[king.x][j].name) || "r".equals(board[king.x][j].name)){
-					System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
+					//System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
 
 					return true;
 				}
@@ -529,7 +529,7 @@ public class BoardNormal {
 		while(kingRow > -1 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
-					System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
+					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
 					
 					return true;
 				}
@@ -547,7 +547,7 @@ public class BoardNormal {
 		while(kingRow > -1 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
-					System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
+					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
 				
 					return true;
 				}
@@ -565,7 +565,7 @@ public class BoardNormal {
 		while(kingRow < 8 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
-					System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
+					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
 				
 					return true;
 				}
@@ -582,7 +582,7 @@ public class BoardNormal {
 		while(kingRow < 8 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
-					System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
+					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getColor(), board[kingRow][kingCol].name,kingRow,kingCol);
 					
 					return true;
 				}
@@ -593,7 +593,7 @@ public class BoardNormal {
 			kingRow++;
 			kingCol++;
 		}
-		System.out.printf("%s king is safe!%n", king.getColor());
+		//System.out.printf("%s king is safe!%n", king.getColor());
 		return false;
 	}
 	
@@ -828,7 +828,7 @@ public class BoardNormal {
 				}
 			}
 		}
-		if ((numWhiteMoves == 0 && !whiteKingInCheck()) || (numBlackMoves == 0 && !blackKingInCheck())){
+		if ((numWhiteMoves == 0 && !whiteKingInCheck() && whiteToMove) || (numBlackMoves == 0 && !blackKingInCheck() && !whiteToMove)){
 			return true;
 		}
 		return false;

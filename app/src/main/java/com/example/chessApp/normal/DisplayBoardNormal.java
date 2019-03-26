@@ -79,7 +79,12 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                     {
                         promote(board.oneDimensional[position].color, position /8, position %8);
                     }
-                    if(board.whiteWin())
+                    if(board.stalemate())
+                    {
+                        showTextPopup("Stalemate!");
+                        Log.d("board:", "Stalemate!");
+                    }
+                    else if(board.whiteWin())
                     {
                         showTextPopup("Checkmate! White wins");
                         Log.d("board:" , "Checkmate! White wins!");
