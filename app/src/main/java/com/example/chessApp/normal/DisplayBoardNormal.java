@@ -82,25 +82,22 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                     if(board.stalemate())
                     {
                         showTextPopup("Stalemate!");
-                        Log.d("board:" , "Stalemate!");
+                        Log.d("board:", "Stalemate!");
+                    }
+                    else if(board.whiteWin())
+                    {
+                        showTextPopup("Checkmate! White wins");
+                        Log.d("board:" , "Checkmate! White wins!");
+                    }
+                    else if(board.blackWin())
+                    {
+                        showTextPopup("Checkmate! Black wins");
+                        Log.d("board:" , "Checkmate! Black wins!");
                     }
                     else if(board.whiteKingInCheck() || board.blackKingInCheck())
                     {
-                        if(board.whiteWin())
-                        {
-                            showTextPopup("Checkmate! White wins");
-                            Log.d("board:" , "Checkmate! White wins!");
-                        }
-                        else if(board.blackWin())
-                        {
-                            showTextPopup("Checkmate! Black wins");
-                            Log.d("board:" , "Checkmate! Black wins!");
-                        }
-                        else
-                        {
-                            showTextPopup("Check!");
-                            Log.d("board:", "Check!");
-                        }
+                        showTextPopup("Check!");
+                        Log.d("board:" , "Check!");
                     }
                 }
 
