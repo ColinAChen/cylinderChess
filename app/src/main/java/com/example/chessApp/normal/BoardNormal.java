@@ -6,10 +6,11 @@ import java.util.ArrayList; // import the ArrayList class
 public class BoardNormal {
 	PieceNormal[][] board;
 	PieceNormal[] oneDimensional;
+	MoveStack previousMoves;
 	boolean whiteToMove = true;
 	//left = queenside, right = kingside;
 	String castleDirection = null;
-	ArrayList<String> moveNotation = new ArrayList<>();
+	//ArrayList<String> moveNotation = new ArrayList<>();
 
 	public BoardNormal(PieceNormal[][] board, PieceNormal[] oneD){
 		this.board = board;		this.oneDimensional = oneD;
@@ -620,6 +621,20 @@ public class BoardNormal {
 
 	public boolean move(int row, int col, int newrow,int newcol){
 		PieceNormal pieceToMove = board[row][col];
+		//reset the previous move String if it is white's move
+		if (whiteToMove){
+			String prevMove = "";
+		}
+		
+		char[]ranks = {'a','b','c','d','e','f','g','h'};
+		if (pieceToMove.name != "p"){
+			prevMove += pieceToMove.name;
+		}
+		prevMove+= Integer.toString(ranks[col]) + Integer.toString((8-row));
+		if (board[newrow][newcol] != null){
+			prevMove += "x";
+		}
+		prevMove += Integer.toString(ranks[newcol]) + Integer.toString((8-newrow));
 		if (pieceToMove != null){
 			if(pieceToMove.color == whiteToMove){
 				int[] newPos = {newrow,newcol};
@@ -631,9 +646,11 @@ public class BoardNormal {
 						//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.name, row,col,newrow,newcol);
 						if ("k".equals(pieceToMove.name) && (newcol-col) > 1){
 							System.out.println("Kingside Castle");
+							prevMove = "O-O";
 							kingSideCastle(pieceToMove);
 						}
 						else if ("k".equals(pieceToMove.name) && (col-newcol) > 1){
+							prevMove = "O-O-O";
 							queenSideCastle(pieceToMove);
 						}
 						else{
@@ -652,13 +669,24 @@ public class BoardNormal {
 						}
 					}
 				}
+				if(whiteKingInCheck || blackKingInCheck){
+					prevMove += "+";
+				}
+				if (whiteWin || blackWin){
+					prevMove += "#";
+				}
+				if (whiteToMove){
+					prevMove += " ";
+				}
+				//only push if it is black's turn
+				if (blackToMove){
+					previousMoves.push(preMove);
+				}
+				
 				whiteToMove = !whiteToMove;
 				this.oneFromTwo();
 				return true;
 			}
-		}
-		else{
-			System.out.printf("Not %s's turn to move!%n", pieceToMove.getColor());
 		}
 		return false;
 	}
