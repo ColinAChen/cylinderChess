@@ -6,7 +6,7 @@ import java.util.ArrayList; // import the ArrayList class
 public class BoardNormal {
 	PieceNormal[][] board;
 	PieceNormal[] oneDimensional;
-	MoveStack previousMoves;
+	MoveStack previousMoves = new MoveStack();
 	boolean whiteToMove = true;
 	//left = queenside, right = kingside;
 	String castleDirection = null;
@@ -67,11 +67,46 @@ public class BoardNormal {
 		//define legal moves for a pawn
 		if ("p".equals(pieceToMove.name)){
 			for (int[] possiblePair:possibleMoves){
+				//check for capturing
 				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
 					//only add if destination is of the opposite color
 					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
 						legalMoves.add(possiblePair);
 					}
+				}
+				//check for enpassant
+				//enpassant if different column and space is empty
+				else if ((pieceToMove.y != possiblePair[1]) && board[possiblePair[0]][possiblePair[1]] == null){
+					System.out.println("Checking for enpassant");
+					String[]ranks = {"a","b","c","d","e","f","g","h"};
+					String prevMoveString = previousMoves.peek();
+					System.out.println(prevMoveString);
+					int col = 0;
+					System.out.println(prevMoveString.substring(0,1));
+					for (String rank:ranks){
+						System.out.println(rank);
+
+						//if a pawn was the last move
+						if (prevMoveString.substring(0,1).equals(rank)){
+							System.out.println("Ranks match!");
+							//int col = ranks.indexOf(rank);
+							int row = Integer.parseInt(prevMoveString.substring(1,2));
+							int newrow = Integer.parseInt(prevMoveString.substring(3,4));
+							System.out.println(newrow-row);
+							if (Math.abs(row-newrow) > 1){
+								System.out.println("Pawn moved two last move!");
+								System.out.println(col);
+								System.out.println(col - possiblePair[1]);
+
+								if(Math.abs(col - possiblePair[1]) == 0){
+									System.out.println("pawn is in next row");
+									legalMoves.add(possiblePair);
+								}
+							}
+						}
+						col++;
+					}
+					
 				}
 				//pawn is moving straight
 				else if(possiblePair[1] == pieceToMove.y){
@@ -622,19 +657,19 @@ public class BoardNormal {
 	public boolean move(int row, int col, int newrow,int newcol){
 		PieceNormal pieceToMove = board[row][col];
 		//reset the previous move String if it is white's move
-		if (whiteToMove){
-			String prevMove = "";
-		}
+
+		String prevMove = "";
+
 		
 		char[]ranks = {'a','b','c','d','e','f','g','h'};
 		if (pieceToMove.name != "p"){
 			prevMove += pieceToMove.name;
 		}
-		prevMove+= Integer.toString(ranks[col]) + Integer.toString((8-row));
+		prevMove+= (ranks[col]) + Integer.toString((8-row));
 		if (board[newrow][newcol] != null){
 			prevMove += "x";
 		}
-		prevMove += Integer.toString(ranks[newcol]) + Integer.toString((8-newrow));
+		prevMove += (ranks[newcol]) + Integer.toString((8-newrow));
 		if (pieceToMove != null){
 			if(pieceToMove.color == whiteToMove){
 				int[] newPos = {newrow,newcol};
@@ -669,19 +704,19 @@ public class BoardNormal {
 						}
 					}
 				}
-				if(whiteKingInCheck || blackKingInCheck){
+				if(whiteKingInCheck() || blackKingInCheck()){
 					prevMove += "+";
 				}
-				if (whiteWin || blackWin){
+				if (whiteWin() || blackWin()){
 					prevMove += "#";
 				}
 				if (whiteToMove){
 					prevMove += " ";
 				}
 				//only push if it is black's turn
-				if (blackToMove){
-					previousMoves.push(preMove);
-				}
+				System.out.println(prevMove);
+				previousMoves.push(prevMove);
+
 				
 				whiteToMove = !whiteToMove;
 				this.oneFromTwo();
@@ -979,8 +1014,11 @@ public class BoardNormal {
 				return "g";
 			case 7:
 				return "h";
+			default:
+				return "";
 
 		}
+
 
 	}
 }
