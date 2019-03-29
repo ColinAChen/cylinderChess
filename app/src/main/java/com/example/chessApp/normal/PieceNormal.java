@@ -23,7 +23,10 @@ abstract class PieceNormal {
 	public void changeColor(){
 		color = !color;
 	}
-	public String getColor(){
+	public boolean getColor(){
+		return color;
+	}
+	public String getStringColor(){
 		if (color){
 			return "white";
 		}
@@ -33,6 +36,18 @@ abstract class PieceNormal {
 	}
 	public String getName(){
 		return name;
+	}
+	public int getRow(){
+		return x;
+	}
+	public int getCol(){
+		return y;
+	}
+	public void setRow(int x){
+		this.x = x;
+	}
+	public void setCol(int y){
+		this.y = y;
 	}
 	public ArrayList<int[]> getPossibleMoves(){
 		return null;

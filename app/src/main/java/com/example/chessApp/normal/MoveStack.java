@@ -1,3 +1,4 @@
+package com.example.chessApp.normal;
 public class MoveStack implements MoveStackInterface{
 	private class Node{
 		String move;
@@ -31,7 +32,11 @@ public class MoveStack implements MoveStackInterface{
 
 	}
 	public String peek(){
-		return (top.move);
+		if (top!=null){
+			return (top.move);
+		}
+		return "Stack is empty!";
+		
 	}
 	/*
 	public String[] popAll(){
@@ -48,8 +53,15 @@ public class MoveStack implements MoveStackInterface{
 		//System.out.println("Adding to inOrder");
 		for (int i = numItems-1; i > -1; i--){
 			//System.out.println(N.move);
-			inOrder[i] = N.move;
-			N = N.next;
+			if (N!=null){
+				inOrder[i] = N.move;
+				N = N.next;
+			}
+
+			if (N!= null){
+				inOrder[i] += " " + N.move;
+				N = N.next;
+			}
 		}
 		//System.out.println("Removing from inOrder");
 		for(int j = 0; j < numItems; j++){

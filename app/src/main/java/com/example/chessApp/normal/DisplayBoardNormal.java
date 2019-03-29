@@ -73,8 +73,8 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
             {
                 if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
-                    Log.i("success!", "moving piece" + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
-                    if(board.board[position/8][position%8].name == "p"
+                    Log.i("success!", "moving piece " + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
+                    if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))
                     {
                         promote(board.oneDimensional[position].color, position /8, position %8);
@@ -138,7 +138,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
             }
             else
             {
-                String color = pieces[x].getColor();
+                String color = pieces[x].getStringColor();
                 String name = pieces[x].getName();
                 if (!pieces[x].color)
                 {
