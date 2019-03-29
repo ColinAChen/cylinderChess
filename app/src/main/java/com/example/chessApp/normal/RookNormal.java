@@ -5,7 +5,7 @@ public class RookNormal extends PieceNormal {
 	boolean hasMoved = false;
 	ArrayList<int[]> possibleMoves;
 	public RookNormal(String name, boolean color, int x, int y){
-		super("r",color,x,y);
+		super("R",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board or to the same square

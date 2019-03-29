@@ -5,7 +5,7 @@ public class KingNormal extends PieceNormal {
 	boolean hasMoved = false;
 	ArrayList<int[]> possibleMoves;
 	public KingNormal(String name, boolean color, int x, int y){
-		super("k",color,x,y);
+		super("K",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board

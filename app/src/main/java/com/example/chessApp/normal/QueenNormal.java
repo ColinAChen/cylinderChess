@@ -5,7 +5,7 @@ public class QueenNormal extends PieceNormal {
 	
 	ArrayList<int[]> possibleMoves;
 	public QueenNormal(String name, boolean color, int x, int y){
-		super("q",color,x,y);
+		super("Q",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
