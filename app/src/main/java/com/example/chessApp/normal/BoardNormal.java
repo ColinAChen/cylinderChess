@@ -523,6 +523,8 @@ public class BoardNormal {
 		if (board[newrow][newcol] != null){
 			//if a piece is captured, store it so it can be restored after
 			capturePiece = board[newrow][newcol];
+			System.out.printf("Capturing %s on %d %d%n",capturePiece.getName(),capturePiece.getRow(),capturePiece.getCol());
+
 		}
 		//move to new square on the board
 		board[newrow][newcol] = board[row][col];
@@ -557,10 +559,12 @@ public class BoardNormal {
 	}
 	//true if king is in check, false if not in check
 	public boolean kingInCheck(PieceNormal king){
-		//check for knights
+
 		if (king==null){
 			return false;
 		}
+		System.out.printf("Checking %s king for check\n",king.getStringColor());
+		//check for knights
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
 				if ((Math.abs(king.getRow() - i) == 2 && Math.abs(king.getCol() - j) == 1) || (Math.abs(king.getRow() - i) == 1 && Math.abs(king.getCol() - j) == 2)){
@@ -588,7 +592,7 @@ public class BoardNormal {
 				}
 			}
 		}
-		//check for black king
+		//check pawns for black king
 		//only need to check bottom left and right
 		else if(!king.getColor()){
 			if (king.getRow() > 0 && king.getCol() > 0 &&board[king.getRow() - 1][king.getCol() - 1] != null){
@@ -608,10 +612,14 @@ public class BoardNormal {
 		}
 		//Check for rooks and queens
 		//check up a column
+		System.out.println("Checking up column");
 		for (int i = king.getRow() - 1; i >= 0; i--){
+			System.out.printf("Checking row %d\n",i);
 			if (board[i][king.getCol()] != null && board[i][king.getCol()].getColor() != king.getColor()){
+			System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
+
 				if ("q".equals(board[i][king.getCol()].getName()) || "r".equals(board[i][king.getCol()].getName())){
-					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
+					System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 					return true;
 				}
 				break;
@@ -621,9 +629,14 @@ public class BoardNormal {
 			}
 		}
 		//check down a column
+		System.out.println("Checking down column");
+
 		for (int i = king.getRow() + 1; i < 8; i++){
+			System.out.printf("Checking row %d\n",i);
 			//System.out.println(i + " " + king.getCol());
 			if (board[i][king.getCol()] != null && board[i][king.getCol()].getColor() != king.getColor()){
+			System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
+				
 				if ("q".equals(board[i][king.getCol()].getName()) || "r".equals(board[i][king.getCol()].getName())){
 
 					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
@@ -631,7 +644,7 @@ public class BoardNormal {
 					return true;
 				}
 				//System.out.println(board[i][king.getCol()].getStringColor());
-				//break;
+				break;
 			}
 			else if(board[i][king.getCol()] != null){
 				break;
@@ -645,7 +658,7 @@ public class BoardNormal {
 						
 					return true;
 				}
-				//break;
+				break;
 			}
 			else if(board[king.getRow()][j] != null){
 				break;
@@ -659,7 +672,7 @@ public class BoardNormal {
 
 					return true;
 				}
-				//break;
+				break;
 			}
 			else if(board[king.getRow()][j] != null){
 				break;
