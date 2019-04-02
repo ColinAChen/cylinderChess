@@ -1178,6 +1178,5 @@ public class BoardNormal {
 				return "";
 
 		}
-		return null;
 	}
 }

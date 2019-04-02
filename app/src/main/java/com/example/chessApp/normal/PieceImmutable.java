@@ -16,7 +16,7 @@ public class PieceImmutable
 	public String getColor()
 	{
 		if(piece != null)
-			return piece.getColor();
+			return piece.getStringColor();
 
 		return null;
 	}

@@ -43,6 +43,10 @@ abstract class PieceNormal {
 	public int getCol(){
 		return y;
 	}
+	public int[] getPosition(){
+		int[] pos = {x,y};
+		return pos;
+	}
 	public void setRow(int x){
 		this.x = x;
 	}
