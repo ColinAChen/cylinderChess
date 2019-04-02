@@ -31,6 +31,17 @@ abstract class PieceCylinder {
 			return "black";
 		}
 	}
+
+	public boolean getColorBoolean(){
+		return color;
+	}
+	
+	public int[] getPosition()
+	{
+		int[] pos = {x,y};
+		return pos;
+	}
+
 	public String getName(){
 		return name;
 	}

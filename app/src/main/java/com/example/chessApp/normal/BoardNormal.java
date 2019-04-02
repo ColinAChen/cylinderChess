@@ -4,8 +4,8 @@ import com.example.chessApp.normal.PieceNormal;
 
 import java.util.ArrayList; // import the ArrayList class
 public class BoardNormal {
-	PieceNormal[][] board;
-	PieceNormal[] oneDimensional;
+	PieceNormal[][] board = new PieceNormal[8][8];
+	PieceNormal[] oneDimensional = new PieceNormal[64];
 	MoveStack previousMoves = new MoveStack();
 	BoardHashTable previousBoards = new BoardHashTable();
 	boolean whiteToMove = true;

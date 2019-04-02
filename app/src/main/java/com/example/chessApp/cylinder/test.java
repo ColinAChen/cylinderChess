@@ -1,3 +1,5 @@
+package com.example.chessApp.cylinder;
+
 // test settings for computer player
 
 public class test

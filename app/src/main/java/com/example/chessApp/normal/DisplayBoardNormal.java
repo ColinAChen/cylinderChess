@@ -28,7 +28,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     int prevSquare[] = {-1,-1};
     final ArrayList<Drawable> drawableData = new ArrayList<>();
     boolean boardNormal = true;
-
+    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 3);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,8 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                         showTextPopup("Check!");
                         Log.d("board:" , "Check!");
                     }
+
+                    testPlayer.action();
                 }
 
                 prevHighlight.clear();

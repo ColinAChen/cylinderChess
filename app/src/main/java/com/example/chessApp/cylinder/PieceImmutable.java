@@ -1,3 +1,5 @@
+package com.example.chessApp.cylinder;
+
 import java.util.ArrayList;
 
 // wrapper class for pieceCylinders
