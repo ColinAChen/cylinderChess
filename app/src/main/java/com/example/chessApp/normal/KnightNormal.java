@@ -5,7 +5,7 @@ public class KnightNormal extends PieceNormal {
 	
 	ArrayList<int[]> possibleMoves;
 	public KnightNormal(String name, boolean color, int x, int y){
-		super("N",color,x,y);
+		super("n",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board

@@ -5,7 +5,7 @@ public class BishopNormal extends PieceNormal {
 	
 	ArrayList<int[]> possibleMoves;
 	public BishopNormal(String name, boolean color, int x, int y){
-		super("B",color,x,y);
+		super("b",color,x,y);
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board

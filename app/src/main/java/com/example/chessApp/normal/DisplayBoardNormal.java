@@ -75,7 +75,6 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                 {
                     Log.i("success!", "moving piece " + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
                     board.printBoard();
-                    Log.i("current moves tack",board.getMoveStack());
                     if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))
                     {

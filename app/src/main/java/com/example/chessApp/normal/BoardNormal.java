@@ -78,7 +78,7 @@ public class BoardNormal {
 				//enpassant if different column and space is empty
 				else if ((pieceToMove.getCol() != possiblePair[1]) && board[possiblePair[0]][possiblePair[1]] == null){
 					System.out.println("Checking for enpassant");
-					String[]ranks = {"a","B","c","d","e","f","g","h"};
+					String[]ranks = {"a","b","c","d","e","f","g","h"};
 					String prevMoveString = previousMoves.peek();
 					System.out.println(prevMoveString);
 					int col = 0;
@@ -141,7 +141,7 @@ public class BoardNormal {
 		}
 		// For knight
 		// Only need to check that destination is empty or of other color
-		else if("N".equals(pieceToMove.getName())){
+		else if("n".equals(pieceToMove.getName())){
 			for (int[] possiblePair:possibleMoves){
 				//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
 				if (board[possiblePair[0]][possiblePair[1]] == null){
@@ -161,7 +161,7 @@ public class BoardNormal {
 			}
 			return legalMoves;
 		}
-		//else if("K".equals(pieceToMove.getName())){
+		//else if("k".equals(pieceToMove.getName())){
 		//}
 		//rook, bishop, queen, king
 		else{
@@ -365,12 +365,12 @@ public class BoardNormal {
 					}
 					//Check for castling
 					
-					if ("K".equals(pieceToMove.getName())){
+					if ("k".equals(pieceToMove.getName())){
 						KingNormal kingToMove = (KingNormal) pieceToMove;
 						if(!kingToMove.hasMoved && !kingInCheck(pieceToMove)){
 							//check queenside (left)
 							//Check that the corner rook hasn't moved
-							if (board[pieceToMove.getRow()][0] != null && "R".equals(board[pieceToMove.getRow()][0].getName())){
+							if (board[pieceToMove.getRow()][0] != null && "r".equals(board[pieceToMove.getRow()][0].getName())){
 								RookNormal rookToMove = (RookNormal)board[pieceToMove.getRow()][0];
 								if (!rookToMove.hasMoved){
 									if (board[pieceToMove.getRow()][1] == null && board[pieceToMove.getRow()][2] == null && board[pieceToMove.getRow()][3] == null){
@@ -382,7 +382,7 @@ public class BoardNormal {
 								}
 							}
 							//check kingside (right)
-							if (board[pieceToMove.getRow()][7] != null && "R".equals(board[pieceToMove.getRow()][7].getName())){
+							if (board[pieceToMove.getRow()][7] != null && "r".equals(board[pieceToMove.getRow()][7].getName())){
 								//check that the squares in between the rook and king are empty
 								RookNormal rookToMove = (RookNormal)board[pieceToMove.getRow()][7];
 								if (!rookToMove.hasMoved){
@@ -463,7 +463,7 @@ public class BoardNormal {
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
 				if ((Math.abs(king.getRow() - i) == 2 && Math.abs(king.getCol() - j) == 1) || (Math.abs(king.getRow() - i) == 1 && Math.abs(king.getCol() - j) == 2)){
-					if (board[i][j] != null && board[i][j].getColor()!=king.getColor() && "N".equals(board[i][j].getName())){
+					if (board[i][j] != null && board[i][j].getColor()!=king.getColor() && "n".equals(board[i][j].getName())){
 						return true;
 					}
 				}
@@ -509,7 +509,7 @@ public class BoardNormal {
 		//check up a column
 		for (int i = king.getRow() - 1; i >= 0; i--){
 			if (board[i][king.getCol()] != null && board[i][king.getCol()].getColor() != king.getColor()){
-				if ("Q".equals(board[i][king.getCol()].getName()) || "R".equals(board[i][king.getCol()].getName())){
+				if ("q".equals(board[i][king.getCol()].getName()) || "r".equals(board[i][king.getCol()].getName())){
 					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 					return true;
 				}
@@ -523,7 +523,7 @@ public class BoardNormal {
 		for (int i = king.getRow() + 1; i < 8; i++){
 			//System.out.println(i + " " + king.getCol());
 			if (board[i][king.getCol()] != null && board[i][king.getCol()].getColor() != king.getColor()){
-				if ("Q".equals(board[i][king.getCol()].getName()) || "R".equals(board[i][king.getCol()].getName())){
+				if ("q".equals(board[i][king.getCol()].getName()) || "r".equals(board[i][king.getCol()].getName())){
 
 					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 				
@@ -539,7 +539,7 @@ public class BoardNormal {
 		//check to the left of the row
 		for (int j = king.getCol() - 1; j >=0;j--){
 			if (board[king.getRow()][j] != null && board[king.getRow()][j].getColor() != king.getColor()){
-				if ("Q".equals(board[king.getRow()][j].getName()) || "R".equals(board[king.getRow()][j].getName())){
+				if ("q".equals(board[king.getRow()][j].getName()) || "r".equals(board[king.getRow()][j].getName())){
 					//System.out.printf("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j);
 						
 					return true;
@@ -553,7 +553,7 @@ public class BoardNormal {
 		//check to the right of the row
 		for (int j = king.getCol() + 1; j < 8;j++){
 			if (board[king.getRow()][j] != null && board[king.getRow()][j].getColor() != king.getColor()){
-				if ("Q".equals(board[king.getRow()][j].getName()) || "R".equals(board[king.getRow()][j].getName())){
+				if ("q".equals(board[king.getRow()][j].getName()) || "r".equals(board[king.getRow()][j].getName())){
 					//System.out.printf("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j);
 
 					return true;
@@ -570,7 +570,7 @@ public class BoardNormal {
 		int kingCol = king.getCol() - 1;
 		while(kingRow > -1 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
-				if (board[kingRow][kingCol].getColor() != king.getColor() && ("B".equals(board[kingRow][kingCol].getName()) || "Q".equals(board[kingRow][kingCol].getName() ))){
+				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 					
 					return true;
@@ -588,7 +588,7 @@ public class BoardNormal {
 		kingCol = king.getCol() + 1;
 		while(kingRow > -1 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
-				if (board[kingRow][kingCol].getColor() != king.getColor() && ("B".equals(board[kingRow][kingCol].getName()) || "Q".equals(board[kingRow][kingCol].getName() ))){
+				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 				
 					return true;
@@ -606,7 +606,7 @@ public class BoardNormal {
 		kingCol = king.getCol() - 1;
 		while(kingRow < 8 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
-				if (board[kingRow][kingCol].getColor() != king.getColor() && ("B".equals(board[kingRow][kingCol].getName()) || "Q".equals(board[kingRow][kingCol].getName() ))){
+				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 				
 					return true;
@@ -623,7 +623,7 @@ public class BoardNormal {
 		kingCol = king.getCol() + 1;
 		while(kingRow < 8 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
-				if (board[kingRow][kingCol].getColor() != king.getColor() && ("B".equals(board[kingRow][kingCol].getName()) || "Q".equals(board[kingRow][kingCol].getName() ))){
+				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 					
 					return true;
@@ -668,7 +668,7 @@ public class BoardNormal {
 		char[]ranks = {'a','b','c','d','e','f','g','h'};
 		//denote the piece name
 		if (pieceToMove.getName() != "p"){
-			prevMove += pieceToMove.getName();
+			prevMove += pieceToMove.getName().toUpperCase();
 		}
 		//denote the origin
 		prevMove+= (ranks[col]) + Integer.toString((8-row));
@@ -690,12 +690,12 @@ public class BoardNormal {
 
 
 						//Handle castling
-						if ("K".equals(pieceToMove.getName()) && (newcol-col) > 1){
+						if ("k".equals(pieceToMove.getName()) && (newcol-col) > 1){
 							//System.out.println("Kingside Castle");
 							prevMove = "O-O";
 							kingSideCastle(pieceToMove);
 						}
-						else if ("K".equals(pieceToMove.getName()) && (col-newcol) > 1){
+						else if ("k".equals(pieceToMove.getName()) && (col-newcol) > 1){
 							prevMove = "O-O-O";
 							queenSideCastle(pieceToMove);
 						}
@@ -729,11 +729,11 @@ public class BoardNormal {
 						}
 
 						//remove potential for castling after a king or rook moves
-						if ("K".equals(pieceToMove.getName())){
+						if ("k".equals(pieceToMove.getName())){
 							KingNormal kingToMove = (KingNormal)pieceToMove;
 							kingToMove.moved();
 						} 
-						if ("R".equals(pieceToMove.getName())){
+						if ("r".equals(pieceToMove.getName())){
 							RookNormal rookToMove = (RookNormal)pieceToMove;
 							rookToMove.moved();
 						}
@@ -776,7 +776,7 @@ public class BoardNormal {
 			board[king.getRow()][5] = board[king.getRow()][7];
 			board[king.getRow()][4] = null;
 			board[king.getRow()][7] = null;
-			castleDirection = "R";
+			castleDirection = "r";
 		}
 		
 		
@@ -803,7 +803,7 @@ public class BoardNormal {
 	public PieceNormal findWhiteKing(){
 		for(int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
-				if(board[i][j] != null && board[i][j].getColor() && "K".equals(board[i][j].getName())){
+				if(board[i][j] != null && board[i][j].getColor() && "k".equals(board[i][j].getName())){
 					return board[i][j];
 				}
 			}
@@ -813,7 +813,7 @@ public class BoardNormal {
 	public PieceNormal findBlackKing(){
 		for(int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
-				if (board[i][j] != null && !board[i][j].getColor() && "K".equals(board[i][j].getName())){
+				if (board[i][j] != null && !board[i][j].getColor() && "k".equals(board[i][j].getName())){
 					return board[i][j];
 				}
 			}
@@ -1060,7 +1060,7 @@ public class BoardNormal {
 			case 0:
 				return "a";
 			case 1:
-				return "B";
+				return "b";
 			case 2:
 				return "c";
 			case 3:
