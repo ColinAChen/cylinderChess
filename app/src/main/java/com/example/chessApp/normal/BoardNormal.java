@@ -11,9 +11,73 @@ public class BoardNormal {
 	String castleDirection = null;
 	ArrayList<String> moveNotation = new ArrayList<>();
 
+	public BoardNormal()
+	{
+		initializeBoard();
+	}
+
 	public BoardNormal(PieceNormal[][] board, PieceNormal[] oneD){
 		this.board = board;		this.oneDimensional = oneD;
 	}
+
+	public BoardNormal(BoardNormal copyBoard)
+	{
+		for(int r = 0; r < 8; r++)
+		{
+			for(int c = 0; c < 8; c++)
+			{
+				PieceImmutable piece = copyBoard.getPiece(r, c);
+				if(piece == null)
+					continue;
+
+				if(piece.getName() == "p")
+				{
+					if(piece.getColor() == "white")
+						board[r][c] = new PawnNormal("p", true, r, c);
+					else
+						board[r][c] = new PawnNormal("p", false, r, c);
+				}
+				else if(piece.getName() == "n")
+				{
+					if(piece.getColor() == "white")
+						board[r][c] = new KnightNormal("n", true, r, c);
+					else
+						board[r][c] = new KnightNormal("n", false, r, c);
+				}
+				else if(piece.getName() == "b")
+				{
+					if(piece.getColor() == "white")
+						board[r][c] = new BishopNormal("b", true, r, c);
+					else
+						board[r][c] = new BishopNormal("b", false, r, c);
+				}
+				else if(piece.getName() == "r")
+				{
+					if(piece.getColor() == "white")
+						board[r][c] = new RookNormal("r", true, r, c);
+					else
+						board[r][c] = new RookNormal("r", false, r, c);
+				}
+				else if(piece.getName() == "q")
+				{
+					if(piece.getColor() == "white")
+						board[r][c] = new QueenNormal("q", true, r, c);
+					else
+						board[r][c] = new QueenNormal("q", false, r, c);
+				}
+				else if(piece.getName() == "k")
+				{
+					if(piece.getColor() == "white")
+						board[r][c] = new KingNormal("k", true, r, c);
+					else
+						board[r][c] = new KingNormal("k", false, r, c);
+				}
+			}
+		}
+
+		oneFromTwo();
+	}
+
 	public void initializeBoard(){
 		//Initializes a board
 		//bottom row is white, white = true
@@ -52,7 +116,26 @@ public class BoardNormal {
 		}
 		this.oneFromTwo();
 	}
-	
+
+	public boolean getColorToMove()
+	{
+		return whiteToMove;
+	}
+
+	public void setColorToMove(boolean color)
+	{
+		whiteToMove = color;
+	}
+
+	public PieceImmutable getPiece(int r, int c)
+	{
+		if(board[r][c] == null)
+			return null;
+
+		PieceImmutable piece = new PieceImmutable(board[r][c]);
+		return piece;
+	}
+
 	public ArrayList<int[]> getLegalMoves(PieceNormal pieceToMove){
 		//get the pieces possible moves
 		if (pieceToMove==null){
@@ -360,6 +443,23 @@ public class BoardNormal {
 			return legalMoves;
 		}	
 		//return null;
+	}
+
+	// get legal moves from position
+	public ArrayList<int[]> getLegalMoves(int r, int c)
+	{
+		PieceNormal pieceToMove;
+		if(r < 8 && r >= 0)
+		{
+			if(c < 8 && c >= 0)
+			{
+				pieceToMove = board[r][c];
+				return getLegalMoves(pieceToMove);
+			}
+		}
+
+		// invalid input so return empty list
+		return new ArrayList<int[]>();
 	}
 
 	//check if a move is legal, then check if current turn's king is in check
@@ -953,6 +1053,6 @@ public class BoardNormal {
 				return "h";
 
 		}
-
+		return null;
 	}
 }
