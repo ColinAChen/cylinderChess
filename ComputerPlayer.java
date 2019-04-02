@@ -18,29 +18,41 @@ public class ComputerPlayer
 
 	public void action()
 	{
+		// generate all possible moves 
 		ArrayList<int[]> moves = generateMoves(board, color);
 		int maxEval = -1000;
 		int pos = 0;
+		// evaluate each move
 		for(int i = 0; i < moves.size(); i++)
 		{
 			int[] m = moves.get(i);
 			BoardCylinder testBoard = new BoardCylinder(board);
+			testBoard.setColorToMove(color);
 			testBoard.move(m[0], m[1], m[2], m[3]);
+
 			int evaluation = alphaBeta(testBoard, 1, !color, -1000, 1000);
+
 			if(evaluation > maxEval)
 			{
 				maxEval = evaluation;	
 				pos = i;
 			}
 		}
+		
+		
 
+		// choose the best move
 		int[] finalMove = moves.get(pos);
+		board.setColorToMove(color);
 		board.move(finalMove[0], finalMove[1], finalMove[2], finalMove[3]);
 	}
 
-	private int alphaBeta(BoardCylinder board, int depth, boolean color, int alpha, int beta)
+	public int alphaBeta(BoardCylinder board, int depth, boolean color, int alpha, int beta)
 	{
 		int evaluation = evaluateBoard(board);
+
+		//System.out.println(evaluation);
+		//board.printBoard();
 		
 		// return if final depth reached or game finished
 		if(depth == finalDepth)
@@ -53,14 +65,15 @@ public class ComputerPlayer
 			return 0;
 		
 		ArrayList<int[]> moves = generateMoves(board, color);
-		
+
 		if(color == this.color)
 		{
 			int maxEval = -1000;
 			for(int[] m : moves)
 			{
-				BoardCylinder testBoard = new BoardCylinder(board);
-				board.move(m[0], m[1], m[2], m[3]);
+				BoardCylinder testBoard = new BoardCylinder(board);	
+				testBoard.setColorToMove(color);
+				testBoard.move(m[0], m[1], m[2], m[3]);
 				evaluation = alphaBeta(testBoard, depth + 1, !color, alpha, beta);
 				
 				if(evaluation > maxEval)
@@ -82,7 +95,8 @@ public class ComputerPlayer
 			for(int[] m : moves)
 			{
 				BoardCylinder testBoard = new BoardCylinder(board);
-				board.move(m[0], m[1], m[2], m[3]);
+				testBoard.setColorToMove(color);
+				testBoard.move(m[0], m[1], m[2], m[3]);
 				evaluation = alphaBeta(testBoard, depth + 1, !color, alpha, beta);
 			
 				if(evaluation < minEval)
@@ -111,7 +125,7 @@ public class ComputerPlayer
 				if(test == null)
 					continue;
 
-				if(test.getColor() == "white" && color == WHITE || test.getColor() == "black" && color == BLACK)
+				if(test.getColorBoolean() == color)
 				{
 					ArrayList<int[]> moves = board.getLegalMoves(r, c);
 					for(int[] m : moves)
@@ -123,7 +137,7 @@ public class ComputerPlayer
 		return allMoves;
 	}
 
-	private int evaluateBoard(BoardCylinder board)
+	public int evaluateBoard(BoardCylinder board)
 	{
 		int evaluation = 0;
 		
@@ -158,7 +172,7 @@ public class ComputerPlayer
 				if(test == null)
 					continue;
 	
-				if(test.getColor() == "white" && color == WHITE || test.getColor() == "black" && color == BLACK)
+				if(test.getColorBoolean() == color)
 				{
 					if(test.getName() == "p")
 						evaluation += 1;
@@ -175,7 +189,7 @@ public class ComputerPlayer
 				{
 					if(test.getName() == "p")
 						evaluation -= 1;
-					else if(test.getName() == "n")
+					else if(test.getName() == "n")	
 						evaluation -= 3;
 					else if(test.getName() == "b")
 						evaluation -= 3;
