@@ -28,12 +28,14 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     int prevSquare[] = {-1,-1};
     final ArrayList<Drawable> drawableData = new ArrayList<>();
     boolean boardNormal = true;
-    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 3);
+    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 1);
+    boolean cpuGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_board_normal);
+        cpuGame=getIntent().getBooleanExtra("cpuToggle", false);
 
         board.initializeBoard();
 
@@ -100,15 +102,17 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                         showTextPopup("Check!");
                         Log.d("board:" , "Check!");
                     }
-
-                    testPlayer.action();
                 }
 
+                redrawBoard();
                 prevHighlight.clear();
                 prevSquare[0] = -1;
                 prevSquare[1] = -1;
-                redrawBoard();
-                adapter.notifyDataSetChanged();
+                if(cpuGame) {
+                    showTextPopup("Thinking");
+                    testPlayer.action();
+                    redrawBoard();
+                }
                 return;
             }
         }

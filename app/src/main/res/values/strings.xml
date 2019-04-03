@@ -5,6 +5,7 @@
     <string name="titleName">Cylinder Chess</string>
     <string name="instructions">How to Play</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="cpu">Play vs. Computer</string>
     <string name="large_text">
         "Motion provides meaning.\n\n"
 
