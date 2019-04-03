@@ -1,6 +1,7 @@
 package com.example.chessApp.normal;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ComputerPlayer
 {
@@ -14,6 +15,7 @@ public class ComputerPlayer
 
 	final boolean WHITE = true;
 	final boolean BLACK = false;
+	private Random random = new Random();
 	
 	// construct a computer by passing in a reference to the board to be played on, the color, and the depth
 	public ComputerPlayer(BoardNormal b, boolean color, int depth)
@@ -27,7 +29,23 @@ public class ComputerPlayer
 	public void action()
 	{
 		// generate all possible moves 
-		ArrayList<int[]> moves = generateMoves(board, color);
+		ArrayList<int[]> possibleMoves = generateMoves(board, color);
+		ArrayList<int[]> moves = new ArrayList();
+		//Only evaluate a random subset of moves
+		int nextRand = random.nextInt(10);
+		while(moves.size() < 1){
+			System.out.println(nextRand);
+
+			for (int[] move:possibleMoves){
+
+			if (nextRand > 0 && nextRand < 2){
+				moves.add(move);
+
+			}
+			nextRand = random.nextInt(10);
+		}
+		}
+		
 		int maxEval = -1000;
 		int pos = 0;
 		// evaluate each move
