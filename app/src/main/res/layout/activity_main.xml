@@ -23,6 +23,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.672" />
 
+    <CheckBox android:id="@+id/checkbox_meat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cpu"
+        android:onClick="computerOption"/>
+
     <Button
         android:id="@+id/button1"
         android:layout_width="match_parent"
