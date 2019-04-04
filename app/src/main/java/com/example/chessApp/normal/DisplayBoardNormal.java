@@ -28,7 +28,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     int prevSquare[] = {-1,-1};
     final ArrayList<Drawable> drawableData = new ArrayList<>();
     boolean boardNormal = true;
-    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 1);
+    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 2);
     boolean cpuGame;
 
     @Override
@@ -75,6 +75,8 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
             {
                 if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
+                    redrawBoard();
+                    cpuGame = cpuGame;
                     Log.i("success!", "moving piece " + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
                     board.printBoard();
                     if(board.board[position/8][position%8].getName() == "p"
@@ -102,18 +104,18 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                         showTextPopup("Check!");
                         Log.d("board:" , "Check!");
                     }
-                }
 
-                redrawBoard();
-                prevHighlight.clear();
-                prevSquare[0] = -1;
-                prevSquare[1] = -1;
-                if(cpuGame) {
-                    showTextPopup("Thinking");
-                    testPlayer.action();
-                    redrawBoard();
+                    if(cpuGame)
+                    {
+                        cpuMove();
+                    }
+                    else {
+                        prevHighlight.clear();
+                        prevSquare[0] = -1;
+                        prevSquare[1] = -1;
+                    }
+                    return;
                 }
-                return;
             }
         }
         //gets selected position's legal moves
@@ -132,6 +134,16 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
             prevSquare[1] = position%8;
         }
         prevHighlight = moves;
+        redrawBoard();
+    }
+
+    public void cpuMove()
+    {
+        prevHighlight.clear();
+        prevSquare[0] = -1;
+        prevSquare[1] = -1;
+        showTextPopup("Thinking");
+        testPlayer.action();
         redrawBoard();
     }
 
