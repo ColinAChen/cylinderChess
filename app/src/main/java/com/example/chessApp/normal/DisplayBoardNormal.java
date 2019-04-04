@@ -14,8 +14,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.example.chessApp.R;
-
+import com.google.firebase.FirebaseApp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,9 +33,13 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     int prevSquare[] = {-1,-1};
     final ArrayList<Drawable> drawableData = new ArrayList<>();
     boolean boardNormal = true;
-    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 1);
+    ComputerPlayer testPlayer = new ComputerPlayer(board, false, 3);
     boolean cpuGame;
-
+    //Create a firebase realtime database reference
+    //FirebaseApp.initializeApp(this);
+    //FirebaseApp.
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference gameRef = database.getReference("currentGame");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +85,8 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                 if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
                     Log.i("success!", "moving piece " + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
+                    Log.i("CurrentGameBoard",board.boardToString());
+                    gameRef.setValue(board.boardToString());
                     board.printBoard();
                     if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))

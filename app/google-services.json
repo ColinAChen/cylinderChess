@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "976408080834",
+    "firebase_url": "https://chess-62044.firebaseio.com",
+    "project_id": "chess-62044",
+    "storage_bucket": "chess-62044.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976408080834:android:a4a3c3f5fa856750",
+        "android_client_info": {
+          "package_name": "com.example.chess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976408080834-gps3ru4cv78ttprtag0a21252flq1rjs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chess",
+            "certificate_hash": "05592a5ce0c63a13c8965adcbadc662c16a8f793"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChxZUgA9drg9Q1mcuGrKyj_yAiQGGpPQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976408080834-pub9ul062nn1eavb2vnjp8rogsh2l6qc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976408080834:android:537a0cf26862fe13",
+        "android_client_info": {
+          "package_name": "com.example.chessApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976408080834-2ehr6ing75ngacv55rv04k8gjpp6h95j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chessApp",
+            "certificate_hash": "05592a5ce0c63a13c8965adcbadc662c16a8f793"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChxZUgA9drg9Q1mcuGrKyj_yAiQGGpPQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976408080834-pub9ul062nn1eavb2vnjp8rogsh2l6qc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
