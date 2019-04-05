@@ -49,6 +49,24 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         cpuGame=getIntent().getBooleanExtra("cpuToggle", false);
 
         board.initializeBoard();
+        gameRef.setValue("5555");
+        gameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.i("CurrentValue", "Value is: " + value);
+                board.move(Character.getNumericValue(value.charAt(0)),Character.getNumericValue(value.charAt(1)),Character.getNumericValue(value.charAt(2)),Character.getNumericValue(value.charAt(3)));
+                redrawBoard();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("Failed to read", "Failed to read value.", error.toException());
+            }
+        });
 
         ImageView view = findViewById(R.id.board);
         view.setImageResource(R.drawable.chessboard_wood);
@@ -100,6 +118,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                             String value = dataSnapshot.getValue(String.class);
                             Log.i("CurrentValue", "Value is: " + value);
                             board.move(Character.getNumericValue(value.charAt(0)),Character.getNumericValue(value.charAt(1)),Character.getNumericValue(value.charAt(2)),Character.getNumericValue(value.charAt(3)));
+                            redrawBoard();
                         }
 
                         @Override
