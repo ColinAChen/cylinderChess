@@ -40,6 +40,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     //FirebaseApp.
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference gameRef = database.getReference("currentGame");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,8 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                     cpuGame = cpuGame;
                     Log.i("success!", "moving piece " + prevSquare[0] + " , " + prevSquare[1] + " to "+  position/8+" , "+ position%8);
                     Log.i("CurrentGameBoard",board.boardToString());
-                    gameRef.setValue(board.boardToString());
+                    String toStore = "" + prevSquare[0] + prevSquare[1] + (position/8) + (position%8);
+                    gameRef.setValue(toStore);
                     board.printBoard();
                     if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))
