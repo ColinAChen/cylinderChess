@@ -781,6 +781,9 @@ public class BoardNormal {
 		//transform the column to a rank
 		char[]ranks = {'a','b','c','d','e','f','g','h'};
 		//denote the piece name
+		if (pieceToMove == null){
+			return false;
+		}
 		if (pieceToMove.getName() != "p"){
 			prevMove += pieceToMove.getName().toUpperCase();
 		}
