@@ -40,6 +40,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     //FirebaseApp.
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference gameRef = database.getReference("currentGame");
+    // Read from the database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,22 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                     Log.i("CurrentGameBoard",board.boardToString());
                     String toStore = "" + prevSquare[0] + prevSquare[1] + (position/8) + (position%8);
                     gameRef.setValue(toStore);
+                    gameRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            String value = dataSnapshot.getValue(String.class);
+                            Log.i("CurrentValue", "Value is: " + value);
+                            board.move(Character.getNumericValue(value.charAt(0)),Character.getNumericValue(value.charAt(1)),Character.getNumericValue(value.charAt(2)),Character.getNumericValue(value.charAt(3)));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("Failed to read", "Failed to read value.", error.toException());
+                        }
+                    });
                     board.printBoard();
                     if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))
