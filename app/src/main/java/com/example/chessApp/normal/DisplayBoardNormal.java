@@ -100,6 +100,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                             String value = dataSnapshot.getValue(String.class);
                             Log.i("CurrentValue", "Value is: " + value);
                             board.move(Character.getNumericValue(value.charAt(0)),Character.getNumericValue(value.charAt(1)),Character.getNumericValue(value.charAt(2)),Character.getNumericValue(value.charAt(3)));
+                            redrawBoard();
                         }
 
                         @Override
@@ -108,6 +109,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                             Log.w("Failed to read", "Failed to read value.", error.toException());
                         }
                     });
+                    redrawBoard();
                     board.printBoard();
                     if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))
