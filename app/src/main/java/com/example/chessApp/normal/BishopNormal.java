@@ -1,39 +1,55 @@
-package com.example.chessApp.normal;
+import java.util.ArrayList;
 
-import java.util.ArrayList; // import the ArrayList class
-public class BishopNormal extends PieceNormal {
-	
-	ArrayList<int[]> possibleMoves;
-	public BishopNormal(String name, boolean color, int x, int y){
-		super("b",color,x,y);
+public class BishopNormal extends PieceNormal
+{
+	public BishopNormal(boolean color, int r, int c)
+	{
+		super("b", color, r, c);
 	}
-	public boolean isLegitMove(int newx, int newy){
-		//ensure not trying to move off the board
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
-			return false;
+
+	public ArrayList<ArrayList<int[]>> getPossibleMoves()
+	{
+		ArrayList<int[]> upRight = new ArrayList<int[]>();
+		ArrayList<int[]> upLeft = new ArrayList<int[]>();
+		ArrayList<int[]> downRight = new ArrayList<int[]>();
+		ArrayList<int[]> downLeft = new ArrayList<int[]>();
+		
+		int row = getRow();
+		int col = getCol();
+		int stepCount;	
+			
+		// downRight and downLeft
+		stepCount = 1;
+		for(int r = row + 1; r < 8; r++)
+		{
+			if(col + stepCount < 8)
+				downRight.add(new int[] { row, col, r, col + stepCount });
+			
+			if(col - stepCount >= 0)
+				downLeft.add(new int[] { row, col, r, col - stepCount });
+			
+			stepCount++;
 		}
-		if (Math.abs(newx-x) == Math.abs(newy-y)){
-			return true;
+
+		// upRight and upLeft
+		stepCount = 1;
+		for(int r = row - 1; r >= 0; r--)
+		{
+			if(col + stepCount < 8)
+				upRight.add(new int[] { row, col, r, col + stepCount });
+			
+			if(col - stepCount >= 0)
+				upLeft.add(new int[] { row, col, r, col - stepCount });
+		
+			stepCount++;
 		}
-		return false;
-	}
-	
-	//return all possible moves for this piece given its current position
-	//does NOT take into account current board position
-	public ArrayList<int[]> getPossibleMoves(){
-		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
-		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 8; j++){
-				if (this.isLegitMove(i,j)){
-					int[] pair = {i,j};
-					possibleMoves.add(pair);
-				}
-			}
-		}
-		return possibleMoves;
-	}
+
+		ArrayList<ArrayList<int[]>> allMoves = new ArrayList<ArrayList<int[]>>();
+		allMoves.add(upRight);
+		allMoves.add(upLeft);
+		allMoves.add(downRight);
+		allMoves.add(downLeft);
+
+		return allMoves;
+	}				
 }
-
-
-
-

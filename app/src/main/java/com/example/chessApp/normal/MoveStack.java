@@ -1,4 +1,4 @@
-package com.example.chessApp.normal;
+// package com.example.chessApp.normal;
 public class MoveStack implements MoveStackInterface{
 	private class Node{
 		String move;
@@ -20,7 +20,7 @@ public class MoveStack implements MoveStackInterface{
 		//System.out.println(newMove.move);
 		newMove.next = top;
 		top = newMove;
-		System.out.println(top.move);
+		//System.out.println(top.move);
 		numItems++;
 
 	}

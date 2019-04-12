@@ -1,11 +1,11 @@
-//Board Hash Table implementation
-package com.example.chessApp.normal;
-public class BoardHashTable implements BoardHashTableInterface{
-	private class Node{
+// Board Hash Table implementation
+// package com.example.chessApp.normal;
+public class BoardHashTable implements BoardHashTableInterface {
+	private class Node {
 		String board;
 		int numRepeats;
 		Node next;
-		Node(String b){
+		Node(String b) {
 			board = b;
 			next = null;
 		}
@@ -14,14 +14,14 @@ public class BoardHashTable implements BoardHashTableInterface{
 	private int numItems;
 	final int TABLE_SIZE = 101;
 
-	public BoardHashTable(){
+	public BoardHashTable() {
 		table = new Node[TABLE_SIZE];
 		numItems = 0;
 	}
-	private float strToFloat(String in){
+	private float strToFloat(String in) {
 		//System.out.printf("Converting %s to ascii\n",in);
 		String ascii = "";
-		for(int i = 0; i < in.length(); i++){
+		for(int i = 0; i < in.length(); i++) {
 			char tempChar = in.charAt(i);
 			int asciiNum = (int)(tempChar);
 			String asciiStr = Integer.toString(asciiNum);
@@ -40,9 +40,9 @@ public class BoardHashTable implements BoardHashTableInterface{
 	public void add(String currBoard){
 		int hashIndex = hash(currBoard);
 		Node newNode = new Node(currBoard);
-		System.out.printf("Adding %s to hash table at %d\n",currBoard,hashIndex);
+		//System.out.printf("Adding %s to hash table at %d\n",currBoard,hashIndex);
 		if (table[hashIndex] == null){
-			System.out.printf("Nothing found at index %d\n",hashIndex);
+			//System.out.printf("Nothing found at index %d\n",hashIndex);
 			table[hashIndex] = newNode;
 		}
 		//resolve collisions by chaining

@@ -1,47 +1,57 @@
-package com.example.chessApp.normal;
+import java.util.ArrayList;
+	
+public class RookNormal extends PieceNormal
+{
+	private boolean hasMoved;
+	
+	public RookNormal(boolean color, int r, int c)
+	{
+		super("r", color, r, c);
+		hasMoved = false;
+	}
 
-import java.util.ArrayList; // import the ArrayList class
-public class RookNormal extends PieceNormal {
-	boolean hasMoved = false;
-	ArrayList<int[]> possibleMoves;
-	public RookNormal(String name, boolean color, int x, int y){
-		super("r",color,x,y);
-	}
-	public boolean isLegitMove(int newx, int newy){
-		//ensure not trying to move off the board or to the same square
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
-			return false;
-		}
-		//moving vertically
-		if (newy-y == 0){
-			return true;
-		}
-		//moving horizontally
-		else if(newx-x == 0){
-			return true;
-		}
-		return false;
-	}
-	public void moved(){
+	public void moved()
+	{
 		hasMoved = true;
 	}
-	//return all possible moves for this piece given its current position
-	//does NOT take into account current board position
-	public ArrayList<int[]> getPossibleMoves(){
-		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
-		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 8; j++){
-				if (this.isLegitMove(i,j)){
 
-					int[] pair = {i,j};
-					possibleMoves.add(pair);
-				}
-			}
-		}
-		return possibleMoves;
+	public boolean hasMoved()
+	{
+		return hasMoved;
+	}
+
+	public ArrayList<ArrayList<int[]>> getPossibleMoves()
+	{
+		int row = getRow();
+		int col = getCol();
+	
+		ArrayList<int[]> left = new ArrayList<int[]>();
+		ArrayList<int[]> right = new ArrayList<int[]>();
+		ArrayList<int[]> up = new ArrayList<int[]>();
+		ArrayList<int[]> down = new ArrayList<int[]>();
+	
+		// down
+		for(int r = row + 1; r < 8; r++)
+			down.add(new int[] { row, col, r, col });
+
+		// up
+		for(int r = row - 1; r >= 0; r--)  
+			up.add(new int[] { row, col, r, col });
+		
+		// right
+		for(int c = col + 1; c < 8; c++)
+			right.add(new int[] { row, col, row, c });
+		
+		// left
+		for(int c = col - 1; c >= 0; c--)
+			left.add(new int[] { row, col, row, c });
+
+		ArrayList<ArrayList<int[]>> allMoves = new ArrayList<ArrayList<int[]>>();
+		allMoves.add(left);
+		allMoves.add(right);
+		allMoves.add(up);
+		allMoves.add(down);
+
+		return allMoves;
 	}
 }
-
-
-
-
