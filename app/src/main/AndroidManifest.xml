@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon_pika"
+        android:icon="@mipmap/ic_launcher_plusplus"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/icon_pika_round"
+        android:roundIcon="@mipmap/ic_launcher_plusplus_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
