@@ -1,5 +1,7 @@
 package com.example.chessApp.normal;
 
+import android.util.Log;
+
 import com.example.chessApp.normal.PieceNormal;
 
 import java.util.ArrayList; // import the ArrayList class
@@ -76,7 +78,6 @@ public class BoardNormal {
 				}
 			}
 		}
-
 		oneFromTwo();
 	}
 
@@ -91,27 +92,27 @@ public class BoardNormal {
 			board[6][i] = new PawnNormal("",true, 6, i);
 			//board[7][i] = new PieceNormal("", true, 7, i, false);
 			if (i == 0 || i == 7){
-				//System.out.println("Creating rooks in row " + i);
+				////System.out.println("Creating rooks in row " + i);
 				board[0][i] = new RookNormal("", false, 0, i);
 				board[7][i] = new RookNormal("", true, 7, i);
 			}
 			if (i == 1 || i == 6){
-				//System.out.println("Creating knights");
+				////System.out.println("Creating knights");
 				board[0][i] = new KnightNormal("", false, 0, i);
 				board[7][i] = new KnightNormal("", true, 7, i);
 			}
 			if (i == 2 || i == 5){
-				//System.out.println("Creating bishops");
+				////System.out.println("Creating bishops");
 				board[0][i] = new BishopNormal("", false, 0, i);
 				board[7][i] = new BishopNormal("", true, 7, i);
 			}
 			if (i == 4){
-				//System.out.println("Creating kings");
+				////System.out.println("Creating kings");
 				board[0][i] = new KingNormal("", false, 0, i);
 				board[7][i] = new KingNormal("", true, 7, i);
 			}
 			if (i == 3){
-				//System.out.println("Creating queens");
+				////System.out.println("Creating queens");
 				board[0][i] = new QueenNormal("", false, 0, i);
 				board[7][i] = new QueenNormal("", true, 7, i);
 			}
@@ -139,18 +140,23 @@ public class BoardNormal {
 	}
 
 	public ArrayList<int[]> getLegalMoves(PieceNormal pieceToMove){
+		Log.d("getLegalMoves","start getLegalMoves");
 		//get the pieces possible moves
 		if (pieceToMove==null){
+			Log.d("getLegalMoves","no piece found, returning no moves");
 			return new ArrayList<int[]>();
 		}
-		//System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getStringColor(), pieceToMove.getName(), pieceToMove.getRow(), pieceToMove.getCol());
+		////System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getStringColor(), pieceToMove.getName(), pieceToMove.getRow(), pieceToMove.getCol());
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
-		System.out.printf("Initially has %d possible moves%n", possibleMoves.size());
+		//System.out.printf("Initially has %d possible moves%n", possibleMoves.size());
+		Log.d("getLegalMoves",String.format("%s %s has %d moves\n",pieceToMove.getStringColor(),pieceToMove.getName(),possibleMoves.size()));
 		//define legal moves for a pawn
 		if ("p".equals(pieceToMove.getName())){
+			Log.d("getLegalMoves","Checking for pawn movement");
 			for (int[] possiblePair:possibleMoves){
+				Log.d("getLegalMoves","checking for pawn capturing");
 				//check for capturing
 				if ((pieceToMove.getCol() != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].getColor() != pieceToMove.getColor())){
 					//only add if destination is of the opposite color
@@ -161,33 +167,41 @@ public class BoardNormal {
 				//check for enpassant
 				//enpassant if different column and space is empty
 				else if ((pieceToMove.getCol() != possiblePair[1]) && board[possiblePair[0]][possiblePair[1]] == null){
-					System.out.println("Checking for enpassant");
+					//System.out.println("Checking for enpassant");
+					Log.d("getLegalMoves","Checking for enpassant");
 					String[]ranks = {"a","b","c","d","e","f","g","h"};
 					String prevMoveString = previousMoves.peek();
-					System.out.println(prevMoveString);
+					//System.out.println(prevMoveString);
+					Log.d("getLegalMoves",prevMoveString);
 					int col = 0;
-					//System.out.println(prevMoveString.substring(0,1));
-					for (String rank:ranks){
-						System.out.println(rank);
+					////System.out.println(prevMoveString.substring(0,1));
 
+					for (String rank:ranks){
+						//System.out.println(rank);
+						Log.d("getLegalMoves","checking rank: " + rank);
 						//if a pawn was the last move
 						if (prevMoveString.substring(0,1).equals(rank)){
-							System.out.println("Ranks match!");
+							Log.d("getLegalMoves","ranks match!");
+							//System.out.println("Ranks match!");
 							//int col = ranks.indexOf(rank);
 							int row = 8-Integer.parseInt(prevMoveString.substring(1,2));
-							System.out.println(row);
-							System.out.println(pieceToMove.getRow());
+							//System.out.println(row);
+							Log.d("getLegalMoves",String.format("row is: %d\npiece row is: %d\n",row,pieceToMove.getRow()));
+							//System.out.println(pieceToMove.getRow());
 							int newrow = 8-Integer.parseInt(prevMoveString.substring(prevMoveString.length()-1,prevMoveString.length()));
 							if (newrow == pieceToMove.getRow()){
 
-								System.out.println(newrow-row);
+								//System.out.println(newrow-row);
+								Log.d("getLegalMoves",String.format("new row is: %d\n",newrow - row));
 								if (Math.abs(row-newrow) > 1){
-									System.out.println("Pawn moved two last move!");
-									System.out.println(col);
-									System.out.println(col - possiblePair[1]);
+									Log.d("getLegalMoves","pawn moved to last move!");
+									//System.out.println("Pawn moved two last move!");
+									//System.out.println(col);
+									//System.out.println(col - possiblePair[1]);
 
 									if(Math.abs(col - possiblePair[1]) == 0){
-										System.out.println("pawn is in next row");
+										Log.d("getLegalMoves","pawn is in the next row");
+										//System.out.println("pawn is in next row");
 										legalMoves.add(possiblePair);
 									}
 								}
@@ -201,21 +215,24 @@ public class BoardNormal {
 				else if(possiblePair[1] == pieceToMove.getCol()){
 					//if the pawn is trying to jump two squares, check that both squares in front of it are empty
 					if (Math.abs(possiblePair[0] - pieceToMove.getRow()) > 1){
-						//System.out.println("Trying to jump two square");
+						////System.out.println("Trying to jump two square");
 						if (pieceToMove.getColor() && board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
+								Log.d("getLegalMoves","Pawn can move two");
 								legalMoves.add(possiblePair);
 							}
 						}
 						else if(!pieceToMove.getColor() && board[possiblePair[0]][possiblePair[1]] == null && board[2][possiblePair[1]] == null){
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
+								Log.d("getLegalMoves","Pawn can move two");
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 					else if (board[possiblePair[0]][possiblePair[1]] == null){
-						//System.out.println("No piece found!");
+						////System.out.println("No piece found!");
 						if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
+							Log.d("getLegalMoves","Pawn can move one");
 							legalMoves.add(possiblePair);
 						}
 					}
@@ -226,21 +243,22 @@ public class BoardNormal {
 		// For knight
 		// Only need to check that destination is empty or of other color
 		else if("n".equals(pieceToMove.getName())){
+			Log.d("getLegalMoves","Checking for knight movement");
 			for (int[] possiblePair:possibleMoves){
-				//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
+				////System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
 				if (board[possiblePair[0]][possiblePair[1]] == null){
-					//System.out.println("No piece found!");
+					////System.out.println("No piece found!");
 					if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
-					//System.out.println(legalMoves.size());
+					////System.out.println(legalMoves.size());
 				}
 				else if (board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].getColor() != pieceToMove.getColor()){
-					//System.out.println("PieceNormal is of other color!");
+					////System.out.println("PieceNormal is of other color!");
 					if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
-					//System.out.println(legalMoves.size());
+					////System.out.println(legalMoves.size());
 				}
 			}
 			return legalMoves;
@@ -249,27 +267,32 @@ public class BoardNormal {
 		//}
 		//rook, bishop, queen, king
 		else{
+			Log.d("getLegalMoves",String.format("Checking for %s movement\n",pieceToMove.getName()));
 			//hold the closest pieces that are in the path of a rook, bishop, queen, or king
 			//ArrayList<PieceNormal> blockPieces = new ArrayList<PieceNormal>();
 			//up col, down col, left row, right row, up left, up right, down left, down right
 			//PieceNormal[] blockPieces = new PieceNormal[9];
+			Log.d("getLegalMoves","start finding closest piece in each direction");
 			int[] shortestDistances = {9,9,9,9,9,9,9,9};
 			for (int[] possiblePairTemp:possibleMoves){
-				//System.out.printf("Potential square row %d col %d, pieceToMove square row %d col %d%n",possiblePairTemp[0], possiblePairTemp[1], pieceToMove.getRow(), pieceToMove.getCol() );
+				////System.out.printf("Potential square row %d col %d, pieceToMove square row %d col %d%n",possiblePairTemp[0], possiblePairTemp[1], pieceToMove.getRow(), pieceToMove.getCol() );
 				if (board[possiblePairTemp[0]][possiblePairTemp[1]] != null){
-					System.out.printf("%s %s exists at row %d col %d%n",board[possiblePairTemp[0]][possiblePairTemp[1]].getStringColor(),board[possiblePairTemp[0]][possiblePairTemp[1]].getName(),possiblePairTemp[0], possiblePairTemp[1]);
+					Log.d("getLegalMoves",String.format("%s %s exists at row %d col %d%n",board[possiblePairTemp[0]][possiblePairTemp[1]].getStringColor(),board[possiblePairTemp[0]][possiblePairTemp[1]].getName(),possiblePairTemp[0], possiblePairTemp[1]));
+					//System.out.printf("%s %s exists at row %d col %d%n",board[possiblePairTemp[0]][possiblePairTemp[1]].getStringColor(),board[possiblePairTemp[0]][possiblePairTemp[1]].getName(),possiblePairTemp[0], possiblePairTemp[1]);
 					//same column
 					if (possiblePairTemp[1] == pieceToMove.getCol()){
 						//up column
 						if (possiblePairTemp[0] < pieceToMove.getRow() && (pieceToMove.getRow() - possiblePairTemp[0]) < shortestDistances[0]){
-							System.out.println("upcol");
+							Log.d("getLegalMoves","Checking up column");
+							//System.out.println("upcol");
 							shortestDistances[0] = pieceToMove.getRow() - possiblePairTemp[0];
 							//blockPieces[0] = board[possiblePair[0]][possiblePair[1]];
 							//if (shortestDistances[0])
 						}
 						//down column
 						else if(pieceToMove.getRow() < possiblePairTemp[0] && (possiblePairTemp[0] - pieceToMove.getRow()) < shortestDistances[1]){
-							System.out.println("downcol");
+							//System.out.println("downcol");
+							Log.d("getLegalMoves","Checking down column");
 							shortestDistances[1] = possiblePairTemp[0] - pieceToMove.getRow();
 							//blockPieces[1] = board[possiblePair[0]][possiblePair[1]];
 						}
@@ -278,42 +301,48 @@ public class BoardNormal {
 					else if(possiblePairTemp[0] == pieceToMove.getRow()){
 						//left row
 						if (possiblePairTemp[1] < pieceToMove.getCol() && (pieceToMove.getCol() - possiblePairTemp[1]) < shortestDistances[2]){
-							//System.out.println("leftrow");
+							////System.out.println("leftrow");
+							Log.d("getLegalMoves","Checking the left of the row");
 							shortestDistances[2] = pieceToMove.getCol() - possiblePairTemp[1];
 							//blockPieces[2] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//right row
 						else if(pieceToMove.getCol() < possiblePairTemp[1] && (possiblePairTemp[1] - pieceToMove.getCol()) < shortestDistances[3]){
-							//System.out.println("rightrow");
+							////System.out.println("rightrow");
+							Log.d("getLegalMoves","Checking the right of the row");
 							shortestDistances[3] = possiblePairTemp[1] - pieceToMove.getCol();
 							//blockPieces[3] = board[possiblePair[0]][possiblePair[1]];
 						}
 					}
 					// same diagonal
 					//Sysetm.out.println((Math.abs(possiblePairTemp[0] - pieceToMove.getRow())));
-					//System.out.println(Math.abs(possiblePairTemp[1] - pieceToMove.getCol())));
+					////System.out.println(Math.abs(possiblePairTemp[1] - pieceToMove.getCol())));
 					else if((Math.abs(possiblePairTemp[0] - pieceToMove.getRow())) == (Math.abs(possiblePairTemp[1] - pieceToMove.getCol()))){
 						//up left
 						if (possiblePairTemp[0] < pieceToMove.getRow() && possiblePairTemp[1] < pieceToMove.getCol() && pieceToMove.getRow() - possiblePairTemp[0] < shortestDistances[4]){
-							System.out.println("upleft");
+							//System.out.println("upleft");
+							Log.d("getLegalMoves","Checking up left");
 							shortestDistances[4] = pieceToMove.getRow() - possiblePairTemp[0];
 							//blockPieces[4] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//up right
 						else if(possiblePairTemp[0] < pieceToMove.getRow() && possiblePairTemp[1] > pieceToMove.getCol() && pieceToMove.getRow() - possiblePairTemp[0] < shortestDistances[5]){
-							System.out.println("upright");
+							//System.out.println("upright");
+							Log.d("getLegalMoves","Checking up right");
 							shortestDistances[5] = pieceToMove.getRow() - possiblePairTemp[0];
 							//blockPieces[5] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//down left
 						else if(possiblePairTemp[0] > pieceToMove.getRow() && possiblePairTemp[1] < pieceToMove.getCol() && possiblePairTemp[0] - pieceToMove.getRow() < shortestDistances[6] ){
-							System.out.println("downleft");
+							//System.out.println("downleft");
+							Log.d("getLegalMoves","Checking down left");
 							shortestDistances[6] = possiblePairTemp[0] - pieceToMove.getRow();
 							//blockPieces[6] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//down right
 						else if(possiblePairTemp[0] > pieceToMove.getRow() && possiblePairTemp[1] > pieceToMove.getCol() && possiblePairTemp[0] - pieceToMove.getRow() < shortestDistances[7]){
-							System.out.println("downright");
+							//System.out.println("downright");
+							Log.d("getLegalMoves","Checking down right");
 							shortestDistances[7] = possiblePairTemp[0] - pieceToMove.getRow();
 							//blockPieces[7] = board[possiblePair[0]][possiblePair[1]];
 						}
@@ -321,43 +350,54 @@ public class BoardNormal {
 					}
 				}
 			}
-			for(int test:shortestDistances){
-				System.out.println(test);
+			String[] distLabels = {"Up Col", "Down Col", "Left Row", "Right Row", "Up Left", "Up Right", "Down Left", "Down Right"};
+			/*
+			for(int test:shortestDistances) {
+				//System.out.println(test);
+				Log.d("getLegalMoves", "" + test);
+			}*/
+			for (int l = 0; l < 8; l++){
+				Log.d("getLegalMoves",distLabels[l] + ": " + shortestDistances[l]);
 			}
+			Log.d("getLegalMoves","start verifying board positions for each possible move");
 			for (int[] possiblePair:possibleMoves){
 				//same column
-
-				System.out.printf("checking row %d col %d%n", possiblePair[0], possiblePair[1]);
+				//System.out.printf("checking row %d col %d%n", possiblePair[0], possiblePair[1]);
+				Log.d("getLegalMoves",String.format("checking row %d col %d%n", possiblePair[0], possiblePair[1]));
 				if (possiblePair[1] == pieceToMove.getCol()){
 					if (possiblePair[0] < pieceToMove.getRow() && (pieceToMove.getRow() - possiblePair[0]) <= shortestDistances[0]){
-						System.out.println("Checking col");
-						if ((pieceToMove.getRow() - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].getColor() != pieceToMove.getColor()){
-							System.out.println("Capture upcol");
+						//System.out.println("Checking col");
+						if ((pieceToMove.getRow() - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].getColor() != pieceToMove.getColor()){
+							//System.out.println("Capture upcol");
+							Log.d("getLegalMoves",String.format("capturing on %d %d , checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
+
 								legalMoves.add(possiblePair);
 							}
 						}
 						else if((pieceToMove.getRow() - possiblePair[0]) < shortestDistances[0]){
-							System.out.println("less than");
+							//System.out.println("less than");
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 						//if (shortestDistances[0])
-						System.out.println("not in same col");
+						//System.out.println("not in same col");
 					}
-					//System.out.printf("Cannot move on row %d col %d%n", possiblePair[0], possiblePair[1]);
+					////System.out.printf("Cannot move on row %d col %d%n", possiblePair[0], possiblePair[1]);
 					//down column
 					else if(pieceToMove.getRow() < possiblePair[0] && (possiblePair[0] - pieceToMove.getRow()) <= shortestDistances[1]){
-						//System.out.println("checking row");
+						////System.out.println("checking row");
 						if ((possiblePair[0] - pieceToMove.getRow()) == shortestDistances[1] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].getColor() != pieceToMove.getColor()){
-							System.out.println("Capture downcol");
+							//System.out.println("Capture downcol");
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 						else if((possiblePair[0] - pieceToMove.getRow()) < shortestDistances[1]){
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
+								Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 								legalMoves.add(possiblePair);
 							}
 						}
@@ -368,11 +408,14 @@ public class BoardNormal {
 					//left row
 					if (possiblePair[1] < pieceToMove.getCol() && (pieceToMove.getCol() - possiblePair[1]) <= shortestDistances[2]){
 						if ((pieceToMove.getCol() - possiblePair[1]) == shortestDistances[2] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].getColor() != pieceToMove.getColor()){
+
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
+
 								legalMoves.add(possiblePair);
 							}
 						}
 						else if((pieceToMove.getCol() - possiblePair[1]) < shortestDistances[2]){
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
@@ -386,6 +429,7 @@ public class BoardNormal {
 							}
 						}
 						else if((possiblePair[1] - pieceToMove.getCol()) < shortestDistances[3]){
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
@@ -402,6 +446,7 @@ public class BoardNormal {
 							}
 						}
 						else if((pieceToMove.getRow() - possiblePair[0]) < shortestDistances[4]){
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
@@ -415,6 +460,7 @@ public class BoardNormal {
 							}
 						}
 						else if((pieceToMove.getRow() - possiblePair[0]) < shortestDistances[5]){
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
@@ -428,6 +474,7 @@ public class BoardNormal {
 							}
 						}
 						else if((possiblePair[0] - pieceToMove.getRow()) < shortestDistances[6]){
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
@@ -441,6 +488,7 @@ public class BoardNormal {
 							}
 						}
 						else if((possiblePair[0] - pieceToMove.getRow()) < shortestDistances[7]){
+							Log.d("getLegalMoves",String.format("%d %d is empty, checking the new position for check",possiblePair[0],possiblePair[1]));
 							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
@@ -448,7 +496,7 @@ public class BoardNormal {
 						}
 					}
 					//Check for castling
-					
+					Log.d("getLegalMoves","start checking for castling");
 					if ("k".equals(pieceToMove.getName())){
 						KingNormal kingToMove = (KingNormal) pieceToMove;
 						if(!kingToMove.hasMoved && !kingInCheck(pieceToMove)){
@@ -507,7 +555,8 @@ public class BoardNormal {
 	//check if a move is legal, then check if current turn's king is in check
 	//true if valid move, false if not
 	public boolean checkForCheck(int row, int col, int newrow, int newcol){
-		System.out.println("Checking for check");
+		Log.d("checkForCheck","Start checkForCheck");
+		//System.out.println("Checking for check");
 		//move the piece
 		PieceNormal capturePiece = null;
 		PieceNormal pieceToMove = board[row][col];
@@ -517,13 +566,15 @@ public class BoardNormal {
 			//PieceNormal pieceToMove = board[row][col];
 		}
 		else{
-			System.out.printf("No piece found on row %d col %d%n", row, col);
+			Log.d("checkForCheck",String.format("No piece found on row %d col %d%n", row, col));
+			//System.out.printf("No piece found on row %d col %d%n", row, col);
 			return true;
 		}
 		if (board[newrow][newcol] != null){
 			//if a piece is captured, store it so it can be restored after
 			capturePiece = board[newrow][newcol];
-			System.out.printf("Capturing %s on %d %d%n",capturePiece.getName(),capturePiece.getRow(),capturePiece.getCol());
+			Log.d("checkForCheck",String.format("Temporarily capturing %s on %d %d%n",capturePiece.getName(),capturePiece.getRow(),capturePiece.getCol()));
+			//System.out.printf("Capturing %s on %d %d%n",capturePiece.getName(),capturePiece.getRow(),capturePiece.getCol());
 
 		}
 		//move to new square on the board
@@ -554,7 +605,8 @@ public class BoardNormal {
 		board[newrow][newcol].move(row,col);
 		board[row][col] = board[newrow][newcol];
 		board[newrow][newcol] = capturePiece;
-	//	System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newrow,newcol);
+		Log.d("checkForCheck",String.format("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newrow,newcol));
+	//	//System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newrow,newcol);
 		return true;
 	}
 	//true if king is in check, false if not in check
@@ -563,7 +615,8 @@ public class BoardNormal {
 		if (king==null){
 			return false;
 		}
-		System.out.printf("Checking %s king for check\n",king.getStringColor());
+		Log.d("kingInCheck",String.format("Checking %s king at row %d col %d for check\n",king.getStringColor(),king.getRow(),king.getCol()));
+		//System.out.printf("Checking %s king for check\n",king.getStringColor());
 		//check for knights
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
@@ -575,121 +628,151 @@ public class BoardNormal {
 				//return false;
 			}
 		}
+
 		//check for pawns
-		//if white king, only need to check top left and top right
+		//check pawns for black king
+		//only need to check bottom left and right
 		if (king.getColor()){
-			if (king.getRow() < 7 && king.getCol() > 0 && board[king.getRow() + 1][king.getCol() - 1] != null){
-				if (!board[king.getRow() + 1][king.getCol() - 1].getColor() && "p".equals(board[king.getRow() + 1][king.getCol() - 1].getName())){
-				//	System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
+			Log.d("kingInCheck","white king, checking for black pawns");
+			if (king.getRow() < 7 && king.getCol() > 0 && board[king.getRow() - 1][king.getCol() - 1] != null){
+				if (!board[king.getRow() - 1][king.getCol() - 1].getColor() && "p".equals(board[king.getRow() - 1][king.getCol() - 1].getName())){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n", board[king.getRow() - 1][king.getCol() - 1].getStringColor(), board[king.getRow() - 1][king.getCol() - 1].getName(), king.getRow() - 1, king.getCol() - 1));
+				//	//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
 					return true;
 				}
 
 			}
-			else if (king.getRow() < 7 && king.getCol() < 7 && board[king.getRow() + 1][king.getCol() + 1] != null){
-				if (!board[king.getRow() + 1][king.getCol() + 1].getColor() && "p".equals(board[king.getRow() + 1][king.getCol() + 1].getName())){
-				//	System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
+			else if (king.getRow() < 7 && king.getCol() < 7 && board[king.getRow() - 1][king.getCol() + 1] != null){
+				if (!board[king.getRow() - 1][king.getCol() + 1].getColor() && "p".equals(board[king.getRow() - 1][king.getCol() + 1].getName())){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n", board[king.getRow() - 1][king.getCol() + 1].getStringColor(),board[king.getRow() - 1][king.getCol() + 1].getName(), king.getRow() - 1, king.getCol() + 1));
+				//	//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
 					return true;
 				}
 			}
 		}
-		//check pawns for black king
-		//only need to check bottom left and right
+
+		//if white king, only need to check top left and top right
 		else if(!king.getColor()){
-			if (king.getRow() > 0 && king.getCol() > 0 &&board[king.getRow() - 1][king.getCol() - 1] != null){
-				if (!board[king.getRow() - 1][king.getCol() - 1].getColor() && "p".equals(board[king.getRow() - 1][king.getCol() - 1].getName())){
-				//	System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
+			Log.d("kingInCheck","black king, checking for white pawns");
+
+			if (king.getRow() > 0 && king.getCol() > 0 && board[king.getRow() + 1][king.getCol() - 1] != null){
+				if (board[king.getRow() + 1][king.getCol() - 1].getColor() && "p".equals(board[king.getRow() + 1][king.getCol() - 1].getName())){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1].getStringColor(),board[king.getRow() + 1][king.getCol() - 1].getName(), king.getRow() + 1, king.getCol() - 1));
+				//	//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
 					
 					return true;
 				}
 			}
-			else if (king.getRow() > 0 && king.getCol() < 7 &&board[king.getRow() - 1][king.getCol() + 1] != null){
-				if (!board[king.getRow() - 1][king.getCol() + 1].getColor() && "p".equals(board[king.getRow() - 1][king.getCol() + 1].getName())){
-				//	System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
+			else if (king.getRow() > 0 && king.getCol() < 7 &&board[king.getRow() + 1][king.getCol() + 1] != null){
+				if (board[king.getRow() + 1][king.getCol() + 1].getColor() && "p".equals(board[king.getRow() + 1][king.getCol() + 1].getName())){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() + 1].getStringColor(),board[king.getRow() + 1][king.getCol() + 1].getName(), king.getRow() + 1, king.getCol() + 1));
+				//	//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getStringColor(), king.getRow() + 1, king.getCol() +1 );
 
 					return true;
 				}
 			}
 		}
 		//Check for rooks and queens
+		Log.d("kingInCheck","Checking rows/cols for rooks and queens");
 		//check up a column
-		System.out.println("Checking up column");
+		Log.d("kingInCheck","Checking up column");
+		//System.out.println("Checking up column");
 		for (int i = king.getRow() - 1; i >= 0; i--){
-			System.out.printf("Checking row %d\n",i);
+			Log.d("kingInCheck",String.format("Checking row %d\n",i));
+			//System.out.printf("Checking row %d\n",i);
 			if (board[i][king.getCol()] != null && board[i][king.getCol()].getColor() != king.getColor()){
-			System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
+
+			//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 
 				if ("q".equals(board[i][king.getCol()].getName()) || "r".equals(board[i][king.getCol()].getName())){
-					System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol()));
+					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 					return true;
 				}
+				Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol()));
 				break;
 			}
 			else if(board[i][king.getCol()] != null){
+				Log.d("kingInCheck","No attacking piece found up column");
 				break;
 			}
 		}
 		//check down a column
-		System.out.println("Checking down column");
-
+		//System.out.println("Checking down column");
+		Log.d("kingInCheck","Checking down column");
 		for (int i = king.getRow() + 1; i < 8; i++){
-			System.out.printf("Checking row %d\n",i);
-			//System.out.println(i + " " + king.getCol());
+			Log.d("kingInCheck",String.format("Checking row %d\n",i));
+			//System.out.printf("Checking row %d\n",i);
+			////System.out.println(i + " " + king.getCol());
 			if (board[i][king.getCol()] != null && board[i][king.getCol()].getColor() != king.getColor()){
-			System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
+			//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 				
 				if ("q".equals(board[i][king.getCol()].getName()) || "r".equals(board[i][king.getCol()].getName())){
-
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol()));
 					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol());
 				
 					return true;
 				}
 				//System.out.println(board[i][king.getCol()].getStringColor());
+				Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[i][king.getCol()].getStringColor(), board[i][king.getCol()].getName(),i,king.getCol()));
 				break;
 			}
 			else if(board[i][king.getCol()] != null){
+				Log.d("kingInCheck","No attacking piece found down column");
 				break;
 			}
 		}
 		//check to the left of the row
+		Log.d("kingInCheck","Checking to the left of the row");
 		for (int j = king.getCol() - 1; j >=0;j--){
 			if (board[king.getRow()][j] != null && board[king.getRow()][j].getColor() != king.getColor()){
 				if ("q".equals(board[king.getRow()][j].getName()) || "r".equals(board[king.getRow()][j].getName())){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j));
 					//System.out.printf("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j);
 						
 					return true;
 				}
+				Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j));
 				break;
 			}
 			else if(board[king.getRow()][j] != null){
+				Log.d("kingInCheck","No attacking piece found to the left of the row");
 				break;
 			}
 		}
 		//check to the right of the row
+		Log.d("kingInCheck","Checking to the right of the row");
 		for (int j = king.getCol() + 1; j < 8;j++){
 			if (board[king.getRow()][j] != null && board[king.getRow()][j].getColor() != king.getColor()){
 				if ("q".equals(board[king.getRow()][j].getName()) || "r".equals(board[king.getRow()][j].getName())){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j));
 					//System.out.printf("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j);
 
 					return true;
 				}
+				Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[king.getRow()][j].getStringColor(), board[king.getRow()][j].getName(),king.getRow(),j));
 				break;
 			}
 			else if(board[king.getRow()][j] != null){
+				Log.d("kingInCheck","No attacking piece found to the right of the row");
 				break;
 			}
 		}
 
 		//Check up left diagonal
+		Log.d("kingInCheck","Checking up left");
 		int kingRow = king.getRow() - 1;
 		int kingCol = king.getCol() - 1;
 		while(kingRow > -1 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol));
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 					
 					return true;
 				}
 				else if(board[kingRow][kingCol] != null){
+					Log.d("kingInCheck","No attacking piece found to the upper left");
 					break;
 				}
 			}
@@ -698,16 +781,19 @@ public class BoardNormal {
 		}
 
 		//check up right
+		Log.d("kingInCheck","Checking up right");
 		kingRow = king.getRow() - 1;
 		kingCol = king.getCol() + 1;
 		while(kingRow > -1 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol));
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 				
 					return true;
 				}
 				else if(board[kingRow][kingCol] != null){
+					Log.d("kingInCheck","No attacking piece found to the upper right");
 					break;
 				}
 			}
@@ -716,16 +802,19 @@ public class BoardNormal {
 		}
 
 		//check down left
+		Log.d("kingInCheck","Checking down left");
 		kingRow = king.getRow() + 1;
 		kingCol = king.getCol() - 1;
 		while(kingRow < 8 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol));
 					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
 				
 					return true;
 				}
 				else if(board[kingRow][kingCol] != null){
+					Log.d("kingInCheck","No attacking piece found to the lower left");
 					break;
 				}
 			}
@@ -733,42 +822,54 @@ public class BoardNormal {
 			kingCol--;
 		}
 		//check down right
+		Log.d("kingInCheck","Checking down right");
 		kingRow = king.getRow() + 1;
 		kingCol = king.getCol() + 1;
 		while(kingRow < 8 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].getColor() != king.getColor() && ("b".equals(board[kingRow][kingCol].getName()) || "q".equals(board[kingRow][kingCol].getName() ))){
-					//System.out.printf("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol);
-					
+					Log.d("kingInCheck",String.format("%s %s found at row %d col %d%n",board[kingRow][kingCol].getStringColor(), board[kingRow][kingCol].getName(),kingRow,kingCol));
 					return true;
 				}
 				else if(board[kingRow][kingCol] != null){
+					Log.d("kingInCheck","No attacking piece found to the lower right");
 					break;
 				}
 			}
 			kingRow++;
 			kingCol++;
 		}
-		//System.out.printf("%s king is safe!%n", king.getStringColor());
+		//check for other king
+		Log.d("kingInCheck","Checking for other king");
+		//Check distance of other king.
+		//The abs difference of row and col need to be >=1
+		Log.d("kingInCheck",String.format("white king is at row %d, col %d\nblack king is at row %d, col %d\n",findWhiteKing().getRow(),findWhiteKing().getCol(),findBlackKing().getRow(),findWhiteKing().getCol()));
+		if (Math.abs(findBlackKing().getRow() - findWhiteKing().getRow()) < 1 && Math.abs(findBlackKing().getCol() - findWhiteKing().getCol()) < 1){
+
+			Log.d("kingInCheck","King is not next to other king");
+			return true;
+		}
+		////System.out.printf("%s king is safe!%n", king.getStringColor());
 		return false;
 	}
+
 	
 	public void printLegalMoves(int row, int col){
 		PieceNormal pieceToMove = board[row][col];
 		if(pieceToMove==null){
-			System.out.printf("No piece found at row %d and column %d%n", row, col);
+			//System.out.printf("No piece found at row %d and column %d%n", row, col);
 			return;
 		}
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
 		legalMoves = this.getLegalMoves(pieceToMove);
 		if (legalMoves.size() > 0){
-			System.out.printf("Legal moves for %s %s at row %d and column %d are: %n", pieceToMove.getStringColor(), pieceToMove.getName(), row,col);
+			//System.out.printf("Legal moves for %s %s at row %d and column %d are: %n", pieceToMove.getStringColor(), pieceToMove.getName(), row,col);
 		}
 		else{
-			System.out.printf("No legal moves for %s %s at row %d and column %d%n", pieceToMove.getStringColor(), pieceToMove.getName(), row,col);
+			//System.out.printf("No legal moves for %s %s at row %d and column %d%n", pieceToMove.getStringColor(), pieceToMove.getName(), row,col);
 		}
 		for(int[] legalSquare:legalMoves){
-			System.out.println(legalSquare[0] + " " + legalSquare[1]);
+			//System.out.println(legalSquare[0] + " " + legalSquare[1]);
 		}
 		this.printBoard();
 	}
@@ -797,18 +898,18 @@ public class BoardNormal {
 		if (pieceToMove != null){
 			//check that the correct side is moving
 			if(pieceToMove.getColor() == whiteToMove){
-				//System.out.printf("Moving %s at row %d, col %d%n", pieceToMove.getName(), row,col);
+				////System.out.printf("Moving %s at row %d, col %d%n", pieceToMove.getName(), row,col);
 				ArrayList<int[]> legalMoves = getLegalMoves(pieceToMove);
 				//if(legalMoves.contains(newPos)){
 				for(int[]legalPos:legalMoves){
 					//check that the destination is a legal move
 					if(legalPos[0] == newrow && legalPos[1] == newcol){
-						//System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.getName(), row,col,newrow,newcol);
+						////System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.getName(), row,col,newrow,newcol);
 
 
 						//Handle castling
 						if ("k".equals(pieceToMove.getName()) && (newcol-col) > 1){
-							//System.out.println("Kingside Castle");
+							////System.out.println("Kingside Castle");
 							prevMove = "O-O";
 							kingSideCastle(pieceToMove);
 						}
@@ -820,16 +921,16 @@ public class BoardNormal {
 
 						//check if pawn is capturing with enpassant
 						else if ("p".equals(pieceToMove.getName()) && pieceToMove.getCol() != newcol && board[newrow][newcol] == null){
-							System.out.println("Moving a pawn");
+							//System.out.println("Moving a pawn");
 							//if the pawn is capturing
 							if (pieceToMove.getCol() != newcol){
 
-								System.out.println("Pawn is capturing");
-								System.out.printf("Pawn col is %d\n",pieceToMove.getCol());
-								System.out.printf("Pawn is moving to col %d\n",newcol);
+								//System.out.println("Pawn is capturing");
+								//System.out.printf("Pawn col is %d\n",pieceToMove.getCol());
+								//System.out.printf("Pawn is moving to col %d\n",newcol);
 								//if the destination is empty
 								if (board[newrow][newcol] == null){
-									System.out.println("Pawn is capturing a blank square, must be enpassant");
+									//System.out.println("Pawn is capturing a blank square, must be enpassant");
 									pieceToMove.move(newrow,newcol);
 									board[newrow][newcol] = pieceToMove;
 									board[row][col] = null;
@@ -840,7 +941,7 @@ public class BoardNormal {
 						}
 						else{
 							pieceToMove.move(newrow,newcol);
-							//System.out.println(pieceToMove.getRow() + pieceToMove.getCol());
+							////System.out.println(pieceToMove.getRow() + pieceToMove.getCol());
 							board[newrow][newcol] = pieceToMove;
 							board[row][col] = null;
 						}
@@ -867,10 +968,10 @@ public class BoardNormal {
 				
 				//denote the destination
 				prevMove += (ranks[newcol]) + Integer.toString((8-newrow));
-				System.out.println(prevMove);
+				//System.out.println(prevMove);
 				previousMoves.push(prevMove);
 				previousBoards.add(boardToString());
-				System.out.println(previousMoves);
+				//System.out.println(previousMoves);
 				printBoard();
 				whiteToMove = !whiteToMove;
 				this.oneFromTwo();
@@ -888,7 +989,7 @@ public class BoardNormal {
 			//move rook
 			board[king.getRow()][7].move(king.getRow(),5);
 			//swap on board
-			System.out.println(king.getRow() + " " + king.getCol());
+			//System.out.println(king.getRow() + " " + king.getCol());
 			board[king.getRow()][6] = king; 
 			board[king.getRow()][5] = board[king.getRow()][7];
 			board[king.getRow()][4] = null;
@@ -1065,13 +1166,13 @@ public class BoardNormal {
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
 				if (board[i][j] != null){
-					System.out.print(board[i][j].getName() + " ");
+					//System.out.print(board[i][j].getName() + " ");
 				}
-				else System.out.print("0 ");
+				else Log.d("printBoard","0 ");//System.out.print("0 ");
 			}
-			System.out.print("\n");
+			//System.out.print("\n");
 		}
-		System.out.println("\n");
+		//System.out.println("\n");
 	}
 	public String getMoveStack(){
 		return previousMoves.toString();

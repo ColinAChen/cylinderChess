@@ -35,9 +35,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     boolean boardNormal = true;
     ComputerPlayer testPlayer = new ComputerPlayer(board, false, 3);
     boolean cpuGame;
-    //Create a firebase realtime database reference
-    //FirebaseApp.initializeApp(this);
-    //FirebaseApp.
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference gameRef = database.getReference("currentGame");
     // Read from the database
