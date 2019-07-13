@@ -31,9 +31,9 @@ public class QueenCylinder extends PieceCylinder {
 	public ArrayList<int[]> getPossibleMoves(){
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 8; j++){
+			for (int j = -7; j < 15; j++){
 				if (this.isLegitMove(i,j)){
-					int[] pair = {i,j};
+					int[] pair = {i,Math.abs(j%8)};
 					possibleMoves.add(pair);
 				}
 			}

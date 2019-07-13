@@ -9,19 +9,8 @@ public class PawnCylinder extends PieceCylinder {
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//System.out.printf("oldx: %d, oldy: %d, newx: %d, newy: %d%n", x,y,newx,newy);
-		//check that piece exists
-		/*
-		if (board[super.x][super.y] == null){
-			System.out.println("No piece found");
-			return false;
-		}
-		*/
-		//check that destination is either empty or of the other color
-		/*
-		if (board[newx][newy] != null || (board[newx][newy].color).equals(super.color)){
-			return false;
-		}*/
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
+		
+		if (newx < -1 || newx > 8 || (newx == x && newy == y)){
 			//System.out.println("cannot move outside of board or to same square");
 			return false;
 		}
@@ -37,48 +26,34 @@ public class PawnCylinder extends PieceCylinder {
 		//DESTINATION WILL EITHER BE EMPTY OR OF OTHER SQUARE
 		//movement for straight
 		if (y == newy){
-			//System.out.println("moving straight");
-			//movement for black
-			//unmoved black pawn
+			//movement for WHITE
 			if (color){
-				//System.out.println("black");
 				//can move one or two squares
-				if (x == 6 &&  newx == 4){
+				if (x == 1 &&  newx == 3){
 					//System.out.println("unmoved, moving two");
-
 					return true;
 				}
 				//move one square up
-				else if(x - newx == 1){
+				else if(newx - x == 1){
 					//System.out.println("moving one");
-
 					return true;
-				}
-				//promote if pawn reaches top row
-				else if(newx == 0){
-					//this.queen();
 				}
 				//otherwise is in invalid move up
 				else{
 					return false;
 				}
 			}
-			// movement for white pawn
+			// movement for BLACK
 			else{
-				//System.out.println("white");
-				// unmoved white pawn
-				if (x == 1 && newx == 3){
+				//unmoved two squares
+				if (x == 6 && newx == 4){
 					//System.out.println("unmoved, moving two");
 					return true;
 				}
 				// move one square
-				else if(newx-x == 1){
+				else if(x - newx == 1){
 					//System.out.println("moving one");
 					return true;
-				}
-				//promote if pawn reaches top row{
-				else if(newx == 7){
-					//this.queen();
 				}
 				//otherwise is invalid move
 				else{
@@ -88,16 +63,16 @@ public class PawnCylinder extends PieceCylinder {
 		}
 		//movement for capturing
 		else{
-			//capturing for black
+			//capturing for white
 			if (color){
-				if (x-newx ==1 ){
+				if (newx - x == 1){
 					return true;
 				}
 				else return false;
 			}
-			//capturing for white
+			//capturing for black
 			else{
-				if (newx-x == 1){
+				if (x - newx == 1){
 					return true;
 				}
 				else return false;
@@ -112,13 +87,13 @@ public class PawnCylinder extends PieceCylinder {
 		//int[] pair = new int[2];
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 8; j++){
+			//Additional columns to check for edge traversal
+			for (int j = -1; j < 9; j++){
 				//System.out.println(i +" "+  j);
 				if (this.isLegitMove(i,j)){
 					//System.out.printf("Adding possible move to %d %d%n",i,j);
-					int[] pair = {i,j};
+					int[] pair = {i,Math.abs(j%8)};
 					possibleMoves.add(pair);
-
 				}
 			}
 		}

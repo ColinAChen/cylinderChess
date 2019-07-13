@@ -5,25 +5,28 @@ import java.util.ArrayList;
 abstract class PieceCylinder {
 	String name;
 	boolean color;
-	int x;
-	int y;
+	int row;
+	int col;
 
 	//public PieceNormal(){};
 
 	public PieceCylinder(String name, boolean color, int x, int y){
 		this.name = name;
 		this.color = color;
-		this.x = x;
-		this.y = y;
+		this.row = x;
+		this.col = y;
 	}
-	public void move(int xMove, int yMove){
-		x=xMove;
-		y=yMove;
+	public void move(int newRow, int newCol){
+		row = newRow;
+		col = newCol;
 	}
 	public void changeColor(){
 		color = !color;
 	}
-	public String getColor(){
+	public boolean getColor(){
+		return color;
+	}
+	public String getColorName(){
 		if (color){
 			return "white";
 		}
@@ -35,13 +38,12 @@ abstract class PieceCylinder {
 	public boolean getColorBoolean(){
 		return color;
 	}
-	
-	public int[] getPosition()
-	{
-		int[] pos = {x,y};
-		return pos;
+	public int getRow(){
+		return row;
 	}
-
+	public int getCol(){
+		return col;
+	}
 	public String getName(){
 		return name;
 	}
