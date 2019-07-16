@@ -10,17 +10,17 @@ public class QueenCylinder extends PieceCylinder {
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
+		if (newx < 0 || newx > 7 || (newx == row && newy == col)){
 			return false;
 		}
-		if (Math.abs(newx-x) == Math.abs(newy-y)){
+		if (Math.abs(newx-row) == Math.abs(newy-col)){
 			return true;
 		}
-		else if (newy-y == 0){
+		else if (newy-col == 0){
 			return true;
 		}
 		//moving horizontally
-		else if(newx-x == 0){
+		else if(newx-row == 0){
 			return true;
 		}
 		return false;
@@ -33,7 +33,7 @@ public class QueenCylinder extends PieceCylinder {
 		for (int i = 0; i < 8; i++){
 			for (int j = -7; j < 15; j++){
 				if (this.isLegitMove(i,j)){
-					int[] pair = {i,Math.abs(j%8)};
+					int[] pair = {i,Math.abs(Math.floorMod(j,8))};
 					possibleMoves.add(pair);
 				}
 			}

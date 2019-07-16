@@ -10,15 +10,15 @@ public class RookCylinder extends PieceCylinder {
 	}
 	public boolean isLegitMove(int newx, int newy){
 		//ensure not trying to move off the board or to the same square
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
+		if (newx < 0 || newx > 7 || (newx == row && newy == col)){
 			return false;
 		}
 		//moving vertically
-		if (newy-y == 0){
+		if (newy-col == 0){
 			return true;
 		}
 		//moving horizontally
-		else if(newx-x == 0){
+		else if(newx-row == 0){
 			return true;
 		}
 		return false;

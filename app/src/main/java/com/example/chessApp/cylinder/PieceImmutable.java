@@ -16,7 +16,7 @@ public class PieceImmutable
 	public String getColor()
 	{
 		if(piece != null)
-			return piece.getColor();
+			return piece.getColorName();
 
 		return null;
 	}
@@ -45,7 +45,8 @@ public class PieceImmutable
 	public int[] getPosition()
 	{
 		if(piece != null)
-			return piece.getPosition();
+			return new int[] {piece.getRow(),piece.getCol()};
+			//return piece.getPosition();
 	
 		return null;
 	}

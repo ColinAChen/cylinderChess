@@ -188,12 +188,12 @@ public class BoardNormal {
 							//System.out.println(row);
 							Log.d("getLegalMoves",String.format("row is: %d\npiece row is: %d\n",row,pieceToMove.getRow()));
 							//System.out.println(pieceToMove.getRow());
-							int newrow = 8-Integer.parseInt(prevMoveString.substring(prevMoveString.length()-1,prevMoveString.length()));
-							if (newrow == pieceToMove.getRow()){
+							int newRow = 8-Integer.parseInt(prevMoveString.substring(prevMoveString.length()-1,prevMoveString.length()));
+							if (newRow == pieceToMove.getRow()){
 
-								//System.out.println(newrow-row);
-								Log.d("getLegalMoves",String.format("new row is: %d\n",newrow - row));
-								if (Math.abs(row-newrow) > 1){
+								//System.out.println(newRow-row);
+								Log.d("getLegalMoves",String.format("new row is: %d\n",newRow - row));
+								if (Math.abs(row-newRow) > 1){
 									Log.d("getLegalMoves","pawn moved to last move!");
 									//System.out.println("Pawn moved two last move!");
 									//System.out.println(col);
@@ -554,7 +554,7 @@ public class BoardNormal {
 
 	//check if a move is legal, then check if current turn's king is in check
 	//true if valid move, false if not
-	public boolean checkForCheck(int row, int col, int newrow, int newcol){
+	public boolean checkForCheck(int row, int col, int newRow, int newCol){
 		Log.d("checkForCheck","Start checkForCheck");
 		//System.out.println("Checking for check");
 		//move the piece
@@ -562,7 +562,7 @@ public class BoardNormal {
 		PieceNormal pieceToMove = board[row][col];
 		if (board[row][col] != null){
 			//move to new square
-			board[row][col].move(newrow,newcol);
+			board[row][col].move(newRow,newCol);
 			//PieceNormal pieceToMove = board[row][col];
 		}
 		else{
@@ -570,15 +570,15 @@ public class BoardNormal {
 			//System.out.printf("No piece found on row %d col %d%n", row, col);
 			return true;
 		}
-		if (board[newrow][newcol] != null){
+		if (board[newRow][newCol] != null){
 			//if a piece is captured, store it so it can be restored after
-			capturePiece = board[newrow][newcol];
+			capturePiece = board[newRow][newCol];
 			Log.d("checkForCheck",String.format("Temporarily capturing %s on %d %d%n",capturePiece.getName(),capturePiece.getRow(),capturePiece.getCol()));
 			//System.out.printf("Capturing %s on %d %d%n",capturePiece.getName(),capturePiece.getRow(),capturePiece.getCol());
 
 		}
 		//move to new square on the board
-		board[newrow][newcol] = board[row][col];
+		board[newRow][newCol] = board[row][col];
 		board[row][col] = null;
 
 		//if it is white's turn, check if the white king is in check after the possible move
@@ -586,9 +586,9 @@ public class BoardNormal {
 			PieceNormal whiteKing = findWhiteKing();
 			if (kingInCheck(whiteKing)){
 				//move back
-				board[newrow][newcol].move(row,col);
-				board[row][col] = board[newrow][newcol];
-				board[newrow][newcol] = capturePiece;
+				board[newRow][newCol].move(row,col);
+				board[row][col] = board[newRow][newCol];
+				board[newRow][newCol] = capturePiece;
 				return false;
 			}
 		}
@@ -596,17 +596,17 @@ public class BoardNormal {
 			PieceNormal blackKing = findBlackKing();
 			if (kingInCheck(blackKing)){
 				//move back
-				board[newrow][newcol].move(row,col);
-				board[row][col] = board[newrow][newcol];
-				board[newrow][newcol] = capturePiece;
+				board[newRow][newCol].move(row,col);
+				board[row][col] = board[newRow][newCol];
+				board[newRow][newCol] = capturePiece;
 				return false;
 			}
 		}
-		board[newrow][newcol].move(row,col);
-		board[row][col] = board[newrow][newcol];
-		board[newrow][newcol] = capturePiece;
-		Log.d("checkForCheck",String.format("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newrow,newcol));
-	//	//System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newrow,newcol);
+		board[newRow][newCol].move(row,col);
+		board[row][col] = board[newRow][newCol];
+		board[newRow][newCol] = capturePiece;
+		Log.d("checkForCheck",String.format("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newRow,newCol));
+	//	//System.out.printf("Moving %s %s to row %d col %d will not cause check!%n", pieceToMove.getStringColor(), pieceToMove.getName(),newRow,newCol);
 		return true;
 	}
 	//true if king is in check, false if not in check
@@ -843,12 +843,16 @@ public class BoardNormal {
 		Log.d("kingInCheck","Checking for other king");
 		//Check distance of other king.
 		//The abs difference of row and col need to be >=1
-		Log.d("kingInCheck",String.format("white king is at row %d, col %d\nblack king is at row %d, col %d\n",findWhiteKing().getRow(),findWhiteKing().getCol(),findBlackKing().getRow(),findWhiteKing().getCol()));
-		if (Math.abs(findBlackKing().getRow() - findWhiteKing().getRow()) < 1 && Math.abs(findBlackKing().getCol() - findWhiteKing().getCol()) < 1){
 
-			Log.d("kingInCheck","King is not next to other king");
-			return true;
+		if (findWhiteKing() != null && findBlackKing() != null){
+			Log.d("kingInCheck",String.format("white king is at row %d, col %d\nblack king is at row %d, col %d\n",findWhiteKing().getRow(),findWhiteKing().getCol(),findBlackKing().getRow(),findBlackKing().getCol()));
+			if (Math.abs(findBlackKing().getRow() - findWhiteKing().getRow()) < 2 && Math.abs(findBlackKing().getCol() - findWhiteKing().getCol()) < 2){
+
+				Log.d("kingInCheck","King is not next to other king");
+				return true;
+			}
 		}
+
 		////System.out.printf("%s king is safe!%n", king.getStringColor());
 		return false;
 	}
@@ -874,7 +878,7 @@ public class BoardNormal {
 		this.printBoard();
 	}
 
-	public boolean move(int row, int col, int newrow,int newcol){
+	public boolean move(int row, int col, int newRow,int newCol){
 		PieceNormal pieceToMove = board[row][col];
 
 		//Create the algebraic chess notation from a move
@@ -891,7 +895,7 @@ public class BoardNormal {
 		//denote the origin
 		prevMove+= (ranks[col]) + Integer.toString((8-row));
 		//denote a capture
-		if (board[newrow][newcol] != null){
+		if (board[newRow][newCol] != null){
 			prevMove += "x";
 		}
 		//check that piece to move exists
@@ -903,46 +907,46 @@ public class BoardNormal {
 				//if(legalMoves.contains(newPos)){
 				for(int[]legalPos:legalMoves){
 					//check that the destination is a legal move
-					if(legalPos[0] == newrow && legalPos[1] == newcol){
-						////System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.getName(), row,col,newrow,newcol);
+					if(legalPos[0] == newRow && legalPos[1] == newCol){
+						////System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.getName(), row,col,newRow,newCol);
 
 
 						//Handle castling
-						if ("k".equals(pieceToMove.getName()) && (newcol-col) > 1){
+						if ("k".equals(pieceToMove.getName()) && (newCol-col) > 1){
 							////System.out.println("Kingside Castle");
 							prevMove = "O-O";
 							kingSideCastle(pieceToMove);
 						}
-						else if ("k".equals(pieceToMove.getName()) && (col-newcol) > 1){
+						else if ("k".equals(pieceToMove.getName()) && (col-newCol) > 1){
 							prevMove = "O-O-O";
 							queenSideCastle(pieceToMove);
 						}
 
 
 						//check if pawn is capturing with enpassant
-						else if ("p".equals(pieceToMove.getName()) && pieceToMove.getCol() != newcol && board[newrow][newcol] == null){
+						else if ("p".equals(pieceToMove.getName()) && pieceToMove.getCol() != newCol && board[newRow][newCol] == null){
 							//System.out.println("Moving a pawn");
 							//if the pawn is capturing
-							if (pieceToMove.getCol() != newcol){
+							if (pieceToMove.getCol() != newCol){
 
 								//System.out.println("Pawn is capturing");
 								//System.out.printf("Pawn col is %d\n",pieceToMove.getCol());
-								//System.out.printf("Pawn is moving to col %d\n",newcol);
+								//System.out.printf("Pawn is moving to col %d\n",newCol);
 								//if the destination is empty
-								if (board[newrow][newcol] == null){
+								if (board[newRow][newCol] == null){
 									//System.out.println("Pawn is capturing a blank square, must be enpassant");
-									pieceToMove.move(newrow,newcol);
-									board[newrow][newcol] = pieceToMove;
+									pieceToMove.move(newRow,newCol);
+									board[newRow][newCol] = pieceToMove;
 									board[row][col] = null;
-									board[row][newcol] = null;
+									board[row][newCol] = null;
 									prevMove+='x';
 								}
 							}
 						}
 						else{
-							pieceToMove.move(newrow,newcol);
+							pieceToMove.move(newRow,newCol);
 							////System.out.println(pieceToMove.getRow() + pieceToMove.getCol());
-							board[newrow][newcol] = pieceToMove;
+							board[newRow][newCol] = pieceToMove;
 							board[row][col] = null;
 						}
 
@@ -967,7 +971,7 @@ public class BoardNormal {
 				}
 				
 				//denote the destination
-				prevMove += (ranks[newcol]) + Integer.toString((8-newrow));
+				prevMove += (ranks[newCol]) + Integer.toString((8-newRow));
 				//System.out.println(prevMove);
 				previousMoves.push(prevMove);
 				previousBoards.add(boardToString());
@@ -1022,7 +1026,8 @@ public class BoardNormal {
 		for(int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
 				if(board[i][j] != null && board[i][j].getColor() && "k".equals(board[i][j].getName())){
-					return board[i][j];
+					Log.d("findWhiteKing",String.format("White king found at row %d col %d\n",i,j));
+;					return board[i][j];
 				}
 			}
 		}
@@ -1032,6 +1037,7 @@ public class BoardNormal {
 		for(int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
 				if (board[i][j] != null && !board[i][j].getColor() && "k".equals(board[i][j].getName())){
+					Log.d("findBlackKing",String.format("Black king found at row %d col %d\n",i,j));
 					return board[i][j];
 				}
 			}
@@ -1040,6 +1046,7 @@ public class BoardNormal {
 	}
 
 	public boolean whiteKingInCheck(){
+		Log.d("whiteKingInCheck","Start whiteKingInCheck");
 		PieceNormal king = findWhiteKing();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
 		for(int i = 0; i < board.length; i++){
@@ -1058,6 +1065,7 @@ public class BoardNormal {
 		return false;
 	}
 	public boolean blackKingInCheck(){
+		Log.d("blackKingInCheck","Start black king in check");
 		PieceNormal king = findBlackKing();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
 		for(int i = 0; i < board.length; i++){

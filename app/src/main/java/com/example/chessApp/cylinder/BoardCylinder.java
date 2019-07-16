@@ -140,7 +140,7 @@ public class BoardCylinder {
 		if (pieceToMove==null){
 			return new ArrayList<int[]>();
 		}
-		//System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getColor(), pieceToMove.name, pieceToMove.x, pieceToMove.y);
+		//System.out.printf("Finding moves for %s %s on row %d col %d%n", pieceToMove.getColor(), pieceToMove.name, pieceToMove.getRow(), pieceToMove.getCol());
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		possibleMoves = pieceToMove.getPossibleMoves();
 		ArrayList<int[]> legalMoves = new ArrayList<int[]>();
@@ -148,31 +148,31 @@ public class BoardCylinder {
 		//define legal moves for a pawn
 		if ("p".equals(pieceToMove.name)){
 			for (int[] possiblePair:possibleMoves){
-				if ((pieceToMove.y != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
+				if ((pieceToMove.getCol() != possiblePair[1]) && (board[possiblePair[0]][possiblePair[1]] != null) && (board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color)){
 					//only add if destination is of the opposite color
-					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 						legalMoves.add(possiblePair);
 					}
 				}
 				//pawn is moving straight
-				else if(possiblePair[1] == pieceToMove.y){
+				else if(possiblePair[1] == pieceToMove.getCol()){
 					//if the pawn is trying to jump two squares, check that both squares in front of it are empty
-					if (Math.abs(possiblePair[0] - pieceToMove.x) > 1){
+					if (Math.abs(possiblePair[0] - pieceToMove.getRow()) > 1){
 						//System.out.println("Trying to jump two square");
 						if (pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[5][possiblePair[1]] == null){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 						else if(!pieceToMove.color && board[possiblePair[0]][possiblePair[1]] == null && board[2][possiblePair[1]] == null){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 					else if (board[possiblePair[0]][possiblePair[1]] == null){
 						//System.out.println("No piece found!");
-						if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 							legalMoves.add(possiblePair);
 						}
 					}
@@ -187,14 +187,14 @@ public class BoardCylinder {
 				//System.out.printf("Checking for piece at row %d, col %d%n",possiblePair[0],possiblePair[1]);
 				if (board[possiblePair[0]][possiblePair[1]] == null){
 					//System.out.println("No piece found!");
-					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 					//System.out.println(legalMoves.size());
 				}
 				else if (board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 					//System.out.println("PieceCylinder is of other color!");
-					if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 					//System.out.println(legalMoves.size());
@@ -212,66 +212,66 @@ public class BoardCylinder {
 			//PieceCylinder[] blockPieces = new PieceCylinder[9];
 			int[] shortestDistances = {9,9,9,9,9,9,9,9};
 			for (int[] possiblePairTemp:possibleMoves){
-				//System.out.printf("Potential square row %d col %d, pieceToMove square row %d col %d%n",possiblePairTemp[0], possiblePairTemp[1], pieceToMove.x, pieceToMove.y );
+				//System.out.printf("Potential square row %d col %d, pieceToMove square row %d col %d%n",possiblePairTemp[0], possiblePairTemp[1], pieceToMove.getRow(), pieceToMove.getCol() );
 				if (board[possiblePairTemp[0]][possiblePairTemp[1]] != null){
 					//System.out.printf("%s %s exists at row %d col %d%n",board[possiblePairTemp[0]][possiblePairTemp[1]].getColor(),board[possiblePairTemp[0]][possiblePairTemp[1]].name,possiblePairTemp[0], possiblePairTemp[1]);
 					//same column
-					if (possiblePairTemp[1] == pieceToMove.y){
+					if (possiblePairTemp[1] == pieceToMove.getCol()){
 						//up column
-						if (possiblePairTemp[0] < pieceToMove.x && (pieceToMove.x - possiblePairTemp[0]) < shortestDistances[0]){
+						if (possiblePairTemp[0] < pieceToMove.getRow() && (pieceToMove.getRow() - possiblePairTemp[0]) < shortestDistances[0]){
 						//	System.out.println("upcol");
-							shortestDistances[0] = pieceToMove.x - possiblePairTemp[0];
+							shortestDistances[0] = pieceToMove.getRow() - possiblePairTemp[0];
 							//blockPieces[0] = board[possiblePair[0]][possiblePair[1]];
 							//if (shortestDistances[0])
 						}
 						//down column
-						else if(pieceToMove.x < possiblePairTemp[0] && (possiblePairTemp[0] - pieceToMove.x) < shortestDistances[1]){
+						else if(pieceToMove.getRow() < possiblePairTemp[0] && (possiblePairTemp[0] - pieceToMove.getRow()) < shortestDistances[1]){
 							//System.out.println("downcol");
-							shortestDistances[1] = possiblePairTemp[0] - pieceToMove.x;
+							shortestDistances[1] = possiblePairTemp[0] - pieceToMove.getRow();
 							//blockPieces[1] = board[possiblePair[0]][possiblePair[1]];
 						}
 					}
 					//same row
-					else if(possiblePairTemp[0] == pieceToMove.x){
+					else if(possiblePairTemp[0] == pieceToMove.getRow()){
 						//left row
-						if (possiblePairTemp[1] < pieceToMove.y && (pieceToMove.y - possiblePairTemp[1]) < shortestDistances[2]){
+						if (possiblePairTemp[1] < pieceToMove.getCol() && (pieceToMove.getCol() - possiblePairTemp[1]) < shortestDistances[2]){
 							//System.out.println("leftrow");
-							shortestDistances[2] = pieceToMove.y - possiblePairTemp[1];
+							shortestDistances[2] = pieceToMove.getCol() - possiblePairTemp[1];
 							//blockPieces[2] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//right row
-						else if(pieceToMove.y < possiblePairTemp[1] && (possiblePairTemp[1] - pieceToMove.y) < shortestDistances[3]){
+						else if(pieceToMove.getCol() < possiblePairTemp[1] && (possiblePairTemp[1] - pieceToMove.getCol()) < shortestDistances[3]){
 							//System.out.println("rightrow");
-							shortestDistances[3] = possiblePairTemp[1] - pieceToMove.y;
+							shortestDistances[3] = possiblePairTemp[1] - pieceToMove.getCol();
 							//blockPieces[3] = board[possiblePair[0]][possiblePair[1]];
 						}
 					}
 					// same diagonal
-					//Sysetm.out.println((Math.abs(possiblePairTemp[0] - pieceToMove.x)));
-					//System.out.println(Math.abs(possiblePairTemp[1] - pieceToMove.y)));
-					else if((Math.abs(possiblePairTemp[0] - pieceToMove.x)) == (Math.abs(possiblePairTemp[1] - pieceToMove.y))){
+					//Sysetm.out.println((Math.abs(possiblePairTemp[0] - pieceToMove.getRow())));
+					//System.out.println(Math.abs(possiblePairTemp[1] - pieceToMove.getCol())));
+					else if((Math.abs(possiblePairTemp[0] - pieceToMove.getRow())) == (Math.abs(possiblePairTemp[1] - pieceToMove.getCol()))){
 						//up left
-						if (possiblePairTemp[0] < pieceToMove.x && possiblePairTemp[1] < pieceToMove.y && pieceToMove.x - possiblePairTemp[0] < shortestDistances[4]){
+						if (possiblePairTemp[0] < pieceToMove.getRow() && possiblePairTemp[1] < pieceToMove.getCol() && pieceToMove.getRow() - possiblePairTemp[0] < shortestDistances[4]){
 							//System.out.println("upleft");
-							shortestDistances[4] = pieceToMove.x - possiblePairTemp[0];
+							shortestDistances[4] = pieceToMove.getRow() - possiblePairTemp[0];
 							//blockPieces[4] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//up right
-						else if(possiblePairTemp[0] < pieceToMove.x && possiblePairTemp[1] > pieceToMove.y && pieceToMove.x - possiblePairTemp[0] < shortestDistances[5]){
+						else if(possiblePairTemp[0] < pieceToMove.getRow() && possiblePairTemp[1] > pieceToMove.getCol() && pieceToMove.getRow() - possiblePairTemp[0] < shortestDistances[5]){
 							//System.out.println("upright");
-							shortestDistances[5] = pieceToMove.x - possiblePairTemp[0];
+							shortestDistances[5] = pieceToMove.getRow() - possiblePairTemp[0];
 							//blockPieces[5] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//down left
-						else if(possiblePairTemp[0] > pieceToMove.x && possiblePairTemp[1] < pieceToMove.y && possiblePairTemp[0] - pieceToMove.x < shortestDistances[6] ){
+						else if(possiblePairTemp[0] > pieceToMove.getRow() && possiblePairTemp[1] < pieceToMove.getCol() && possiblePairTemp[0] - pieceToMove.getRow() < shortestDistances[6] ){
 							//System.out.println("downleft");
-							shortestDistances[6] = possiblePairTemp[0] - pieceToMove.x;
+							shortestDistances[6] = possiblePairTemp[0] - pieceToMove.getRow();
 							//blockPieces[6] = board[possiblePair[0]][possiblePair[1]];
 						}
 						//down right
-						else if(possiblePairTemp[0] > pieceToMove.x && possiblePairTemp[1] > pieceToMove.y && possiblePairTemp[0] - pieceToMove.x < shortestDistances[7]){
+						else if(possiblePairTemp[0] > pieceToMove.getRow() && possiblePairTemp[1] > pieceToMove.getCol() && possiblePairTemp[0] - pieceToMove.getRow() < shortestDistances[7]){
 							//System.out.println("downright");
-							shortestDistances[7] = possiblePairTemp[0] - pieceToMove.x;
+							shortestDistances[7] = possiblePairTemp[0] - pieceToMove.getRow();
 							//blockPieces[7] = board[possiblePair[0]][possiblePair[1]];
 						}
 					//blockPieces.add(board[possiblePair[0]][possiblePair[1]]);
@@ -285,18 +285,18 @@ public class BoardCylinder {
 				//same column
 
 				//System.out.printf("checking row %d col %d%n", possiblePair[0], possiblePair[1]);
-				if (possiblePair[1] == pieceToMove.y){
-					if (possiblePair[0] < pieceToMove.x && (pieceToMove.x - possiblePair[0]) <= shortestDistances[0]){
+				if (possiblePair[1] == pieceToMove.getCol()){
+					if (possiblePair[0] < pieceToMove.getRow() && (pieceToMove.getRow() - possiblePair[0]) <= shortestDistances[0]){
 						//System.out.println("Checking col");
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((pieceToMove.getRow() - possiblePair[0]) == shortestDistances[0] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							//System.out.println("Capture upcol");
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[0]){
+						else if((pieceToMove.getRow() - possiblePair[0]) < shortestDistances[0]){
 							//System.out.println("less than");
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
@@ -305,100 +305,100 @@ public class BoardCylinder {
 					}
 					//System.out.printf("Cannot move on row %d col %d%n", possiblePair[0], possiblePair[1]);
 					//down column
-					else if(pieceToMove.x < possiblePair[0] && (possiblePair[0] - pieceToMove.x) <= shortestDistances[1]){
+					else if(pieceToMove.getRow() < possiblePair[0] && (possiblePair[0] - pieceToMove.getRow()) <= shortestDistances[1]){
 						//System.out.println("checking row");
-						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[1] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+						if ((possiblePair[0] - pieceToMove.getRow()) == shortestDistances[1] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
 							//System.out.println("Capture downcol");
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[1]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((possiblePair[0] - pieceToMove.getRow()) < shortestDistances[1]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 				}
 				//same col
-				else if(possiblePair[0] == pieceToMove.x){
+				else if(possiblePair[0] == pieceToMove.getRow()){
 					//left row
-					if (possiblePair[1] < pieceToMove.y && (pieceToMove.y - possiblePair[1]) <= shortestDistances[2]){
-						if ((pieceToMove.y - possiblePair[1]) == shortestDistances[2] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					if (possiblePair[1] < pieceToMove.getCol() && (pieceToMove.getCol() - possiblePair[1]) <= shortestDistances[2]){
+						if ((pieceToMove.getCol() - possiblePair[1]) == shortestDistances[2] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((pieceToMove.y - possiblePair[1]) < shortestDistances[2]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((pieceToMove.getCol() - possiblePair[1]) < shortestDistances[2]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 					//right row
-					else if(pieceToMove.y < possiblePair[1] && (possiblePair[1] - pieceToMove.y) <= shortestDistances[3]){
-						if ((possiblePair[1] - pieceToMove.y) == shortestDistances[3] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					else if(pieceToMove.getCol() < possiblePair[1] && (possiblePair[1] - pieceToMove.getCol()) <= shortestDistances[3]){
+						if ((possiblePair[1] - pieceToMove.getCol()) == shortestDistances[3] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((possiblePair[1] - pieceToMove.y) < shortestDistances[3]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((possiblePair[1] - pieceToMove.getCol()) < shortestDistances[3]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 				}
 				// same diagonal
-				else if((Math.abs(possiblePair[0] - pieceToMove.x)) == (Math.abs(possiblePair[1] - pieceToMove.y))){
+				else if((Math.abs(possiblePair[0] - pieceToMove.getRow())) == (Math.abs(possiblePair[1] - pieceToMove.getCol()))){
 					//up left
-					if (possiblePair[0] <= pieceToMove.x && possiblePair[1] <= pieceToMove.y){
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[4] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					if (possiblePair[0] <= pieceToMove.getRow() && possiblePair[1] <= pieceToMove.getCol()){
+						if ((pieceToMove.getRow() - possiblePair[0]) == shortestDistances[4] && board[possiblePair[0]][possiblePair[1]] != null &&board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[4]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((pieceToMove.getRow() - possiblePair[0]) < shortestDistances[4]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 					//up right
-					else if(possiblePair[0] <= pieceToMove.x && possiblePair[1] >= pieceToMove.y){
-						if ((pieceToMove.x - possiblePair[0]) == shortestDistances[5] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					else if(possiblePair[0] <= pieceToMove.getRow() && possiblePair[1] >= pieceToMove.getCol()){
+						if ((pieceToMove.getRow() - possiblePair[0]) == shortestDistances[5] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((pieceToMove.x - possiblePair[0]) < shortestDistances[5]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((pieceToMove.getRow() - possiblePair[0]) < shortestDistances[5]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 					//down left
-					else if(possiblePair[0] >= pieceToMove.x && possiblePair[1] <= pieceToMove.y){
-						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[6] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					else if(possiblePair[0] >= pieceToMove.getRow() && possiblePair[1] <= pieceToMove.getCol()){
+						if ((possiblePair[0] - pieceToMove.getRow()) == shortestDistances[6] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[6]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((possiblePair[0] - pieceToMove.getRow()) < shortestDistances[6]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
 					}
 					//down right
-					else if(possiblePair[0] >= pieceToMove.x && possiblePair[1] >= pieceToMove.y){
-						if ((possiblePair[0] - pieceToMove.x) == shortestDistances[7] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+					else if(possiblePair[0] >= pieceToMove.getRow() && possiblePair[1] >= pieceToMove.getCol()){
+						if ((possiblePair[0] - pieceToMove.getRow()) == shortestDistances[7] &&board[possiblePair[0]][possiblePair[1]] != null && board[possiblePair[0]][possiblePair[1]].color != pieceToMove.color){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 						}
-						else if((possiblePair[0] - pieceToMove.x) < shortestDistances[7]){
-							if(checkForCheck(pieceToMove.x,pieceToMove.y,possiblePair[0],possiblePair[1])){
+						else if((possiblePair[0] - pieceToMove.getRow()) < shortestDistances[7]){
+							if(checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),possiblePair[0],possiblePair[1])){
 								legalMoves.add(possiblePair);
 							}
 							
@@ -411,25 +411,25 @@ public class BoardCylinder {
 						if(!kingToMove.hasMoved && !kingInCheck(pieceToMove)){
 							//check queenside (left)
 							//Check that the corner rook hasn't moved
-							if (board[pieceToMove.x][0] != null && "r".equals(board[pieceToMove.x][0].name)){
-								RookCylinder rookToMove = (RookCylinder)board[pieceToMove.x][0];
+							if (board[pieceToMove.getRow()][0] != null && "r".equals(board[pieceToMove.getRow()][0].name)){
+								RookCylinder rookToMove = (RookCylinder)board[pieceToMove.getRow()][0];
 								if (!rookToMove.hasMoved){
-									if (board[pieceToMove.x][1] == null && board[pieceToMove.x][2] == null && board[pieceToMove.x][3] == null){
-										if (checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-1) && checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y-2)){
-											int[]castlePair = {pieceToMove.x,pieceToMove.y-2};
+									if (board[pieceToMove.getRow()][1] == null && board[pieceToMove.getRow()][2] == null && board[pieceToMove.getRow()][3] == null){
+										if (checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),pieceToMove.getRow(),pieceToMove.getCol()-1) && checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),pieceToMove.getRow(),pieceToMove.getCol()-2)){
+											int[]castlePair = {pieceToMove.getRow(),pieceToMove.getCol()-2};
 											legalMoves.add(castlePair);
 										}
 									}
 								}
 							}
 							//check kingside (right)
-							if (board[pieceToMove.x][7] != null && "r".equals(board[pieceToMove.x][7].name)){
+							if (board[pieceToMove.getRow()][7] != null && "r".equals(board[pieceToMove.getRow()][7].name)){
 								//check that the squares in between the rook and king are empty
-								RookCylinder rookToMove = (RookCylinder)board[pieceToMove.x][7];
+								RookCylinder rookToMove = (RookCylinder)board[pieceToMove.getRow()][7];
 								if (!rookToMove.hasMoved){
-									if (board[pieceToMove.x][5] == null && board[pieceToMove.x][6] == null){
-										if (checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y+1) && checkForCheck(pieceToMove.x,pieceToMove.y,pieceToMove.x,pieceToMove.y+2)){
-											int[]castlePair = {pieceToMove.x,pieceToMove.y+2};
+									if (board[pieceToMove.getRow()][5] == null && board[pieceToMove.getRow()][6] == null){
+										if (checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),pieceToMove.getRow(),pieceToMove.getCol()+1) && checkForCheck(pieceToMove.getRow(),pieceToMove.getCol(),pieceToMove.getRow(),pieceToMove.getCol()+2)){
+											int[]castlePair = {pieceToMove.getRow(),pieceToMove.getCol()+2};
 											legalMoves.add(castlePair);
 										}
 									}
@@ -520,7 +520,7 @@ public class BoardCylinder {
 		}
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board[0].length; j++){
-				if ((Math.abs(king.x - i) == 2 && Math.abs(king.y - j) == 1) || (Math.abs(king.x - i) == 1 && Math.abs(king.y - j) == 2)){
+				if ((Math.abs(king.getRow() - i) == 2 && Math.abs(king.getCol() - j) == 1) || (Math.abs(king.getRow() - i) == 1 && Math.abs(king.getCol() - j) == 2)){
 					if (board[i][j] != null && board[i][j].color!=king.color && "n".equals(board[i][j].name)){
 						return true;
 					}
@@ -531,16 +531,16 @@ public class BoardCylinder {
 		//check for pawns
 		//if white king, only need to check top left and top right
 		if (king.color){
-			if (king.x < 7 && king.y > 0 && board[king.x + 1][king.y - 1] != null){
-				if (!board[king.x + 1][king.y - 1].color && "p".equals(board[king.x + 1][king.y - 1].name)){
-					//System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+			if (king.getRow() < 7 && king.getCol() > 0 && board[king.getRow() + 1][king.getCol() - 1] != null){
+				if (!board[king.getRow() + 1][king.getCol() - 1].color && "p".equals(board[king.getRow() + 1][king.getCol() - 1].name)){
+					//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getColor(), king.getRow() + 1, king.getCol() +1 );
 					return true;
 				}
 
 			}
-			else if (king.x < 7 && king.y < 7 && board[king.x + 1][king.y + 1] != null){
-				if (!board[king.x + 1][king.y + 1].color && "p".equals(board[king.x + 1][king.y + 1].name)){
-					//System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );					
+			else if (king.getRow() < 7 && king.getCol() < 7 && board[king.getRow() + 1][king.getCol() + 1] != null){
+				if (!board[king.getRow() + 1][king.getCol() + 1].color && "p".equals(board[king.getRow() + 1][king.getCol() + 1].name)){
+					//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getColor(), king.getRow() + 1, king.getCol() +1 );					
 					return true;
 				}
 			}
@@ -548,16 +548,16 @@ public class BoardCylinder {
 		//check for black king
 		//only need to check bottom left and right
 		else if(!king.color){
-			if (king.x > 0 && king.y > 0 &&board[king.x - 1][king.y - 1] != null){
-				if (!board[king.x - 1][king.y - 1].color && "p".equals(board[king.x - 1][king.y - 1].name)){
-					//System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+			if (king.getRow() > 0 && king.getCol() > 0 &&board[king.getRow() - 1][king.getCol() - 1] != null){
+				if (!board[king.getRow() - 1][king.getCol() - 1].color && "p".equals(board[king.getRow() - 1][king.getCol() - 1].name)){
+					//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getColor(), king.getRow() + 1, king.getCol() +1 );
 					
 					return true;
 				}
 			}
-			else if (king.x > 0 && king.y < 7 &&board[king.x - 1][king.y + 1] != null){
-				if (!board[king.x - 1][king.y + 1].color && "p".equals(board[king.x - 1][king.y + 1].name)){
-					//System.out.printf("%s %s found at row %d col %d%n", board[king.x + 1][king.y - 1],board[king.x + 1][king.y - 1].getColor(), king.x + 1, king.y +1 );
+			else if (king.getRow() > 0 && king.getCol() < 7 &&board[king.getRow() - 1][king.getCol() + 1] != null){
+				if (!board[king.getRow() - 1][king.getCol() + 1].color && "p".equals(board[king.getRow() - 1][king.getCol() + 1].name)){
+					//System.out.printf("%s %s found at row %d col %d%n", board[king.getRow() + 1][king.getCol() - 1],board[king.getRow() + 1][king.getCol() - 1].getColor(), king.getRow() + 1, king.getCol() +1 );
 
 					return true;
 				}
@@ -565,67 +565,67 @@ public class BoardCylinder {
 		}
 		//Check for rooks and queens
 		//check up a column
-		for (int i = king.x - 1; i >= 0; i--){
-			if (board[i][king.y] != null && board[i][king.y].color != king.color){
-				if ("q".equals(board[i][king.y].name) || "r".equals(board[i][king.y].name)){
-					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
+		for (int i = king.getRow() - 1; i >= 0; i--){
+			if (board[i][king.getCol()] != null && board[i][king.getCol()].color != king.color){
+				if ("q".equals(board[i][king.getCol()].name) || "r".equals(board[i][king.getCol()].name)){
+					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getColor(), board[i][king.getCol()].name,i,king.getCol());
 					return true;
 				}
 				break;
 			}
-			else if(board[i][king.y] != null){
+			else if(board[i][king.getCol()] != null){
 				break;
 			}
 		}
 		//check down a column
-		for (int i = king.x + 1; i < 8; i++){
-			//System.out.println(i + " " + king.y);
-			if (board[i][king.y] != null && board[i][king.y].color != king.color){
-				if ("q".equals(board[i][king.y].name) || "r".equals(board[i][king.y].name)){
+		for (int i = king.getRow() + 1; i < 8; i++){
+			//System.out.println(i + " " + king.getCol());
+			if (board[i][king.getCol()] != null && board[i][king.getCol()].color != king.color){
+				if ("q".equals(board[i][king.getCol()].name) || "r".equals(board[i][king.getCol()].name)){
 
-					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.y].getColor(), board[i][king.y].name,i,king.y);
+					//System.out.printf("%s %s found at row %d col %d%n",board[i][king.getCol()].getColor(), board[i][king.getCol()].name,i,king.getCol());
 				
 					return true;
 				}
-				//System.out.println(board[i][king.y].getColor());
+				//System.out.println(board[i][king.getCol()].getColor());
 				//break;
 			}
-			else if(board[i][king.y] != null){
+			else if(board[i][king.getCol()] != null){
 				break;
 			}
 		}
 		//check to the left of the row
-		for (int j = king.y - 1; j >=0;j--){
-			if (board[king.x][j] != null && board[king.x][j].color != king.color){
-				if ("q".equals(board[king.x][j].name) || "r".equals(board[king.x][j].name)){
-					//System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
+		for (int j = king.getCol() - 1; j >=0;j--){
+			if (board[king.getRow()][j] != null && board[king.getRow()][j].color != king.color){
+				if ("q".equals(board[king.getRow()][j].name) || "r".equals(board[king.getRow()][j].name)){
+					//System.out.printf("%s %s found at row %d col %d%n",board[king.getRow()][j].getColor(), board[king.getRow()][j].name,king.getRow(),j);
 						
 					return true;
 				}
 				//break;
 			}
-			else if(board[king.x][j] != null){
+			else if(board[king.getRow()][j] != null){
 				break;
 			}
 		}
 		//check to the right of the row
-		for (int j = king.y + 1; j < 8;j++){
-			if (board[king.x][j] != null && board[king.x][j].color != king.color){
-				if ("q".equals(board[king.x][j].name) || "r".equals(board[king.x][j].name)){
-					//System.out.printf("%s %s found at row %d col %d%n",board[king.x][j].getColor(), board[king.x][j].name,king.x,j);
+		for (int j = king.getCol() + 1; j < 8;j++){
+			if (board[king.getRow()][j] != null && board[king.getRow()][j].color != king.color){
+				if ("q".equals(board[king.getRow()][j].name) || "r".equals(board[king.getRow()][j].name)){
+					//System.out.printf("%s %s found at row %d col %d%n",board[king.getRow()][j].getColor(), board[king.getRow()][j].name,king.getRow(),j);
 
 					return true;
 				}
 				//break;
 			}
-			else if(board[king.x][j] != null){
+			else if(board[king.getRow()][j] != null){
 				break;
 			}
 		}
 
 		//Check up left diagonal
-		int kingRow = king.x - 1;
-		int kingCol = king.y - 1;
+		int kingRow = king.getRow() - 1;
+		int kingCol = king.getCol() - 1;
 		while(kingRow > -1 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
@@ -642,8 +642,8 @@ public class BoardCylinder {
 		}
 
 		//check up right
-		kingRow = king.x - 1;
-		kingCol = king.y + 1;
+		kingRow = king.getRow() - 1;
+		kingCol = king.getCol() + 1;
 		while(kingRow > -1 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
@@ -660,8 +660,8 @@ public class BoardCylinder {
 		}
 
 		//check down left
-		kingRow = king.x + 1;
-		kingCol = king.y - 1;
+		kingRow = king.getRow() + 1;
+		kingCol = king.getCol() - 1;
 		while(kingRow < 8 && kingCol > -1){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
@@ -677,8 +677,8 @@ public class BoardCylinder {
 			kingCol--;
 		}
 		//check down right
-		kingRow = king.x + 1;
-		kingCol = king.y + 1;
+		kingRow = king.getRow() + 1;
+		kingCol = king.getCol() + 1;
 		while(kingRow < 8 && kingCol < 8){
 			if (board[kingRow][kingCol] != null){
 				if (board[kingRow][kingCol].color != king.color && ("b".equals(board[kingRow][kingCol].name) || "q".equals(board[kingRow][kingCol].name ))){
@@ -736,7 +736,7 @@ public class BoardCylinder {
 						}
 						else{
 							pieceToMove.move(newrow,newcol);
-							//System.out.println(pieceToMove.x + pieceToMove.y);
+							//System.out.println(pieceToMove.getRow() + pieceToMove.getCol());
 							board[newrow][newcol] = pieceToMove;
 							board[row][col] = null;
 						}
@@ -763,17 +763,17 @@ public class BoardCylinder {
 	//rook moves to 7 to 5
 	//king moves to 4 to 6
 	public void kingSideCastle(PieceCylinder king){
-		if(king!= null && board[king.x][7] != null){
+		if(king!= null && board[king.getRow()][7] != null){
 			//move king
-			king.move(king.x,6);
+			king.move(king.getRow(),6);
 			//move rook
-			board[king.x][7].move(king.x,5);
+			board[king.getRow()][7].move(king.getRow(),5);
 			//swap on board
-			System.out.println(king.x + " " + king.y);
-			board[king.x][6] = king; 
-			board[king.x][5] = board[king.x][7];
-			board[king.x][4] = null;
-			board[king.x][7] = null;
+			System.out.println(king.getRow() + " " + king.getCol());
+			board[king.getRow()][6] = king; 
+			board[king.getRow()][5] = board[king.getRow()][7];
+			board[king.getRow()][4] = null;
+			board[king.getRow()][7] = null;
 			castleDirection = "r";
 		}
 		
@@ -785,13 +785,13 @@ public class BoardCylinder {
 	//king moves 4 to 2
 	//rook moves 0 to 3
 	public void queenSideCastle(PieceCylinder king){
-		if (king != null && board[king.x][0] != null){
-			king.move(king.x,2);
-			board[king.x][0].move(king.x,3);
-			board[king.x][2] = king;
-			board[king.x][3] = board[king.x][0];
-			board[king.x][4] = null;
-			board[king.x][0] = null;
+		if (king != null && board[king.getRow()][0] != null){
+			king.move(king.getRow(),2);
+			board[king.getRow()][0].move(king.getRow(),3);
+			board[king.getRow()][2] = king;
+			board[king.getRow()][3] = board[king.getRow()][0];
+			board[king.getRow()][4] = null;
+			board[king.getRow()][0] = null;
 			castleDirection = "l";
 		}
 		
@@ -828,7 +828,7 @@ public class BoardCylinder {
 				if (board[i][j] != null && !board[i][j].color){
 					legalMoves = this.getLegalMoves(board[i][j]);
 					for (int[]pair:legalMoves){
-						if(pair[0] == king.x && pair[1]==king.y){
+						if(pair[0] == king.getRow() && pair[1]==king.getCol()){
 							return true;
 						}
 					}
@@ -846,7 +846,7 @@ public class BoardCylinder {
 				if (board[i][j] != null && board[i][j].color){
 					legalMoves = this.getLegalMoves(board[i][j]);
 					for (int[]pair:legalMoves){
-						if(pair[0] == king.x && pair[1]==king.y){
+						if(pair[0] == king.getRow() && pair[1]==king.getCol()){
 							return true;
 						}
 					}
@@ -983,8 +983,8 @@ public class BoardCylinder {
 			{
 				if(board[i][j] != null)
 				{
-					board[i][j].x = i;
-					board[i][j].y = j;
+					//board[i][j].getRow() = i;
+					//board[i][j].getCol() = j;
 				}
 			}
 		}
@@ -1007,8 +1007,8 @@ public class BoardCylinder {
 			{
 				if(board[i][j] != null)
 				{
-					board[i][j].x = i;
-					board[i][j].y = j;
+					//board[i][j].getRow() = i;
+					//board[i][j].getCol() = j;
 				}
 			}
 		}

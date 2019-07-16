@@ -10,14 +10,14 @@ public class PawnCylinder extends PieceCylinder {
 	public boolean isLegitMove(int newx, int newy){
 		//System.out.printf("oldx: %d, oldy: %d, newx: %d, newy: %d%n", x,y,newx,newy);
 		
-		if (newx < -1 || newx > 8 || (newx == x && newy == y)){
+		if (newx < -1 || newx > 8 || (newx == row && newy == col)){
 			//System.out.println("cannot move outside of board or to same square");
 			return false;
 		}
 
 		//invalid move if moving more than one square left or right
 		//Can only capture if the opposite piece is in an adjacent column
-		if (Math.abs(newy - y) > 1){
+		if (Math.abs(newy - col) > 1){
 			//System.out.println(Math.abs(newy - y));
 			//System.out.println("Can't move pawn farther than one square left or right");
 			return false;
@@ -25,16 +25,16 @@ public class PawnCylinder extends PieceCylinder {
 		//System.out.println(Math.abs(newy - y));
 		//DESTINATION WILL EITHER BE EMPTY OR OF OTHER SQUARE
 		//movement for straight
-		if (y == newy){
+		if (col == newy){
 			//movement for WHITE
 			if (color){
 				//can move one or two squares
-				if (x == 1 &&  newx == 3){
+				if (row == 1 &&  newx == 3){
 					//System.out.println("unmoved, moving two");
 					return true;
 				}
 				//move one square up
-				else if(newx - x == 1){
+				else if(newx - row == 1){
 					//System.out.println("moving one");
 					return true;
 				}
@@ -46,12 +46,12 @@ public class PawnCylinder extends PieceCylinder {
 			// movement for BLACK
 			else{
 				//unmoved two squares
-				if (x == 6 && newx == 4){
+				if (row == 6 && newx == 4){
 					//System.out.println("unmoved, moving two");
 					return true;
 				}
 				// move one square
-				else if(x - newx == 1){
+				else if(row - newx == 1){
 					//System.out.println("moving one");
 					return true;
 				}
@@ -65,20 +65,20 @@ public class PawnCylinder extends PieceCylinder {
 		else{
 			//capturing for white
 			if (color){
-				if (newx - x == 1){
+				if (newx - row == 1){
 					return true;
 				}
 				else return false;
 			}
 			//capturing for black
 			else{
-				if (x - newx == 1){
+				if (row - newx == 1){
 					return true;
 				}
 				else return false;
 			}
 		}
-		return false;
+
 	}
 	
 	//return all possible moves for this piece given its current position
@@ -92,7 +92,7 @@ public class PawnCylinder extends PieceCylinder {
 				//System.out.println(i +" "+  j);
 				if (this.isLegitMove(i,j)){
 					//System.out.printf("Adding possible move to %d %d%n",i,j);
-					int[] pair = {i,Math.abs(j%8)};
+					int[] pair = {i,Math.abs(Math.floorMod(j,8))};
 					possibleMoves.add(pair);
 				}
 			}

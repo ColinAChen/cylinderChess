@@ -133,7 +133,7 @@ public class DisplayBoardCylinder extends AppCompatActivity implements BoardAdap
             }
             else
             {
-                String color = pieces[x].getColor();
+                String color = pieces[x].getColorName();
                 String name = pieces[x].getName();
                 if (!pieces[x].color)
                 {
