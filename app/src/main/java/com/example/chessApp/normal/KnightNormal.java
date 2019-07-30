@@ -1,43 +1,58 @@
 package com.example.chessApp.normal;
 
-import java.util.ArrayList; // import the ArrayList class
-public class KnightNormal extends PieceNormal {
-	
-	ArrayList<int[]> possibleMoves;
-	public KnightNormal(String name, boolean color, int x, int y){
-		super("n",color,x,y);
+import java.util.ArrayList;
+
+public class KnightNormal extends PieceNormal
+{
+	public KnightNormal(boolean color, int r, int c)
+	{
+		super("n", color, r, c);
 	}
-	public boolean isLegitMove(int newx, int newy){
-		//ensure not trying to move off the board
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
+
+	private boolean isLegitMove(int newR, int newC)
+	{
+		int r = getRow();
+		int c = getCol();
+
+		// ensure not trying to move off the board
+		if(newR < 0 || newR > 7 || newC < 0 || newC > 7)
 			return false;
-		}
-		if (Math.abs(newx-x) == 1 && Math.abs(newy - y) == 2){
+
+		if(newR == r && newC == c)
+			return false;
+
+		if (Math.abs(newC - c) == 1 && Math.abs(newR - r) == 2)
+		{
 			return true;
 		}
-		else if(Math.abs(newx-x) == 2 && Math.abs(newy - y) == 1){
+		else if(Math.abs(newC - c) == 2 && Math.abs(newR - r) == 1)
+		{
 			return true;
 		}
+		
 		return false;
 	}
-	
-	//return all possible moves for this piece given its current position
-	//does NOT take into account current board position
-	public ArrayList<int[]> getPossibleMoves(){
-		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
-		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 8; j++){
-				if (this.isLegitMove(i,j)){
 
-					int[] pair = {i,j};
-					possibleMoves.add(pair);
-				}
+	public ArrayList<ArrayList<int[]>> getPossibleMoves()
+	{
+		ArrayList<ArrayList<int[]>> allMoves = new ArrayList<ArrayList<int[]>>();
+		for(int r = getRow() - 2; r <= getRow() + 2; r++)
+		{
+			for(int c = getCol() - 2; c <= getCol() + 2; c++)
+			{
+				if(isLegitMove(r, c))
+				{
+					ArrayList<int[]> path = new ArrayList<int[]>();
+					int[] move = new int[] { getRow(), getCol(), r, c };
+					
+					path.add(move);
+					allMoves.add(path);
+				}	
 			}
 		}
-		return possibleMoves;
-	}
+
+		return allMoves;					
+	}	
 }
-
-
 
 

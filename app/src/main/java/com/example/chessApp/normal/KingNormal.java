@@ -1,38 +1,64 @@
 package com.example.chessApp.normal;
 
-import java.util.ArrayList; // import the ArrayList class
-public class KingNormal extends PieceNormal {
-	boolean hasMoved = false;
-	ArrayList<int[]> possibleMoves;
-	public KingNormal(String name, boolean color, int x, int y){
-		super("k",color,x,y);
+import java.util.ArrayList;
+
+public class KingNormal extends PieceNormal
+{
+	private boolean hasMoved;
+
+	public KingNormal(boolean color, int r, int c)
+	{
+		super("k", color, r, c);
+		hasMoved = false;
 	}
-	public boolean isLegitMove(int newx, int newy){
-		//ensure not trying to move off the board
-		if (newx < 0 || newx > 7 || (newx == x && newy == y)){
-			return false;
-		}
-		if (Math.abs(newx-x) < 2 && Math.abs(newy-y) < 2){
-			return true;
-		}
-		return false;
-	}
-	public void moved(){
+
+	public void moved()
+	{
 		hasMoved = true;
 	}
-	//return all possible moves for this piece given its current position
-	//does NOT take into account current board position
-	public ArrayList<int[]> getPossibleMoves(){
-		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
-		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 8; j++){
-				if (this.isLegitMove(i,j)){
-					int[] pair = {i,j};
-					possibleMoves.add(pair);
+
+	public boolean hasMoved()
+	{
+		return hasMoved;
+	}
+
+	private boolean isLegitMove(int newR, int newC)
+	{
+		int r = getRow();
+		int c = getCol();
+
+		// ensure not trying to move off the board
+		if(newR < 0 || newR > 7 || newC < 0 || newC > 7)
+			return false;
+		
+		if(newR == r && newC == c)
+			return false;
+
+		if(Math.abs(newR - r) <= 1 && Math.abs(newC - c) <= 1)
+			return true;
+
+		return false;
+	}
+
+	public ArrayList<ArrayList<int[]>> getPossibleMoves()
+	{
+		ArrayList<ArrayList<int[]>> allMoves = new ArrayList<ArrayList<int[]>>();
+		for(int r = getRow() - 1; r <= getRow() + 1; r++)
+		{
+			for(int c = getCol() - 1; c <= getCol() + 1; c++)
+			{
+				if(isLegitMove(r, c))
+				{
+					ArrayList<int[]> path = new ArrayList<int[]>();
+					int[] move = new int[] { getRow(), getCol(), r, c };
+			
+					path.add(move);
+					allMoves.add(path);
 				}
 			}
 		}
-		return possibleMoves;
+		
+		return allMoves;
 	}
 }
 

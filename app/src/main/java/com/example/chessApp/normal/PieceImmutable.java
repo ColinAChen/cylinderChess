@@ -34,7 +34,7 @@ public class PieceImmutable
 		return null;
 	}
 
-	public ArrayList<int[]> getPossibleMoves()
+	public ArrayList<ArrayList<int[]>> getPossibleMoves()
 	{
 		if(piece != null)
 			return piece.getPossibleMoves();

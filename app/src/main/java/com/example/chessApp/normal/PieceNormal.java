@@ -1,60 +1,79 @@
 package com.example.chessApp.normal;
 
-import java.util.ArrayList; // import the ArrayList class
+import java.util.ArrayList;
 
-abstract class PieceNormal {
-	String name;
-	boolean color;
-	int x;
-	int y;
+abstract class PieceNormal
+{
+	private String name;
+	private boolean color;
+	private int r;
+	private int c;
 
-	//public PieceNormal(){};
-	
-	public PieceNormal(String name, boolean color, int x, int y){
+	public PieceNormal(String name, boolean color, int r, int c)
+	{
 		this.name = name;
 		this.color = color;
-		this.x = x;
-		this.y = y;
+		this.r = r;
+		this.c = c;
 	}
-	public void move(int xMove, int yMove){
-		x=xMove;
-		y=yMove;
+
+	public void move(int rMove, int cMove)
+	{
+		r = rMove;
+		c = cMove;
 	}
-	public void changeColor(){
-		color = !color;
-	}
-	public boolean getColor(){
+
+	public boolean getColor()
+	{
 		return color;
 	}
-	public String getStringColor(){
-		if (color){
-			return "white";
-		}
-		else{
-			return "black";
-		}
+	
+	public void changeColor()
+	{
+		color = !color;
 	}
-	public String getName(){
+
+	public String getStringColor()
+	{
+		if(color)
+			return "white";
+		else
+			return "black";
+	}
+
+	public String getName()
+	{
 		return name;
 	}
-	public int getRow(){
-		return x;
+
+	public int getRow()
+	{
+		return r;
 	}
-	public int getCol(){
-		return y;
+
+	public int getCol()
+	{
+		return c;
 	}
-	public int[] getPosition(){
-		int[] pos = {x,y};
+
+	public int[] getPosition()
+	{
+		int[] pos = { r, c };
 		return pos;
 	}
-	public void setRow(int x){
-		this.x = x;
+
+	public void setRow(int r)
+	{
+		this.r = r;
 	}
-	public void setCol(int y){
-		this.y = y;
+
+	public void setCol(int c)
+	{
+		this.c = c;
 	}
-	public ArrayList<int[]> getPossibleMoves(){
+
+	public ArrayList<ArrayList<int[]>> getPossibleMoves()	
+	{
 		return null;
 	}
 }
-

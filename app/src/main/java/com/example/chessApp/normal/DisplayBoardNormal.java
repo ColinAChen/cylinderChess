@@ -98,7 +98,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         //checks if position clicked on was one of the previous move's possible moves
         for (int x = 0; x< prevHighlight.size(); x++)
         {
-            if (position == 8 * prevHighlight.get(x)[0] + prevHighlight.get(x)[1])
+            if (position == 8 * prevHighlight.get(x)[2] + prevHighlight.get(x)[3])
             {
                 if (board.move(prevSquare[0], prevSquare[1], position/8, position%8))
                 {
@@ -130,7 +130,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
                     if(board.board[position/8][position%8].getName() == "p"
                             && (position < 8 || position > 55))
                     {
-                        promote(board.oneDimensional[position].color, position /8, position %8);
+                        promote(board.oneDimensional[position].getColor(), position /8, position %8);
                     }
                     if(board.stalemate())
                     {
@@ -169,7 +169,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         //gets selected position's legal moves
         ArrayList<int[]> moves = board.getLegalMoves(board.oneDimensional[position]);
         //clears moves if clicking on blank piece, incorrect color, or previously clicked piece
-        if((board.oneDimensional[position] != null && board.oneDimensional[position].color != board.whiteToMove)
+        if((board.oneDimensional[position] != null && board.oneDimensional[position].getColor() != board.getColorToMove())
                 || position == 8*prevSquare[0]+prevSquare[1])
         {
             moves = new ArrayList<>();
@@ -207,7 +207,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
             {
                 String color = pieces[x].getStringColor();
                 String name = pieces[x].getName();
-                if (!pieces[x].color)
+                if (!pieces[x].getColor())
                 {
                     switch(name){
                         case "p": arr[x] = getResources().getDrawable(R.drawable.black_pawn, null);
@@ -263,7 +263,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         if(prevSquare[0] != -1) {
             ArrayList<int[]> moves = board.getLegalMoves(board.board[prevSquare[0]][prevSquare[1]]);
             for (int x = 0; x < moves.size(); x++) {
-                highlights.set(8 * moves.get(x)[0] + moves.get(x)[1], getResources().getDrawable(R.drawable.highlight, null));
+                highlights.set(8 * moves.get(x)[2] + moves.get(x)[3], getResources().getDrawable(R.drawable.highlight, null));
             }
         }
         adapter.notifyDataSetChanged();
@@ -334,7 +334,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         knightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new KnightNormal("", color, x, y), x, y);
+                board.place(new KnightNormal(color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }
@@ -342,7 +342,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         bishopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new BishopNormal("", color, x, y), x, y);
+                board.place(new BishopNormal(color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }
@@ -350,7 +350,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         rookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new RookNormal("", color, x, y), x, y);
+                board.place(new RookNormal(color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }
@@ -358,7 +358,7 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
         queenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                board.place(new QueenNormal("", color, x, y), x, y);
+                board.place(new QueenNormal(color, x, y), x, y);
                 redrawBoard();
                 dialog.dismiss();
             }

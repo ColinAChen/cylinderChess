@@ -28,6 +28,10 @@ public class ComputerPlayer
 	// call action() to make a move onto board
 	public void action()
 	{
+		// do nothing if game has finished
+		if(board.whiteWin() || board.blackWin() || board.stalemate())
+			return;
+
 		// generate all possible moves 
 		ArrayList<int[]> possibleMoves = generateMoves(board, color);
 		ArrayList<int[]> moves = new ArrayList();
@@ -53,7 +57,6 @@ public class ComputerPlayer
 		{
 			int[] m = moves.get(i);
 			BoardNormal testBoard = new BoardNormal(board);
-			testBoard.setColorToMove(color);
 			testBoard.move(m[0], m[1], m[2], m[3]);
 
 			int evaluation = alphaBeta(testBoard, 1, !color, -1000, 1000);
@@ -69,7 +72,6 @@ public class ComputerPlayer
 
 		// choose the best move
 		int[] finalMove = moves.get(pos);
-		board.setColorToMove(color);
 		board.move(finalMove[0], finalMove[1], finalMove[2], finalMove[3]);
 	}
 
@@ -97,7 +99,6 @@ public class ComputerPlayer
 			for(int[] m : moves)
 			{
 				BoardNormal testBoard = new BoardNormal(board);
-				testBoard.setColorToMove(color);
 				testBoard.move(m[0], m[1], m[2], m[3]);
 				evaluation = alphaBeta(testBoard, depth + 1, !color, alpha, beta);
 				
@@ -121,7 +122,6 @@ public class ComputerPlayer
 			for(int[] m : moves)
 			{
 				BoardNormal testBoard = new BoardNormal(board);
-				testBoard.setColorToMove(color);
 				testBoard.move(m[0], m[1], m[2], m[3]);
 				evaluation = alphaBeta(testBoard, depth + 1, !color, alpha, beta);
 			
@@ -156,7 +156,7 @@ public class ComputerPlayer
 				{
 					ArrayList<int[]> moves = board.getLegalMoves(r, c);
 					for(int[] m : moves)
-						allMoves.add(new int[] { r, c, m[0], m[1] });
+						allMoves.add(new int[] { r, c, m[2], m[3] });
 				}
 			}
 		}
@@ -204,28 +204,28 @@ public class ComputerPlayer
 	
 				if(test.getColorBoolean() == color)
 				{
-					if(test.getName() == "p")
+					if(test.getName().equals("p"))
 						evaluation += 1;
-					else if(test.getName() == "n")
+					else if(test.getName().equals("n"))
 						evaluation += 3;	
-					else if(test.getName() == "b")
+					else if(test.getName().equals("b"))
 						evaluation += 3;
-					else if(test.getName() == "r")
+					else if(test.getName().equals("r"))
 						evaluation += 5;
-					else if(test.getName() == "q")
+					else if(test.getName().equals("q"))
 						evaluation += 9;
 				}
 				else 
 				{
-					if(test.getName() == "p")
+					if(test.getName().equals("p"))
 						evaluation -= 1;
-					else if(test.getName() == "n")	
+					else if(test.getName().equals("n"))
 						evaluation -= 3;
-					else if(test.getName() == "b")
+					else if(test.getName().equals("b"))
 						evaluation -= 3;
-					else if(test.getName() == "r") 
+					else if(test.getName().equals("r"))
 						evaluation -= 5;
-					else if(test.getName() == "q")
+					else if(test.getName().equals("q"))
 						evaluation -= 9;
 				}
 			}
