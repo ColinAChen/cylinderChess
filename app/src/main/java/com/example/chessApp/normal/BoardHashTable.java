@@ -45,23 +45,37 @@ public class BoardHashTable implements BoardHashTableInterface{
 			System.out.printf("Nothing found at index %d\n",hashIndex);
 			table[hashIndex] = newNode;
 		}
-		//resolve collisions by chaining
-		//insert at the head
-		else if (currBoard.equals(table[hashIndex].board)){
-			newNode.next = table[hashIndex];
-			table[hashIndex] = newNode; 
-			numItems++;
+		else
+		{
+			Node curr = table[hashIndex];
+			// check if current board is within the chain
+			while(curr != null)
+			{
+				if(currBoard.equals(curr.board))
+				{
+					curr.numRepeats++;
+					System.out.println("increased num repeats");
+					break;
+				}
+
+				curr = curr.next;
+			}
+			// if current board is a new board, add to the chain
+			if(curr == null)
+			{
+				newNode.next = table[hashIndex];
+				table[hashIndex] = newNode;
+				numItems++;
+			}
 		}
-		else{
-			table[hashIndex].numRepeats++;
-		}
-		
 	}
+
 	public boolean threefoldRepetition(){
 		for (int i = 0; i < TABLE_SIZE; i++){
 			Node top = table[i];
 			while (top != null){
-				if(top.numRepeats > 2){
+				// 2 repeats means board position has been reached 3 times
+				if(top.numRepeats > 1){
 					return true;
 				}
 				top = top.next;

@@ -34,7 +34,7 @@ public class ComputerPlayer
 
 		// generate all possible moves 
 		ArrayList<int[]> possibleMoves = generateMoves(board, color);
-		ArrayList<int[]> moves = new ArrayList();
+		ArrayList<int[]> moves = new ArrayList<int[]>();
 		//Only evaluate a random subset of moves
 		int nextRand = random.nextInt(10);
 		while(moves.size() < 1){

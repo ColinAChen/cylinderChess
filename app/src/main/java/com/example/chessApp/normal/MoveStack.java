@@ -25,6 +25,9 @@ public class MoveStack implements MoveStackInterface{
 
 	}
 	public String pop(){
+		if(top == null)
+			return "Stack is empty!";
+
 		Node nodeToReturn = top;
 		top = top.next;
 		numItems--;
@@ -46,25 +49,32 @@ public class MoveStack implements MoveStackInterface{
 
 		}
 	}*/
+
+	public int getNumItems()
+	{
+		return numItems;
+	}
+
 	public String toString(){
-		String[] inOrder = new String[numItems];
+		String[] inOrder = new String[(numItems + 1) / 2];
 		String finalString = "";
 		Node N = top;
 		//System.out.println("Adding to inOrder");
-		for (int i = numItems-1; i > -1; i--){
-			//System.out.println(N.move);
-			if (N!=null){
-				inOrder[i] = N.move;
-				N = N.next;
-			}
-
-			if (N!= null){
-				inOrder[i] += " " + N.move;
-				N = N.next;
-			}
+		for (int i = inOrder.length - 1; i > -1; i--){
+			if((N == top) && (numItems % 2 == 1)) {
+			    inOrder[i] = N.move;
+			    N = N.next;
+			    continue;
+            }
+            if (N != null && N.next != null) {
+                inOrder[i] = N.next.move;
+                inOrder[i] += " " + N.move;
+                N = N.next;
+                N = N.next;
+            }
 		}
 		//System.out.println("Removing from inOrder");
-		for(int j = 0; j < numItems; j++){
+		for(int j = 0; j < inOrder.length; j++){
 
 			//System.out.println(inOrder[j]);
 			finalString += (j+1) + ". " + inOrder[j] + "\n";

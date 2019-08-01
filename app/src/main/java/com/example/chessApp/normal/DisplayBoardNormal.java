@@ -95,6 +95,11 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
 
     @Override
     public void onItemClick(View view, int position) {
+        //System.out.println("Item click position is " + position);
+        // position is sometimes -1, don't know why
+        if(position == -1)
+            return;
+
         //checks if position clicked on was one of the previous move's possible moves
         for (int x = 0; x< prevHighlight.size(); x++)
         {

@@ -13,6 +13,10 @@ public class BoardNormal
 	private boolean whiteToMove;
 
 	private String castleDirection = null;
+
+	// index 0 stores move in which pawn move/piece capture was made
+	// index 1 stores which color made the move (WHITE == 1, BLACK == 0)
+	private int[] fiftyMoveTracker;
 	
 	public BoardNormal()
 	{
@@ -29,12 +33,19 @@ public class BoardNormal
 
 		previousMoves = new MoveStack();
 		previousBoards = new BoardHashTable();
+		previousBoards.add(boardToString());
+
+		fiftyMoveTracker = new int[] { -1, -1 };
 	}
 
 	public BoardNormal(BoardNormal copyBoard)
 	{
 		previousMoves = copyBoard.getPreviousMoves();
 		previousBoards = copyBoard.getPreviousBoards();
+
+		int[] fiftyMove = copyBoard.getFiftyMoveTracker();
+		fiftyMoveTracker = new int[] { fiftyMove[0], fiftyMove[1] };
+
 		oneDimensional = new PieceNormal[64];
 		board = new PieceNormal[8][8];
 		
@@ -94,7 +105,10 @@ public class BoardNormal
 		// Initializes a board
 		// bottom row is white, white = true
 		// top rows are black, black = false
-		whiteToMove = true;		
+		previousBoards.add(boardToString());
+
+		whiteToMove = true;
+		fiftyMoveTracker = new int[] { -1, -1 };
 
 		board = new PieceNormal[8][8];
 		for (int i = 0; i < 8; i++)
@@ -142,6 +156,11 @@ public class BoardNormal
 		return whiteToMove;
 	}
 
+	public int[] getFiftyMoveTracker()
+	{
+		return fiftyMoveTracker;
+	}
+
 	public PieceImmutable getPiece(int r, int c)
 	{
 		if(board[r][c] == null)
@@ -158,7 +177,7 @@ public class BoardNormal
 		// Create the algebraic chess notation from a move
 		String prevMove = "";
 		// transform the column to a rank
-		char[]ranks = {'a','b','c','d','e','f','g','h'};
+		char[] ranks = {'a','b','c','d','e','f','g','h'};
 		// denote the piece name
 		if (pieceToMove == null) 
 		{
@@ -181,8 +200,6 @@ public class BoardNormal
 			// check that the correct side is moving
 			if (pieceToMove.getColor() == whiteToMove)
 			{
-				// System.out.printf("Moving %s at row %d, col %d%n", pieceToMove.getName(), row, col);
-				
 				ArrayList<int[]> legalMoves = getLegalMoves(pieceToMove);
 				for (int[] legalPos : legalMoves) 
 				{
@@ -190,12 +207,9 @@ public class BoardNormal
 					// check that the destination is a legal move
 					if (legalPos[2] == newRow && legalPos[3] == newCol)
 					{
-						// System.out.printf("Moving %s at row %d, col %d to row %d, col %d%n", pieceToMove.getName(), row, col, newRow, newCol);
-
 						// Handle castling
 						if ("k".equals(pieceToMove.getName()) && (newCol - col) > 1)	
 						{
-							// System.out.println("Kingside Castle");
 							prevMove = "O-O";
 							kingSideCastle(pieceToMove);
 						}
@@ -217,7 +231,6 @@ public class BoardNormal
 						else
 						{
 							pieceToMove.move(newRow, newCol);
-							// System.out.println(pieceToMove.getRow() + pieceToMove.getCol());
 							board[newRow][newCol] = pieceToMove;
 							board[row][col] = null;
 						}
@@ -246,11 +259,11 @@ public class BoardNormal
 				
 				// denote the destination
 				prevMove += (ranks[newCol]) + Integer.toString((8-newRow));
-				// System.out.println(prevMove);
 				previousMoves.push(prevMove);
 				previousBoards.add(boardToString());
-				// System.out.println(previousMoves);
-				// printBoard();
+
+				updateFiftyMoveTracker();
+
 				whiteToMove = !whiteToMove;
 				oneFromTwo();
 				
@@ -622,6 +635,160 @@ public class BoardNormal
 		return true;		
 	}
 
+	private void updateFiftyMoveTracker()
+	{
+		String prevMove = previousMoves.peek();
+		char[] pawns = {'a','b','c','d','e','f','g','h'};
+
+		boolean update = false;
+		for(int i = 0; i < pawns.length; i++)
+		{
+			if (prevMove.charAt(0) == pawns[i])
+			{
+				update = true;
+				break;
+			}
+		}
+		for(int i = 0; i < prevMove.length(); i++)
+		{
+			if(prevMove.charAt(i) == 'x')
+			{
+				update = true;
+				break;
+			}
+		}
+
+		if(update)
+		{
+			int numItems = previousMoves.getNumItems();
+			fiftyMoveTracker[0] = (numItems + 1) / 2;
+			fiftyMoveTracker[1] = whiteToMove ? 1 : 0;
+		}
+	}
+
+	// draw by fifty move rule if no piece capture or pawn move for fifty moves
+	// 1 move consists of both players making an action
+	public boolean fiftyMoves()
+	{
+		int numItems = previousMoves.getNumItems();
+		int move = (numItems + 1) / 2;
+
+		if(move - fiftyMoveTracker[0] > 10)
+			return true;
+		else if(move - fiftyMoveTracker[0] == 10)
+		{
+			// pawn move/piece capture was a black move
+			if(fiftyMoveTracker[1] == 0)
+				return (numItems % 2 == 0); 	// assumes game started with a white move
+			else
+				return true;
+		}
+
+		return false;
+	}
+
+	public boolean insufficientMaterial()
+	{
+		final int PAWN = 0;
+		final int ROOK = 1;
+		final int KNIGHT = 2;
+		final int BISHOP = 3;
+		final int QUEEN = 4;
+		final int KING = 5;
+
+		boolean whiteInsufficientMaterial = false;
+		boolean blackInsufficientMaterial = false;
+
+		int[] whitePieceCount = new int[] { 0, 0, 0, 0, 0, 0 };
+		int[] blackPieceCount = new int[] { 0, 0, 0, 0, 0, 0 };
+		for(int r = 0; r < 8; r++)
+		{
+			for(int c = 0; c < 8; c++)
+			{
+				if(board[r][c] != null) {
+					switch (board[r][c].getName())
+					{
+						case "p":
+							if(board[r][c].getColor())
+								whitePieceCount[PAWN]++;
+							else
+								blackPieceCount[PAWN]++;
+							break;
+						case "r":
+							if(board[r][c].getColor())
+								whitePieceCount[ROOK]++;
+							else
+								blackPieceCount[ROOK]++;
+							break;
+						case "n":
+							if(board[r][c].getColor())
+								whitePieceCount[KNIGHT]++;
+							else
+								blackPieceCount[KNIGHT]++;
+							break;
+						case "b":
+							if(board[r][c].getColor())
+								whitePieceCount[BISHOP]++;
+							else
+								blackPieceCount[BISHOP]++;
+							break;
+						case "q":
+							if(board[r][c].getColor())
+								whitePieceCount[QUEEN]++;
+							else
+								blackPieceCount[QUEEN]++;
+							break;
+						case "k":
+							if(board[r][c].getColor())
+								whitePieceCount[KING]++;
+							else
+								blackPieceCount[KING]++;
+							break;
+					}
+				}
+			}
+		}
+
+		// insufficient material possibilities:
+		final int[][] insufficientMaterial = new int[][]
+		{
+			// king only
+			{ 0, 0, 0, 0, 0, 1 },
+			// king and knight
+			{ 0, 0, 1, 0, 0, 1 },
+			// king and bishop
+			{ 0, 0, 0, 1, 0, 1 },
+			// king and two knights
+			{ 0, 0, 2, 0, 0, 1 }
+		};
+
+		for(int i = 0; i < insufficientMaterial.length; i++)
+		{
+			boolean whiteMatch = true;
+			boolean blackMatch = true;
+			for(int j = 0; j < insufficientMaterial[i].length; j++)
+			{
+				if(whitePieceCount[j] != insufficientMaterial[i][j])
+					whiteMatch = false;
+
+				if(blackPieceCount[j] != insufficientMaterial[i][j])
+					blackMatch = false;
+			}
+
+			if(whiteMatch)
+				whiteInsufficientMaterial = true;
+			if(blackMatch)
+				blackInsufficientMaterial = true;
+		}
+
+		return whiteInsufficientMaterial && blackInsufficientMaterial;
+	}
+
+	// checks for stalemate, threefold repetition, insufficient material, or fifty move rule
+	public boolean draw()
+	{
+		return stalemate() || insufficientMaterial() || fiftyMoves() || previousBoards.threefoldRepetition();
+	}
 	
 	// A color wins IF:
 	// The other color's king has no legal moves
