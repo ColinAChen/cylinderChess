@@ -100,6 +100,25 @@ public class BoardHashTable implements BoardHashTableInterface{
 	public void deleteTable(){
 		table = null;
 	}
+
+	public BoardHashTable getCopy()
+	{
+		BoardHashTable copy = new BoardHashTable();
+		
+		for (int i = 0; i < TABLE_SIZE; i++){
+			Node top = table[i];
+			while (top != null){
+				for(int j = 0; j <= top.numRepeats; j++)
+				{
+					copy.add(top.board);
+				}
+				top = top.next;
+			}
+		}
+
+		return copy;
+	}
+
 	public String toString(){
 		String finalString = "";
 		for (int i = 0; i < TABLE_SIZE; i++){

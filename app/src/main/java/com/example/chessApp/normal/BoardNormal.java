@@ -105,7 +105,6 @@ public class BoardNormal
 		// Initializes a board
 		// bottom row is white, white = true
 		// top rows are black, black = false
-		previousBoards.add(boardToString());
 
 		whiteToMove = true;
 		fiftyMoveTracker = new int[] { -1, -1 };
@@ -139,16 +138,17 @@ public class BoardNormal
 		}
 
 		oneFromTwo();
+		previousBoards.add(boardToString());
 	}
 
 	public MoveStack getPreviousMoves()
 	{
-		return previousMoves;
+		return previousMoves.getCopy();
 	}
 
 	public BoardHashTable getPreviousBoards()
 	{
-		return previousBoards;
+		return previousBoards.getCopy();
 	}
 
 	public boolean getColorToMove()
@@ -673,9 +673,9 @@ public class BoardNormal
 		int numItems = previousMoves.getNumItems();
 		int move = (numItems + 1) / 2;
 
-		if(move - fiftyMoveTracker[0] > 10)
+		if(move - fiftyMoveTracker[0] > 50)
 			return true;
-		else if(move - fiftyMoveTracker[0] == 10)
+		else if(move - fiftyMoveTracker[0] == 50)
 		{
 			// pawn move/piece capture was a black move
 			if(fiftyMoveTracker[1] == 0)

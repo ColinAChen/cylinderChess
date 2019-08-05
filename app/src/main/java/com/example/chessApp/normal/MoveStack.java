@@ -55,6 +55,28 @@ public class MoveStack implements MoveStackInterface{
 		return numItems;
 	}
 
+	public MoveStack getCopy()
+	{
+		MoveStack copy = new MoveStack();
+		Node[] moves = new Node[numItems];
+		
+		Node curr = top;
+		int i = 0;
+		while(curr != null)
+		{
+			moves[i] = curr;
+			curr = curr.next;
+			i++;
+		}
+
+		for(i = numItems - 1; i >= 0; i--)
+		{
+			copy.push(moves[i].move);	
+		}
+		
+		return copy;
+	}
+
 	public String toString(){
 		String[] inOrder = new String[(numItems + 1) / 2];
 		String finalString = "";
