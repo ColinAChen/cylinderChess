@@ -12,7 +12,6 @@ This app was created in Andoid Studio. It would be best to install it on an andr
 - **Colin Chen** - [ColinAChen](https://github.com/ColinAChen)
 - **Andrew Zhang** - [azhang316](https://github.com/azhang316)
 - **David Chong** - [DavidChong2523](https://github.com/DavidChong2523) 
-- **Gico Carlo Evangelista** - [RiceAbove](https://github.com/RiceAbove)
 
 ## For the Future
 * Reinforcement learning based computer player
