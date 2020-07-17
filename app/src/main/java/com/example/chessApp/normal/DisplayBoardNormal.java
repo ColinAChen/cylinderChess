@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapter.ItemClickListener {
-
     BoardAdapter adapter;
     BoardNormal board = new BoardNormal(new PieceNormal[8][8], new PieceNormal[64]);
     final ArrayList<Drawable> highlights = new ArrayList<>(64);
@@ -35,17 +35,40 @@ public class DisplayBoardNormal extends AppCompatActivity implements BoardAdapte
     boolean boardNormal = true;
     ComputerPlayer testPlayer = new ComputerPlayer(board, false, 3);
     boolean cpuGame;
-
+    String roomName;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference gameRef = database.getReference("currentGame");
+    DatabaseReference gameRef;
+    //DatabaseReference gameRef = database.getReference("currentGame");
+
     // Read from the database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.room_select);
+        final boolean[] selectedRoom = {false};
+        //final boolean selectedRoom = false;
+        submitName = (Button)findViewById(R.id.button1);
+
+        submitName.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                roomName  = (EditText)findViewById(R.id.editText1);
+                mText = (TextView)findViewById(R.id.textView1);
+                // Check for a valid string to set as a node in Firebase
+                //mText.setText("Welcome "+roomName.getText().toString()+"!");
+                selectedRoom[0] = true;
+            }
+        });
+        while (!selectedRoom[0]){
+            Log.d("waiting for room select\n");
+        }
+        //Log.d()*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_board_normal);
         cpuGame=getIntent().getBooleanExtra("cpuToggle", false);
-
+        roomName = getIntent().getStringExtra("roomName");
+        gameRef = database.getReference(roomName);
         board.initializeBoard();
         gameRef.setValue("5555");
         gameRef.addValueEventListener(new ValueEventListener() {

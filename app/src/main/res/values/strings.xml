@@ -28,4 +28,6 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_instructions">Instructions</string>
+    <string name="room_select_prompt">Please choose a room</string>
+    <string name="join_room_button">Join room</string>
 </resources>

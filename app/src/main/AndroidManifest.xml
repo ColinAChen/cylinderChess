@@ -20,10 +20,15 @@
         </activity>
         <activity
             android:name="com.example.chessApp.normal.DisplayBoardNormal"
-            android:parentActivityName="com.example.chessApp.MainActivity" />
+            android:parentActivityName="com.example.chessApp.RoomSelect" />
         <activity
             android:name="com.example.chessApp.cylinder.DisplayBoardCylinder"
-            android:parentActivityName="com.example.chessApp.MainActivity" />
+            android:parentActivityName="com.example.chessApp.RoomSelect" />
+        <activity
+            android:name="com.example.chessApp.RoomSelect"
+            android:parentActivityName="com.example.chessApp.MainActivity">
+
+        </activity>
         <activity android:name="com.example.chessApp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
